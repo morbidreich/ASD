@@ -1,0 +1,32 @@
+
+public class Fix {
+
+    private double latitude;
+    private double longitude;
+    private String name;
+    private eu.jacquet80.minigeo.Point pt;
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Fix(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+
+    }
+
+
+}
