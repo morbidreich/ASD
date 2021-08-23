@@ -4,7 +4,7 @@ public class Fix {
     private double latitude;
     private double longitude;
     private String name;
-    private eu.jacquet80.minigeo.Point pt;
+
 
     public double getLatitude() {
         return latitude;

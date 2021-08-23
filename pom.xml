@@ -30,11 +30,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>eu.jacquet80</groupId>
-            <artifactId>minigeo</artifactId>
-            <version>1.0</version>
-        </dependency>
 
     </dependencies>
 
