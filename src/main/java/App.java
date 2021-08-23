@@ -1,6 +1,3 @@
-import eu.jacquet80.minigeo.MapWindow;
-import eu.jacquet80.minigeo.Point;
-import eu.jacquet80.minigeo.Segment;
 
 import java.awt.*;
 import java.util.List;
@@ -12,10 +9,15 @@ public class App {
 
         MapWindow mapWindow;
 
+        POI poi = new POI(53.5, 20.92, "EPSY");
+
         Airspace airspace = new Airspace();
+        
 
         mapWindow = new MapWindow();
         mapWindow.setVisible(true);
+
+        mapWindow.addPOI(poi);
 
         List<Polygon> polygonList = airspace.getPolygonList();
 
@@ -30,25 +32,24 @@ public class App {
                 ));
             }
         }
-        connectToDatabase();
+        getDataFromH2();
     }
 
-    private static void connectToDatabase() {
+    private static void getDataFromH2() {
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:h2:file:./test", "sa", "");
+            Connection conn = DriverManager.getConnection("jdbc:h2:file:./airspace", "sa", "");
+            Statement st = conn.createStatement();
+            String query = "SELECT * from CTR";
+            ResultSet rs = st.executeQuery(query);
 
-            Statement statement = conn.createStatement();
-            //statement.executeUpdate("create database airspace");
-            //System.out.println("database created");
-            statement.executeUpdate("DROP TABLE IF EXISTS TEST");
+            rs.next();
 
-            statement.executeUpdate("CREATE TABLE TEST(id int primary key, name varchar(30))");
-            statement.executeUpdate("insert into test values (1, 'Bartek')");
-            statement.executeUpdate("insert into test values (2, 'Aleksandra')");
-            statement.executeUpdate("insert into test values (3, 'Hanna')");
-            statement.executeUpdate("insert into test values (4, 'Kalasanty')");
-            System.out.println("Test table created");
+            System.out.println(rs.getString("coordinates"));
+
+
+
+
             conn.close();
         }
         catch(Exception e) {

@@ -22,31 +22,19 @@ public class Airspace {
 
     private void readData() {
 
-        // create polygon for CTR
 
-        String[] paths = new String[] {
-            "src/main/resources/EPSY/CTR.txt",
-            "src/main/resources/EPSY/TMA A.txt",
-            "src/main/resources/EPSY/TMA B.txt",
-            "src/main/resources/EPSY/TMA C.txt",
-            "src/main/resources/EPSY/TMA D.txt"
-        };
-
-        for(String path: paths) {
-
-            Polygon poly = new Polygon("poly");
-
-            try {
-                File file = new File(path);
-                Scanner fileReader = new Scanner(file);
-                while (fileReader.hasNextLine()) {
-                    poly.addFix(CoordinateConverter.getFromDMS(fileReader.nextLine()));
-                }
-                polygonList.add(poly);
-            } catch (Exception e) {
-                System.out.println("Data read failed; " + e.getMessage());
-
-            }
+        try {
+            //read sql
         }
+        catch (Exception e) {
+
+        }
+        finally {
+            polygonList = FallbackDataReader.getPolygons();
+        }
+
+
+
+
     }
 }
