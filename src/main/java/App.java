@@ -12,7 +12,6 @@ public class App {
         POI poi = new POI(53.5, 20.92, "EPSY");
 
         Airspace airspace = new Airspace();
-        
 
         mapWindow = new MapWindow();
         mapWindow.setVisible(true);

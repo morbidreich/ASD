@@ -4,14 +4,11 @@ import java.awt.BorderLayout;
 import java.util.Collection;
 
 import javax.swing.JFrame;;
-
 /**
- * Window that may display a set of segments, with support for panning and
- * zooming.
- *
- * @author Christophe Jacquet
- *
+ *  code by Cristopher Jacquet with my my slight modifications
+ *  https://github.com/ChristopheJacquet/Minigeo
  */
+
 @SuppressWarnings("serial")
 public class MapWindow extends JFrame {
     private final MapPanel map;
@@ -20,7 +17,7 @@ public class MapWindow extends JFrame {
      * Creates a new window.
      */
     public MapWindow() {
-        super("Map");
+        super("AirspaceDisplay - NIE DO UŻYTKU OPERACYJNEGO!");
         map = new MapPanel();
         setLayout(new BorderLayout());
         add(map, BorderLayout.CENTER);
@@ -59,4 +56,10 @@ public class MapWindow extends JFrame {
     public void addPOI(POI poi) {
         map.addPOI(poi);
     }
+
+    /**
+     * Adds a Range Bearing Line (RBL) to the list of RBLs to display.
+     * @param rbl the RBL to add
+     */
+    public void addRBL(RBL rbl) { map.addRBL(rbl); }
 }

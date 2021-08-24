@@ -1,4 +1,7 @@
-
+/**
+ *  code by Cristopher Jacquet with my my slight modifications
+ *  https://github.com/ChristopheJacquet/Minigeo
+ */
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,6 +25,14 @@ import javax.swing.*;
 class MapPanel extends JPanel {
     private final List<Segment> segments = new ArrayList<Segment>();
     private final List<POI> pois = new ArrayList<POI>();
+    private final List<RBL> rbls = new ArrayList<RBL>();
+    private RBL rbl = new RBL(new Point(0,0,-2), new Point(0,0,-2));
+    private boolean drawingRBL = false;
+
+    private int cursorX, cursorY = 0;
+
+
+    private final Point displayTest = new Point(0,0);
 
     private double minEasting, maxEasting, minNorthing, maxNorthing;
     private double oEasting, oNorthing;		// coordinates of the origin
@@ -81,6 +92,23 @@ class MapPanel extends JPanel {
             g.drawString(poi.getLabel(), x, y);
         }
 
+
+        if (rbl!=null) {
+            Point startPoint = rbl.getStartPoint();
+            Point endPoint = rbl.getEndPoint();
+
+            int x1 = convertX(endPoint.getEasting());
+            int y1 = convertY(endPoint.getNorthing(), h);
+
+            int x2 = convertX(startPoint.getEasting());
+            int y2 = convertY(startPoint.getNorthing(), h);
+
+            //g.drawLine(x1, y1, x1-30, y1-30);
+            g.drawLine(x1, y1, x2, y2);
+
+            rbl.drawLabel(x1, y1, x2, y2, scale, g);
+        }
+
         // unit is the unit of the scale. It must be a power of ten, such that unit * scale in [25, 250]
         double unit = Math.pow(10, Math.ceil(Math.log10(25/scale)));
         String strUnit;
@@ -91,11 +119,25 @@ class MapPanel extends JPanel {
         for(int i=6; i<=9; i++) {
             g.drawLine(10, i, 10+(int)(unit*scale*(i<8 ? 1 : .5)), i);
         }
+
+        // for diagnostics display cursor coordinates as well as my calculations
+        // of corresponding geographical coordinates
+        g.drawString("Cursor location: " + cursorX + ":" + cursorY, 10, 40);
+
+        if (rbl!=null) {
+            g.drawString("StartN " + String.valueOf(rbl.getStartPoint().getNorthing()), 10, 55);
+            g.drawString("StartE " + String.valueOf(rbl.getStartPoint().getEasting()), 10, 70);
+            g.drawString("EndN " + String.valueOf(rbl.getEndPoint().getNorthing()), 10, 85);
+            g.drawString("EndE " + String.valueOf(rbl.getEndPoint().getEasting()), 10, 100);
+            g.drawString("SCALE " + String.valueOf(scale), 10, 115);
+        }
+
     }
 
     public synchronized void clear() {
         this.segments.clear();
         this.pois.clear();
+        this.rbls.clear();
 
         resetMinMaxEastingNorthing();
     }
@@ -115,6 +157,13 @@ class MapPanel extends JPanel {
         this.pois.add(poi);
 
         updateMinMaxEastingNorthing(poi);
+    }
+
+    public synchronized void addRBL(RBL rbl) {
+        this.rbls.add(rbl);
+
+        updateMinMaxEastingNorthing(rbl.getStartPoint());
+        updateMinMaxEastingNorthing(rbl.getEndPoint());
     }
 
     private synchronized void updateMinMaxEastingNorthing(Point point) {
@@ -158,6 +207,21 @@ class MapPanel extends JPanel {
 
     private int convertY(double northing, int height) {
         return height - applyScale(northing - oNorthing);
+    }
+
+
+    private double convertEasting(int x) {
+        double w = getWidth();
+        double xd = x;
+
+        return xd/scale + oEasting;
+    }
+
+    private double convertNorthing(int y) {
+        double h = getHeight();
+        double yd = y;
+
+        return (h - yd)/scale + oNorthing;
     }
 
     class MouseWheelZoomer implements MouseWheelListener {
@@ -211,9 +275,6 @@ class MapPanel extends JPanel {
                 dragOriginOEasting = oEasting;
                 dragOriginONorthing = oNorthing;
             }
-            else if (e.getButton() == MouseEvent.BUTTON3) {
-                System.out.println("right cilcked");
-            }
         }
 
         @Override
@@ -228,17 +289,46 @@ class MapPanel extends JPanel {
 
                 repaint();
             }
-            else if (SwingUtilities.isRightMouseButton(e))  {
-               // update rbl line here
-            }
         }
 
         @Override
         public void mouseMoved(MouseEvent e) {
+
+            if (drawingRBL) {
+                cursorX = e.getX();
+                cursorY = e.getY();
+
+                rbl.getEndPoint().setNorthing(convertNorthing(cursorY));
+                rbl.getEndPoint().setEasting(convertEasting(cursorX));
+
+                repaint();
+            }
         }
 
         @Override
         public void mouseClicked(MouseEvent e) {
+            if (SwingUtilities.isRightMouseButton(e)) {
+                if (!drawingRBL) {
+
+                    Point startPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()),-1);
+                    System.out.println("created start point " + startPoint.getEasting() + " " + startPoint.getNorthing());
+
+
+                    Point endPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()), -1);
+                    System.out.println("created end point " + endPoint.getEasting() + " " + endPoint.getNorthing());
+
+
+                    rbl.setStartPoint(startPoint);
+                    rbl.setEndPoint(endPoint);
+
+                    drawingRBL = true;
+
+                }
+                else {
+                    drawingRBL = false;
+                }
+                repaint();
+            }
         }
 
         @Override
