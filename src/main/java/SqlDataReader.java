@@ -5,17 +5,6 @@ import java.util.List;
 /** Reads airspace data from H2 database **/
 public class SqlDataReader {
 
-    public SqlDataReader() {
-        try {
-        }
-        catch (Exception e) {
-            System.out.println("Exception while connecting to database: " + e);
-        }
-
-    }
-
-
-
     public static List<Polygon> getPolygons() throws Exception {
 
         List<Polygon> polygonList = new ArrayList<>();
@@ -28,8 +17,6 @@ public class SqlDataReader {
         for (String name: polygonNames) {
             polygonList.add(readPolygon(name, conn));
         }
-
-
 
         conn.close();
         return polygonList;
