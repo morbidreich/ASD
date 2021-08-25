@@ -44,9 +44,7 @@ public class RBL {
         //default 0 is pointing eastward so i rotate it counterclockwise by substracting 90 degrees
         double angle = Math.toDegrees(Math.atan2(a, b)) - 90;
         int iAngle = (int)(angle > 0 ? angle : angle + 360);
-
         //TODO apply magnetic declination, around +5deg
-
 
         // display to the right or left of cursor to avoid overlapping
 
@@ -79,6 +77,4 @@ public class RBL {
         else
             return false;
     }
-
-
 }
