@@ -26,19 +26,14 @@ class MapPanel extends JPanel {
     private final List<Segment> segments = new ArrayList<Segment>();
     private final List<POI> pois = new ArrayList<POI>();
     private final List<RBL> rbls = new ArrayList<RBL>();
-    private RBL rbl = new RBL(new Point(0,0,-2), new Point(0,0,-2));
+
     private boolean drawingRBL = false;
 
     private int cursorX, cursorY = 0;
 
-
-    private final Point displayTest = new Point(0,0);
-
     private double minEasting, maxEasting, minNorthing, maxNorthing;
     private double oEasting, oNorthing;		// coordinates of the origin
     private double scale = -1;
-
-    private Line2D line;
 
     public MapPanel() {
         setMinimumSize(new Dimension(400, 300));
@@ -92,8 +87,7 @@ class MapPanel extends JPanel {
             g.drawString(poi.getLabel(), x, y);
         }
 
-
-        if (rbl!=null) {
+        for (RBL rbl : rbls) {
             Point startPoint = rbl.getStartPoint();
             Point endPoint = rbl.getEndPoint();
 
@@ -103,7 +97,6 @@ class MapPanel extends JPanel {
             int x2 = convertX(startPoint.getEasting());
             int y2 = convertY(startPoint.getNorthing(), h);
 
-            //g.drawLine(x1, y1, x1-30, y1-30);
             g.drawLine(x1, y1, x2, y2);
 
             rbl.drawLabel(x1, y1, x2, y2, scale, g);
@@ -119,19 +112,6 @@ class MapPanel extends JPanel {
         for(int i=6; i<=9; i++) {
             g.drawLine(10, i, 10+(int)(unit*scale*(i<8 ? 1 : .5)), i);
         }
-
-        // for diagnostics display cursor coordinates as well as my calculations
-        // of corresponding geographical coordinates
-        g.drawString("Cursor location: " + cursorX + ":" + cursorY, 10, 40);
-
-        if (rbl!=null) {
-            g.drawString("StartN " + String.valueOf(rbl.getStartPoint().getNorthing()), 10, 55);
-            g.drawString("StartE " + String.valueOf(rbl.getStartPoint().getEasting()), 10, 70);
-            g.drawString("EndN " + String.valueOf(rbl.getEndPoint().getNorthing()), 10, 85);
-            g.drawString("EndE " + String.valueOf(rbl.getEndPoint().getEasting()), 10, 100);
-            g.drawString("SCALE " + String.valueOf(scale), 10, 115);
-        }
-
     }
 
     public synchronized void clear() {
@@ -298,8 +278,8 @@ class MapPanel extends JPanel {
                 cursorX = e.getX();
                 cursorY = e.getY();
 
-                rbl.getEndPoint().setNorthing(convertNorthing(cursorY));
-                rbl.getEndPoint().setEasting(convertEasting(cursorX));
+                rbls.get(rbls.size() - 1).getEndPoint().setNorthing(convertNorthing(cursorY));
+                rbls.get(rbls.size() - 1).getEndPoint().setEasting(convertEasting(cursorX));
 
                 repaint();
             }
@@ -309,20 +289,20 @@ class MapPanel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             if (SwingUtilities.isRightMouseButton(e)) {
                 if (!drawingRBL) {
+                    // detect if clicked inside RBL label. If so then delete clicked RBL
+                    // if not draw another RBL
 
+                    if (tryDeleteRBL(e))
+                        return;
+
+
+                    RBL rbl = new RBL(new Point(0,0,-2), new Point(0,0,-1));
+                    rbls.add(rbl);
                     Point startPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()),-1);
-                    System.out.println("created start point " + startPoint.getEasting() + " " + startPoint.getNorthing());
-
-
                     Point endPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()), -1);
-                    System.out.println("created end point " + endPoint.getEasting() + " " + endPoint.getNorthing());
-
-
                     rbl.setStartPoint(startPoint);
                     rbl.setEndPoint(endPoint);
-
                     drawingRBL = true;
-
                 }
                 else {
                     drawingRBL = false;
@@ -343,5 +323,18 @@ class MapPanel extends JPanel {
         public void mouseExited(MouseEvent e) {
         }
 
+    }
+
+    private boolean tryDeleteRBL(MouseEvent e) {
+        boolean out = false;
+        for (int i = 0; i < rbls.size(); i++) {
+            if (rbls.get(i).labelClicked(e)) {
+                rbls.remove(i);
+                System.out.println("label nr " + i + " clicked");
+                out = true;
+            }
+        }
+        repaint();
+        return out;
     }
 }

@@ -87,7 +87,9 @@ public class Point {
     }
 
     /**
-     * constructor needed for creating RBL line given northing/easting.
+     * As for now i don't know, neither feel like figuring out how to convert lat/lon to notrhling/easting,
+     * but need constructor taking two doubles. To allow that I introduced dummy foo parameter.
+     * Set it to whatever you want, it doesn't do anything.
      *
      * @param northing
      * @param easting
