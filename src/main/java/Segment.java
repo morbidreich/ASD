@@ -1,5 +1,8 @@
 
-
+/**
+ *  code by Cristopher Jacquet with my my slight modifications
+ *  https://github.com/ChristopheJacquet/Minigeo
+ */
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;

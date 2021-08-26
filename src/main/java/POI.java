@@ -1,4 +1,7 @@
-
+/**
+ *  code by Cristopher Jacquet with my my slight modifications
+ *  https://github.com/ChristopheJacquet/Minigeo
+ */
 
 /**
  * Geographic point, defined by its coordinates and by a label.

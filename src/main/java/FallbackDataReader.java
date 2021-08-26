@@ -34,4 +34,12 @@ public class FallbackDataReader {
         return polygonList;
     }
 
+    public static List<Fix> getFixes() {
+        //TODO read fixes
+        List<Fix> fixList = new ArrayList<Fix>();
+
+
+        return fixList;
+
+    }
 }
