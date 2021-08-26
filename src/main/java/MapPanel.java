@@ -249,11 +249,34 @@ class MapPanel extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
 
-            if (e.getButton() == MouseEvent.BUTTON1) {
+            if (SwingUtilities.isLeftMouseButton(e)) {
                 dragOriginX = e.getX();
                 dragOriginY = e.getY();
                 dragOriginOEasting = oEasting;
                 dragOriginONorthing = oNorthing;
+            }
+            else if (SwingUtilities.isRightMouseButton(e)) {
+                if (!drawingRBL) {
+                    // detect if clicked inside RBL label. If so then delete clicked RBL
+                    // if not draw another RBL
+
+                    if (tryDeleteRBL(e))
+                        return;
+
+
+                    RBL rbl = new RBL(new Point(0,0,-2), new Point(0,0,-1));
+                    rbls.add(rbl);
+                    Point startPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()),-1);
+                    Point endPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()), -1);
+                    rbl.setStartPoint(startPoint);
+                    rbl.setEndPoint(endPoint);
+                    drawingRBL = true;
+                }
+                else {
+                    drawingRBL = false;
+                }
+                repaint();
+
             }
         }
 
@@ -288,26 +311,7 @@ class MapPanel extends JPanel {
         @Override
         public void mouseClicked(MouseEvent e) {
             if (SwingUtilities.isRightMouseButton(e)) {
-                if (!drawingRBL) {
-                    // detect if clicked inside RBL label. If so then delete clicked RBL
-                    // if not draw another RBL
 
-                    if (tryDeleteRBL(e))
-                        return;
-
-
-                    RBL rbl = new RBL(new Point(0,0,-2), new Point(0,0,-1));
-                    rbls.add(rbl);
-                    Point startPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()),-1);
-                    Point endPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()), -1);
-                    rbl.setStartPoint(startPoint);
-                    rbl.setEndPoint(endPoint);
-                    drawingRBL = true;
-                }
-                else {
-                    drawingRBL = false;
-                }
-                repaint();
             }
         }
 
