@@ -23,10 +23,13 @@ public class Airspace {
         try {
             polygonList = SqlDataReader.getPolygons();
             fixList = SqlDataReader.getFixes();
+            System.out.println("succesfully loaded airspace data from sql");
         }
         catch (Exception e) {
+            System.out.println("sql data load error, loading fallback data");
             polygonList = FallbackDataReader.getPolygons();
             fixList = FallbackDataReader.getFixes();
+            System.out.println("succesfully loaded airspace data from fallback source");
         }
         finally {
 
