@@ -346,3 +346,11 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/Users/Use
 2021-08-21 11:28:19 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: Dane nie są dostępne
 No data is available [2000-200]
+2021-08-26 14:43:44 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-26 14:43:44 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
