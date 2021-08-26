@@ -27,6 +27,4 @@ public class Fix {
         this.longitude = longitude;
 
     }
-
-
 }
