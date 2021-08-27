@@ -410,3 +410,155 @@ SELECT * FROM POLYGONS [42102-200]
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
 Table "CTR" not found; SQL statement:
 SELECT * from CTR [42102-200]
+2021-08-27 15:51:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 15:51:39 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 15:55:27 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 15:55:27 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 15:56:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 15:56:04 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:01:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:01:22 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:02:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:02:25 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:07:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:07:59 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:11:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:11:21 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:12:18 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:12:18 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:12:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:12:43 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:12:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:12:59 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:15:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:15:13 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:16:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:16:30 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:18:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:18:23 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:19:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:19:15 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:25:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:25:13 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:25:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:25:21 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:32:56 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:32:56 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:33:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:33:04 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]
+2021-08-27 16:34:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "POLYGONS" nie istnieje
+Table "POLYGONS" not found; SQL statement:
+SELECT * FROM POLYGONS [42102-200]
+2021-08-27 16:34:06 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabela "CTR" nie istnieje
+Table "CTR" not found; SQL statement:
+SELECT * from CTR [42102-200]

@@ -5,18 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 
-import javax.swing.*;;
+import javax.swing.*;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;;
 /**
  *  code by Cristopher Jacquet with my my slight modifications
  *  https://github.com/ChristopheJacquet/Minigeo
  */
 
 @SuppressWarnings("serial")
-public class MapWindow extends JFrame implements ActionListener {
+public class MapWindow extends JFrame {
     private final MapPanel map;
-    JMenuItem miAbout;
-
-
+    private Menu menu = new Menu(this);
 
 
     /**
@@ -28,52 +28,13 @@ public class MapWindow extends JFrame implements ActionListener {
         setLayout(new BorderLayout());
         add(map, BorderLayout.CENTER);
 
-        JMenuBar menuBar = new JMenuBar();
-
-        JMenu menuOptions = new JMenu("Options");
-        JMenu menuElements = new JMenu("Select elements");
-        JMenu menuClearRbls = new JMenu("Clear RBLs");
-        JMenu menuClose = new JMenu("Close");
-
-        menuBar.add(menuElements);
-        menuBar.add(menuClearRbls);
-        menuBar.add(menuOptions);
-        menuBar.add(menuClose);
-
-
-
-        JMenuItem miSettings = new JMenuItem("Settings");
-        miAbout = new JMenuItem("About...");
-        miAbout.addActionListener(this);
-
-        menuOptions.add(miSettings);
-        menuOptions.add(miAbout);
-
-        JCheckBoxMenuItem cbTma = new JCheckBoxMenuItem("TMA");
-        JCheckBoxMenuItem cbCtr = new JCheckBoxMenuItem("CTR");
-        JCheckBoxMenuItem cbAllFixes = new JCheckBoxMenuItem("All fixes");
-        JCheckBoxMenuItem cbTmaFixes = new JCheckBoxMenuItem("TMA entry fixes");
-        JCheckBoxMenuItem cbSid01 = new JCheckBoxMenuItem("SID 01");
-        JCheckBoxMenuItem cbSid19 = new JCheckBoxMenuItem("SID 19");
-        JCheckBoxMenuItem cbStar01 = new JCheckBoxMenuItem("STAR 01");
-        JCheckBoxMenuItem cbStar19 = new JCheckBoxMenuItem("STAR 19");
-
-        menuElements.add(cbTma);
-        menuElements.add(cbCtr);
-        menuElements.addSeparator();
-        menuElements.add(cbAllFixes);
-        menuElements.add(cbTmaFixes);
-        menuElements.addSeparator();
-        menuElements.add(cbSid01);
-        menuElements.add(cbSid19);
-        menuElements.add(cbStar01);
-        menuElements.add(cbStar19);
-
-        add(menuBar, BorderLayout.NORTH);
+        setJMenuBar(menu.getMenuBar());
 
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+
     }
 
     /**
@@ -112,14 +73,6 @@ public class MapWindow extends JFrame implements ActionListener {
      * @param rbl the RBL to add
      */
     public void addRBL(RBL rbl) { map.addRBL(rbl); }
-
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        setTitle("Event detected");
-    }
-
-
 }
 
 
