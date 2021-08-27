@@ -1,6 +1,8 @@
 
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Collection;
 
 import javax.swing.*;;
@@ -10,9 +12,10 @@ import javax.swing.*;;
  */
 
 @SuppressWarnings("serial")
-public class MapWindow extends JFrame {
+public class MapWindow extends JFrame implements ActionListener {
     private final MapPanel map;
     JMenuItem miAbout;
+
 
 
 
@@ -37,8 +40,11 @@ public class MapWindow extends JFrame {
         menuBar.add(menuOptions);
         menuBar.add(menuClose);
 
+
+
         JMenuItem miSettings = new JMenuItem("Settings");
         miAbout = new JMenuItem("About...");
+        miAbout.addActionListener(this);
 
         menuOptions.add(miSettings);
         menuOptions.add(miAbout);
@@ -108,6 +114,10 @@ public class MapWindow extends JFrame {
     public void addRBL(RBL rbl) { map.addRBL(rbl); }
 
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        setTitle("Event detected");
+    }
 
 
 }

@@ -263,7 +263,6 @@ class MapPanel extends JPanel {
                     if (tryDeleteRBL(e))
                         return;
 
-
                     RBL rbl = new RBL(new Point(0,0,-2), new Point(0,0,-1));
                     rbls.add(rbl);
                     Point startPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()),-1);
@@ -276,7 +275,6 @@ class MapPanel extends JPanel {
                     drawingRBL = false;
                 }
                 repaint();
-
             }
         }
 
@@ -310,9 +308,6 @@ class MapPanel extends JPanel {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (SwingUtilities.isRightMouseButton(e)) {
-
-            }
         }
 
         @Override
