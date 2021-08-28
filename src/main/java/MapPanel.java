@@ -60,7 +60,7 @@ class MapPanel extends JPanel {
         int w = getWidth();
         int h = getHeight();
 
-        g.setColor(Color.WHITE);
+        g.setColor(Colors.BACKGROUND_COLOR);
         g.fillRect(0, 0, w, h);
 
         if(segments.size() == 0) return;
@@ -78,7 +78,7 @@ class MapPanel extends JPanel {
                     convertX(pB.getEasting()), convertY(pB.getNorthing(), h));
         }
 
-        g.setColor(Color.BLACK);
+        g.setColor(Color.WHITE);
 
         for(POI poi : pois) {
             int x = convertX(poi.getEasting());
@@ -87,6 +87,7 @@ class MapPanel extends JPanel {
             g.drawString(poi.getLabel(), x, y);
         }
 
+        g.setColor(Colors.RBL_COLOR);
         for (RBL rbl : rbls) {
             Point startPoint = rbl.getStartPoint();
             Point endPoint = rbl.getEndPoint();
@@ -101,6 +102,8 @@ class MapPanel extends JPanel {
 
             rbl.drawLabel(x1, y1, x2, y2, scale, g);
         }
+
+        g.setColor(Color.GREEN);
 
         // unit is the unit of the scale. It must be a power of ten, such that unit * scale in [25, 250]
         double unit = Math.pow(10, Math.ceil(Math.log10(25/scale)));

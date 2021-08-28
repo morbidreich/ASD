@@ -10,15 +10,16 @@ public class FallbackDataReader {
 
     public static List<Polygon> getPolygons() {
         List<Polygon> polygonList = new ArrayList<>();
-        String[] paths = new String[] {
-                "src/main/resources/EPSY/CTR.txt",
-                "src/main/resources/EPSY/TMA A.txt",
-                "src/main/resources/EPSY/TMA B.txt",
-                "src/main/resources/EPSY/TMA C.txt",
-                "src/main/resources/EPSY/TMA D.txt"};
-        for(String path: paths) {
+        String[] paths = new String[]{
+                "src/main/resources/EPSY/CTR",
+                "src/main/resources/EPSY/TMA_A",
+                "src/main/resources/EPSY/TMA_B",
+                "src/main/resources/EPSY/TMA_C",
+                "src/main/resources/EPSY/TMA_D"};
+        for (String path : paths) {
 
-            Polygon poly = new Polygon("poly");
+            String polyName = path.substring(path.lastIndexOf('/') + 1);
+            Polygon poly = new Polygon(polyName);
 
             try {
                 File file = new File(path);

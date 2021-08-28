@@ -3,7 +3,8 @@ import java.util.List;
 
 public class Polygon {
     private List<Fix> fixList;
-    private String name;
+    private final String name;
+    private boolean isVisible = true;
 
     public Polygon(String name) {
         this.name = name;

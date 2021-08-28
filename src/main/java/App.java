@@ -27,36 +27,13 @@ public class App {
                 mapWindow.addSegment(new Segment(
                         new Point(poly.getFixList().get(i).getLatitude(), poly.getFixList().get(i).getLongitude()),
                         new Point(poly.getFixList().get(i + 1).getLatitude(), poly.getFixList().get(i + 1).getLongitude()),
-                        Color.BLACK
+                        poly.getName().equals("CTR") ? Colors.CTR_COLOR : Colors.TMA_COLOR
                 ));
             }
         }
-        getDataFromH2();
     }
 
-    private static void getDataFromH2() {
 
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:h2:file:./airspace", "sa", "");
-            Statement st = conn.createStatement();
-            String query = "SELECT * from CTR";
-            ResultSet rs = st.executeQuery(query);
-
-            rs.next();
-
-            System.out.println(rs.getString("coordinates"));
-
-
-
-
-            conn.close();
-        }
-        catch(Exception e) {
-            System.out.println(e.toString());
-
-        }
-
-    }
 
     private void displayElements(MapWindow mapWindow, Airspace airspace) {
 
