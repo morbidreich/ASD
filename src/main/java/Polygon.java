@@ -4,9 +4,6 @@ import java.util.List;
 public class Polygon {
     private List<Fix> fixList;
     private final String name;
-<<<<<<< HEAD
-    private boolean isVisible = true;
-=======
     private PolygonType polygonType = PolygonType.UNDEFINED;
 
     public PolygonType getPolygonType() {
@@ -16,7 +13,7 @@ public class Polygon {
     public void setPolygonType(PolygonType polygonType) {
         this.polygonType = polygonType;
     }
->>>>>>> sql_data_load
+
 
     public Polygon(String name) {
         this.name = name;
