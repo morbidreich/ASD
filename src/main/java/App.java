@@ -16,7 +16,7 @@ public class App {
         mapWindow = new MapWindow();
         mapWindow.setVisible(true);
 
-        mapWindow.addPOI(poi);
+        //mapWindow.addPOI(poi);
 
         List<Polygon> polygonList = airspace.getPolygonList();
 
@@ -27,7 +27,7 @@ public class App {
                 mapWindow.addSegment(new Segment(
                         new Point(poly.getFixList().get(i).getLatitude(), poly.getFixList().get(i).getLongitude()),
                         new Point(poly.getFixList().get(i + 1).getLatitude(), poly.getFixList().get(i + 1).getLongitude()),
-                        poly.getName().equals("CTR") ? Colors.CTR_COLOR : Colors.TMA_COLOR
+                        Colors.getColor(poly.getPolygonType())
                 ));
             }
         }

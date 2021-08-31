@@ -26,7 +26,8 @@ public class SqlDataReader {
 
     private static void readStar(List<Polygon> polygonList, Connection conn) {
         String[] stars = new String[] {
-                "IBINO1R", "UDROV1R", "ARDUT1R"
+                //TODO unhardcode these
+                "IBINO1R", "UDROV1R", "ARDUT1R", "IBINO2T", "UDROV2T", "ARDUT2T"
         };
         try {
             Statement st = conn.createStatement();

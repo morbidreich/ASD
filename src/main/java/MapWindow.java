@@ -23,7 +23,7 @@ public class MapWindow extends JFrame {
      * Creates a new window.
      */
     public MapWindow() {
-        super("EPSY Airspace Display - NIE DO UŻYTKU OPERACYJNEGO!");
+        super("EPSY Airspace Display - NIE DO UZYTKU OPERACYJNEGO!");
         map = new MapPanel();
         setLayout(new BorderLayout());
         add(map, BorderLayout.CENTER);

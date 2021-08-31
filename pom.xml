@@ -20,7 +20,7 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.200</version>
-            <scope>package</scope>
+            <scope>install</scope>
         </dependency>
 
         <dependency>
@@ -29,11 +29,7 @@
             <version>5.7.2</version>
             <scope>test</scope>
         </dependency>
-<<<<<<< HEAD
 
-
-=======
->>>>>>> sql_data_load
     </dependencies>
 
     <build>

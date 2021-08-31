@@ -13,4 +13,15 @@ public class Colors {
     public static final Color D_COLOR = new Color(200, 0, 0);
     public static final Color P_COLOR = new Color(255, 195, 0);
     public static final Color R_COLOR = new Color(0, 150, 0);
+
+    public static final Color getColor(PolygonType pt) {
+        switch (pt) {
+            case CTR: return CTR_COLOR;
+            case TMA: return TMA_COLOR;
+            case SID: return SID_COLOR;
+            case STAR: return STAR_COLOR;
+
+            default: return new Color(255,255,255);
+        }
+    }
 }

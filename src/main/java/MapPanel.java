@@ -36,8 +36,8 @@ class MapPanel extends JPanel {
     private double scale = -1;
 
     public MapPanel() {
-        setMinimumSize(new Dimension(400, 300));
-        setPreferredSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(800, 600));
+        setPreferredSize(new Dimension(1000, 800));
 
         resetMinMaxEastingNorthing();
 
