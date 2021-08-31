@@ -18,8 +18,36 @@ public class SqlDataReader {
             polygonList.add(readPolygon(name, conn));
         }
 
+        readStar(polygonList, conn);
+
         conn.close();
         return polygonList;
+    }
+
+    private static void readStar(List<Polygon> polygonList, Connection conn) {
+        String[] stars = new String[] {
+                "IBINO1R", "UDROV1R", "ARDUT1R"
+        };
+        try {
+            Statement st = conn.createStatement();
+            for (String star: stars) {
+                Polygon poly = new Polygon(star);
+                poly.setPolygonType(PolygonType.STAR);
+                String query = "SELECT * FROM STAR WHERE STAR_NAME = '" + star + "'";
+                ResultSet rs = st.executeQuery(query);
+                while (rs.next()) {
+                    String fixName = rs.getString("fix_name");
+                    System.out.println(rs.getString("coordinates"));
+                    Coordinates fixCoord = CoordinateConverter.getFromDMS((rs.getString("coordinates")));
+                    Fix starFix = new Fix(fixName, fixCoord);
+                    poly.addFix(starFix);
+                }
+                polygonList.add(poly);
+            }
+        }
+        catch (Exception e) {
+
+        }
 
 
     }
@@ -27,12 +55,18 @@ public class SqlDataReader {
     private static Polygon readPolygon(String name, Connection conn){
         System.out.println("Attempting to read polygon: " + name);
         Polygon poly = new Polygon(name);
+
+        if (name.startsWith("CTR"))
+            poly.setPolygonType(PolygonType.CTR);
+        else if(name.startsWith("TMA"))
+            poly.setPolygonType(PolygonType.TMA);
+
         try {
             Statement st = conn.createStatement();
             String query = "SELECT * FROM " + name;
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                poly.addFix(CoordinateConverter.getFromDMS(rs.getString("Coordinates")));
+                poly.addFix(new Fix("", CoordinateConverter.getFromDMS(rs.getString("Coordinates"))));
             }
             System.out.println(name + " read with " + poly.getFixList().size() + " coordinates");
 
@@ -60,4 +94,6 @@ public class SqlDataReader {
         List<Fix> fixList = new ArrayList<>();
         return fixList;
     }
+
+
 }

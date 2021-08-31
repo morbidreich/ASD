@@ -22,7 +22,13 @@ public class Fix {
         this.longitude = longitude;
     }
 
-    public Fix(double latitude, double longitude) {
+    public Fix(String name, Coordinates coords) {
+        this.name = name;
+        this.latitude = coords.getLatitude();
+        this.longitude = coords.getLongitude();
+    }
+
+    public Fix(String name, double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
 

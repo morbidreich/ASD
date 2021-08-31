@@ -20,7 +20,7 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.200</version>
-            <scope>test</scope>
+            <scope>package</scope>
         </dependency>
 
         <dependency>
@@ -29,13 +29,6 @@
             <version>5.7.2</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>eu.jacquet80</groupId>
-            <artifactId>minigeo</artifactId>
-            <version>1.0</version>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -48,13 +41,13 @@
                     <url>jdbc:h2:file:./airspace</url>
                     <user>sa</user>
                 </configuration>
-<!--                <dependencies>-->
-<!--                    <dependency>-->
-<!--                        <groupId>com.h2database</groupId>-->
-<!--                        <artifactId>h2</artifactId>-->
-<!--                        <version>1.4.200</version>-->
-<!--                    </dependency>-->
-<!--                </dependencies>-->
+                <dependencies>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>1.4.200</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
