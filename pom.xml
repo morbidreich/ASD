@@ -20,7 +20,7 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.200</version>
-            <scope>install</scope>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -49,6 +49,21 @@
                         <version>1.4.200</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>src/main/java</classpathPrefix>
+                            <mainClass>App</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -18,23 +18,44 @@ public class SqlDataReader {
             polygonList.add(readPolygon(name, conn));
         }
 
-        readStar(polygonList, conn);
+        readSidStar(polygonList, conn);
 
         conn.close();
         return polygonList;
     }
 
-    private static void readStar(List<Polygon> polygonList, Connection conn) {
+    private static void readSidStar(List<Polygon> polygonList, Connection conn) {
         String[] stars = new String[] {
                 //TODO unhardcode these
                 "IBINO1R", "UDROV1R", "ARDUT1R", "IBINO2T", "UDROV2T", "ARDUT2T"
         };
+
+        String[] sids = new String[] {
+                //TODO unhardcode these
+                "NIVON1S", "UDROV1S", "LUSUL1S", "NIVON1W", "UDROV1W", "LUSUL1W"
+        };
+
         try {
             Statement st = conn.createStatement();
             for (String star: stars) {
                 Polygon poly = new Polygon(star);
                 poly.setPolygonType(PolygonType.STAR);
                 String query = "SELECT * FROM STAR WHERE STAR_NAME = '" + star + "'";
+                ResultSet rs = st.executeQuery(query);
+                while (rs.next()) {
+                    String fixName = rs.getString("fix_name");
+                    System.out.println(rs.getString("coordinates"));
+                    Coordinates fixCoord = CoordinateConverter.getFromDMS((rs.getString("coordinates")));
+                    Fix starFix = new Fix(fixName, fixCoord);
+                    poly.addFix(starFix);
+                }
+                polygonList.add(poly);
+            }
+            // this is copypasted from above, definitely needs refactoring
+            for (String sid: sids) {
+                Polygon poly = new Polygon(sid);
+                poly.setPolygonType(PolygonType.SID);
+                String query = "SELECT * FROM SID WHERE SID_NAME = '" + sid + "'";
                 ResultSet rs = st.executeQuery(query);
                 while (rs.next()) {
                     String fixName = rs.getString("fix_name");
