@@ -27,7 +27,6 @@ public class Airspace {
         try {
             System.out.println("trying to load from sql database");
             polygonList = SqlDataReader.getPolygons();
-            starList = SqlDataReader.getStars();
             fixList = SqlDataReader.getFixes();
             System.out.println("succesfully loaded airspace data from sql");
         }
