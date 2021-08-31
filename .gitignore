@@ -1,4 +1,4 @@
 *.class
-target/
+target/*
 airspace.mv.db
 airspace.trace.db
