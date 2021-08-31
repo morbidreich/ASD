@@ -2,7 +2,7 @@ public class CoordinateConverter {
     private String latitude;
     private String longitude;
 
-    public static Fix getFromDMS(String coordLine) {
+    public static Coordinates getFromDMS(String coordLine) {
 
         double latDeg, latMin, latSec, lonDeg, lonMin, lonSec;
 
@@ -16,6 +16,6 @@ public class CoordinateConverter {
         double lat = latDeg + (latMin * 60 + latSec)/3600;
         double lon = lonDeg + (lonMin * 60 + lonSec)/3600;
 
-        return new Fix(lat, lon);
+        return new Coordinates(lat, lon);
     }
 }

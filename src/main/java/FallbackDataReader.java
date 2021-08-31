@@ -25,7 +25,7 @@ public class FallbackDataReader {
                 File file = new File(path);
                 Scanner fileReader = new Scanner(file);
                 while (fileReader.hasNextLine()) {
-                    poly.addFix(CoordinateConverter.getFromDMS(fileReader.nextLine()));
+                    poly.addFix(new Fix("", CoordinateConverter.getFromDMS(fileReader.nextLine())));
                 }
                 polygonList.add(poly);
             } catch (Exception e) {

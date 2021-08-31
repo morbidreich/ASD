@@ -1,2 +1,7 @@
 *.class
 target/
+<<<<<<< Updated upstream
+=======
+airspace.mv.db
+airspace.trace.db
+>>>>>>> Stashed changes
