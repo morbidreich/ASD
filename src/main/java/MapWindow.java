@@ -16,15 +16,18 @@ import javax.swing.event.MenuListener;;
 @SuppressWarnings("serial")
 public class MapWindow extends JFrame {
     private final MapPanel map;
-    private Menu menu = new Menu(this);
+    private Airspace airspace;
+    private Menu menu;
 
 
     /**
      * Creates a new window.
      */
-    public MapWindow() {
+    public MapWindow(Airspace airspace) {
         super("EPSY Airspace Display - NIE DO UZYTKU OPERACYJNEGO!");
         map = new MapPanel();
+        this.airspace = airspace;
+        menu = new Menu(map, airspace);
         setLayout(new BorderLayout());
         add(map, BorderLayout.CENTER);
 

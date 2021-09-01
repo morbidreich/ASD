@@ -13,7 +13,7 @@ public class App {
 
         Airspace airspace = new Airspace();
 
-        mapWindow = new MapWindow();
+        mapWindow = new MapWindow(airspace);
         mapWindow.setVisible(true);
 
         //mapWindow.addPOI(poi);
@@ -21,14 +21,15 @@ public class App {
         List<Polygon> polygonList = airspace.getPolygonList();
 
         for(Polygon poly: polygonList) {
+            if (poly.isVisible()) {
+                for (int i = 0; i < poly.getFixList().size() - 1; i++) {
 
-            for (int i = 0; i < poly.getFixList().size() - 1; i++) {
-
-                mapWindow.addSegment(new Segment(
-                        new Point(poly.getFixList().get(i).getLatitude(), poly.getFixList().get(i).getLongitude()),
-                        new Point(poly.getFixList().get(i + 1).getLatitude(), poly.getFixList().get(i + 1).getLongitude()),
-                        Colors.getColor(poly.getPolygonType())
-                ));
+                    mapWindow.addSegment(new Segment(
+                            new Point(poly.getFixList().get(i).getLatitude(), poly.getFixList().get(i).getLongitude()),
+                            new Point(poly.getFixList().get(i + 1).getLatitude(), poly.getFixList().get(i + 1).getLongitude()),
+                            Colors.getColor(poly.getPolygonType())
+                    ));
+                }
             }
         }
     }

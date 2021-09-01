@@ -25,6 +25,7 @@ import javax.swing.*;
 class MapPanel extends JPanel {
     private final List<Segment> segments = new ArrayList<Segment>();
     private final List<POI> pois = new ArrayList<POI>();
+
     private final List<RBL> rbls = new ArrayList<RBL>();
 
     private boolean drawingRBL = false;
@@ -32,9 +33,9 @@ class MapPanel extends JPanel {
     private int cursorX, cursorY = 0;
 
     private double minEasting, maxEasting, minNorthing, maxNorthing;
+
     private double oEasting, oNorthing;		// coordinates of the origin
     private double scale = -1;
-
     public MapPanel() {
         setMinimumSize(new Dimension(800, 600));
         setPreferredSize(new Dimension(1000, 800));
@@ -46,6 +47,10 @@ class MapPanel extends JPanel {
         MousePanner mousePanner = new MousePanner();
         addMouseListener(mousePanner);
         addMouseMotionListener(mousePanner);
+    }
+
+    public List<RBL> getRbls() {
+        return rbls;
     }
 
     @Override

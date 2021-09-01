@@ -4,6 +4,20 @@ import java.util.List;
 public class Polygon {
     private List<Fix> fixList;
     private final String name;
+    private boolean isVisible = true;
+
+    public void setFixList(List<Fix> fixList) {
+        this.fixList = fixList;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
+    }
+
     private PolygonType polygonType = PolygonType.UNDEFINED;
 
     public PolygonType getPolygonType() {
