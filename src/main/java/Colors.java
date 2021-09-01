@@ -10,9 +10,14 @@ public class Colors {
     public static final Color VFR_COLOR = new Color(220, 220, 0);
     public static final Color FIX_COLOR = new Color(200, 200, 200);
     public static final Color RIVER_COLOR = new Color(0, 0, 255);
+    public static final Color TOWN_COLOR = new Color(0, 0, 255);
+    public static final Color ROAD_COLOR = new Color(0, 0, 255);
     public static final Color D_COLOR = new Color(200, 0, 0);
     public static final Color P_COLOR = new Color(255, 195, 0);
     public static final Color R_COLOR = new Color(0, 150, 0);
+    public static final Color TSA_COLOR = new Color(150, 150, 150);
+    public static final Color TRA_COLOR = new Color(150, 150, 150);
+    public static final Color AREA_COLOR = new Color(150, 150, 150);
 
     public static final Color getColor(PolygonType pt) {
         switch (pt) {
@@ -20,6 +25,17 @@ public class Colors {
             case TMA: return TMA_COLOR;
             case SID: return SID_COLOR;
             case STAR: return STAR_COLOR;
+            case VFR: return VFR_COLOR;
+            case FIX: return FIX_COLOR;
+            case RIVER: return RIVER_COLOR;
+            case TOWN: return TOWN_COLOR;
+            case ROAD: return ROAD_COLOR;
+            case D: return D_COLOR;
+            case P: return P_COLOR;
+            case R: return R_COLOR;
+            case TRA: return TRA_COLOR;
+            case TSA: return TSA_COLOR;
+            case AREA: return AREA_COLOR;
 
             default: return new Color(255,255,255);
         }
