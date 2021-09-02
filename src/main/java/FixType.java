@@ -7,5 +7,6 @@ enum FixType {
     VFR,
     VOR,
     AERODROME,
-    TOWN
+    TOWN,
+    UNDEFINED
 }

@@ -1,36 +1,35 @@
 
-public class Fix {
+public class Fix extends POI {
 
-    private double latitude;
-    private double longitude;
     private String name;
+    private boolean isVisible = false;
 
-
-    public double getLatitude() {
-        return latitude;
+    public FixType getFixType() {
+        return fixType;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
+    private FixType fixType;
 
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
 
     public Fix(String name, Coordinates coords) {
-        this.name = name;
-        this.latitude = coords.getLatitude();
-        this.longitude = coords.getLongitude();
+        super(coords.getLatitude(), coords.getLongitude(), name);
+    }
+
+    public Fix(String name, Coordinates coords, FixType fixType) {
+        super(coords.getLatitude(), coords.getLongitude(), name);
+        this.fixType = fixType;
     }
 
     public Fix(String name, double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-
+        super(latitude, longitude, name);
     }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
+    }
+
 }

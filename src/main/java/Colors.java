@@ -40,4 +40,25 @@ public class Colors {
             default: return new Color(255,255,255);
         }
     }
+
+    public static final Color getColor(FixType ft) {
+        switch (ft) {
+            case SID01:
+            case SID19:
+                return SID_COLOR;
+            case STAR01:
+            case STAR19:
+                return STAR_COLOR;
+            case ENTRY:
+            case VOR:
+            case AERODROME:
+                return TMA_COLOR;
+            case VFR: return VFR_COLOR;
+            case TOWN: return TOWN_COLOR;
+            case UNDEFINED:
+            default: return new Color(255,255,255);
+        }
+
+
+    }
 }

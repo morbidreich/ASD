@@ -12,17 +12,15 @@ public class Airspace {
         polygonList = new ArrayList<>();
         sidList = new ArrayList<>();
 
-
         readData();
     }
 
     public List<Polygon> getPolygonList() {
         return polygonList;
     }
+    public List<Fix> getFixList() { return fixList; }
 
     private void readData() {
-
-
         try {
             System.out.println("trying to load from sql database");
             polygonList = SqlDataReader.getPolygons();

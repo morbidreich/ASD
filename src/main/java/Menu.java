@@ -17,8 +17,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
     private final JMenuItem miSettings;
     private final JCheckBoxMenuItem cbTma;
     private final JCheckBoxMenuItem cbCtr;
-    private final JCheckBoxMenuItem cbAllFixes;
     private final JCheckBoxMenuItem cbTmaFixes;
+    private final JCheckBoxMenuItem cbVfrFixes;
     private final JCheckBoxMenuItem cbSid01;
     private final JCheckBoxMenuItem cbSid01fix;
     private final JCheckBoxMenuItem cbSid19;
@@ -65,16 +65,16 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
 
         cbTma = new JCheckBoxMenuItem("TMA");
         cbCtr = new JCheckBoxMenuItem("CTR");
-        cbAllFixes = new JCheckBoxMenuItem("All fixes");
         cbTmaFixes = new JCheckBoxMenuItem("TMA entry fixes");
+        cbVfrFixes = new JCheckBoxMenuItem("VFR fixes");
         cbSid01 = new JCheckBoxMenuItem("SID 01");
-        cbSid01fix = new JCheckBoxMenuItem("SID 01 fix names");
+        cbSid01fix = new JCheckBoxMenuItem("SID 01 fix");
         cbSid19 = new JCheckBoxMenuItem("SID 19");
-        cbSid19fix = new JCheckBoxMenuItem("SID 19 fix names");
+        cbSid19fix = new JCheckBoxMenuItem("SID 19 fix");
         cbStar01 = new JCheckBoxMenuItem("STAR 01");
-        cbStar01fix = new JCheckBoxMenuItem("STAR 01 fix names");
+        cbStar01fix = new JCheckBoxMenuItem("STAR 01 fix");
         cbStar19 = new JCheckBoxMenuItem("STAR 19");
-        cbStar19fix = new JCheckBoxMenuItem("STAR 19 fix names");
+        cbStar19fix = new JCheckBoxMenuItem("STAR 19 fix");
         cbPDR = new JCheckBoxMenuItem("P/D/R");
         cbTSA = new JCheckBoxMenuItem("TSA");
         cbTRA = new JCheckBoxMenuItem("TRA");
@@ -85,8 +85,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         menuElements.add(cbTma);
         menuElements.add(cbCtr);
         menuElements.addSeparator();
-        menuElements.add(cbAllFixes);
         menuElements.add(cbTmaFixes);
+        menuElements.add(cbVfrFixes);
         menuElements.addSeparator();
         menuElements.add(cbSid01);
         menuElements.add(cbSid01fix);
@@ -110,6 +110,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
             Component comp = menuElements.getMenuComponent(i);
             if (comp instanceof JCheckBoxMenuItem) {
                 JCheckBoxMenuItem cb = (JCheckBoxMenuItem) comp;
+                cb.addActionListener(this);
 
                 // prevent menu from closing after click to mimic PEGASUS_21 behaviour
                 // https://stackoverflow.com/questions/9198530/how-to-prevent-jmenuitem-from-closing-menu-upon-clicking-the-jmenuitem
@@ -119,7 +120,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
                         cb.doClick(0);
                     }
                 });
-                cb.addActionListener(this);
             }
         }
 
@@ -150,21 +150,64 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         }
 
 
-        if (e.getSource().equals(cbStar01) ||
-            e.getSource().equals(cbStar19) ||
-            e.getSource().equals(cbSid01) ||
-            e.getSource().equals(cbSid19)) {
+        else if (e.getSource().equals(cbStar01) ||
+                e.getSource().equals(cbStar19) ||
+                e.getSource().equals(cbSid01) ||
+                e.getSource().equals(cbSid19)) {
 
             toggleSidStarVisibility((JCheckBoxMenuItem) e.getSource());
         }
 
-        if (e.getSource().equals(cbTma)) {
+        else if (e.getSource().equals(cbTma)) {
             togglePolygonVisibility(cbTma, PolygonType.TMA);
         }
-        if (e.getSource().equals(cbCtr)) {
+        else if  (e.getSource().equals(cbCtr)) {
             togglePolygonVisibility(cbCtr, PolygonType.CTR);
         }
+        else if (
+                e.getSource().equals(cbTmaFixes) || e.getSource().equals(cbVfrFixes) ||
+                e.getSource().equals(cbStar01fix) || e.getSource().equals(cbStar19fix) ||
+                e.getSource().equals(cbSid01fix) || e.getSource().equals(cbSid19fix)) {
+            toggleFixVisibility((JCheckBoxMenuItem) e.getSource());
+        }
+        mapPanel.repaint();
+    }
 
+    private void toggleFixVisibility(JCheckBoxMenuItem source) {
+        switch(source.getText()) {
+            case "TMA entry fixes": {
+                setFixVisible(FixType.ENTRY, source);
+                break;
+            }
+            case "VFR fixes": {
+                setFixVisible(FixType.VFR, source);
+                break;
+            }
+            case "SID 01 fix": {
+                setFixVisible(FixType.SID01, source);
+                break;
+            }
+            case "SID 19 fix": {
+                setFixVisible(FixType.SID19, source);
+                break;
+            }
+            case "STAR 01 fix": {
+                setFixVisible(FixType.STAR01, source);
+                break;
+            }
+            case "STAR 19 fix": {
+                setFixVisible(FixType.STAR19, source);
+                break;
+            }
+        }
+
+    }
+
+    private void setFixVisible(FixType fixType, JCheckBoxMenuItem source) {
+        for (Fix fix : airspace.getFixList()) {
+            if (fix.getFixType() == fixType)
+                fix.setVisible(source.isSelected());
+        }
     }
 
     private void toggleSidStarVisibility(JCheckBoxMenuItem source) {
@@ -210,6 +253,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
                 poly.setVisible(cb.isSelected());
             }
         }
+        mapPanel.repaint();
     }
 
     @Override

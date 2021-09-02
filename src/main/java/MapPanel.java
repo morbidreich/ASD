@@ -1,6 +1,6 @@
-/**
- * code by Cristopher Jacquet with my my slight modifications
- * https://github.com/ChristopheJacquet/Minigeo
+/*
+  code by Cristopher Jacquet with my my slight modifications
+  https://github.com/ChristopheJacquet/Minigeo
  */
 
 import java.awt.Color;
@@ -13,20 +13,18 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.swing.*;
 
-
 @SuppressWarnings("serial")
 class MapPanel extends JPanel {
     private final List<Segment> segments = new ArrayList<Segment>();
     private final List<Polygon> polygons = new ArrayList<Polygon>();
     private final List<POI> pois = new ArrayList<POI>();
-
+    private final List<Fix> fixes = new ArrayList<Fix>();
     private final List<RBL> rbls = new ArrayList<RBL>();
 
     private boolean drawingRBL = false;
@@ -94,25 +92,15 @@ class MapPanel extends JPanel {
             }
         }
 
-        for (Segment seg : segments) {
-            Point pA = seg.getPointA();
-            Point pB = seg.getPointB();
+        for (Fix fix : fixes) {
 
-            g.setColor(seg.getColor());
-            g.setStroke(seg.getStroke());
-
-            g.drawLine(
-                    convertX(pA.getEasting()), convertY(pA.getNorthing(), h),
-                    convertX(pB.getEasting()), convertY(pB.getNorthing(), h));
-        }
-
-        g.setColor(Color.WHITE);
-
-        for (POI poi : pois) {
-            int x = convertX(poi.getEasting());
-            int y = convertY(poi.getNorthing(), h);
-            g.fillOval(x - 1, y - 1, 3, 3);
-            g.drawString(poi.getLabel(), x, y);
+            if (fix.isVisible()) {
+                g.setColor(Colors.getColor(fix.getFixType()));
+                int x = convertX(fix.getEasting());
+                int y = convertY(fix.getNorthing(), h);
+                FixSymbolDrawer.drawFixSymbol(x, y, g, fix);
+                g.drawString(fix.getLabel(), x+10, y+2);
+            }
         }
 
         g.setColor(Colors.RBL_COLOR);
@@ -164,6 +152,16 @@ class MapPanel extends JPanel {
         for (Segment seg : segments) addSegment(seg);
     }
 
+    public synchronized void addFix(Fix fix) {
+        this.fixes.add(fix);
+
+        updateMinMaxEastingNorthing(fix);
+    }
+
+    public void addFixes(Collection<Fix> fixes) {
+        for (Fix fix : fixes) addFix(fix);
+    }
+
     public synchronized void addPOI(POI poi) {
         this.pois.add(poi);
 
@@ -176,7 +174,7 @@ class MapPanel extends JPanel {
         List<Fix> fl = poly.getFixList();
 
         for (Fix fix : fl) {
-            updateMinMaxEastingNorthing(new Point(fix.getLatitude(), fix.getLongitude()));
+            updateMinMaxEastingNorthing(fix);
         }
     }
 

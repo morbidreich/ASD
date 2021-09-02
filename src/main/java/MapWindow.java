@@ -29,6 +29,8 @@ public class MapWindow extends JFrame {
         map = new MapPanel();
         this.airspace = airspace;
         map.addPolygons(airspace.getPolygonList());
+        map.addFixes(airspace.getFixList());
+        setMapZoomLevel(map);
         menu = new Menu(map, airspace);
         setLayout(new BorderLayout());
         add(map, BorderLayout.CENTER);
@@ -40,6 +42,17 @@ public class MapWindow extends JFrame {
         setLocationRelativeTo(null);
 
 
+    }
+
+
+    private void setMapZoomLevel(MapPanel map) {
+        // fool minigeo to zoom out view by adding two dummy invisible fixes outside of tma
+        // on southeast and northwest
+        Coordinates c1 = CoordinateConverter.getFromDMS("53°40'00\"N 019°48'00\"E");
+        Coordinates c2 = CoordinateConverter.getFromDMS("53°10'00\"N 021°24'00\"E");
+
+        map.addFix(new Fix("", c1, FixType.UNDEFINED));
+        map.addFix(new Fix("", c2, FixType.UNDEFINED));
     }
 
     /**
