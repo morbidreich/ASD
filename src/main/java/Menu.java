@@ -20,9 +20,13 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
     private final JCheckBoxMenuItem cbAllFixes;
     private final JCheckBoxMenuItem cbTmaFixes;
     private final JCheckBoxMenuItem cbSid01;
+    private final JCheckBoxMenuItem cbSid01fix;
     private final JCheckBoxMenuItem cbSid19;
+    private final JCheckBoxMenuItem cbSid19fix;
     private final JCheckBoxMenuItem cbStar01;
+    private final JCheckBoxMenuItem cbStar01fix;
     private final JCheckBoxMenuItem cbStar19;
+    private final JCheckBoxMenuItem cbStar19fix;
     private final JCheckBoxMenuItem cbPDR;
     private final JCheckBoxMenuItem cbTSA;
     private final JCheckBoxMenuItem cbTRA;
@@ -64,9 +68,13 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         cbAllFixes = new JCheckBoxMenuItem("All fixes");
         cbTmaFixes = new JCheckBoxMenuItem("TMA entry fixes");
         cbSid01 = new JCheckBoxMenuItem("SID 01");
+        cbSid01fix = new JCheckBoxMenuItem("SID 01 fix names");
         cbSid19 = new JCheckBoxMenuItem("SID 19");
+        cbSid19fix = new JCheckBoxMenuItem("SID 19 fix names");
         cbStar01 = new JCheckBoxMenuItem("STAR 01");
+        cbStar01fix = new JCheckBoxMenuItem("STAR 01 fix names");
         cbStar19 = new JCheckBoxMenuItem("STAR 19");
+        cbStar19fix = new JCheckBoxMenuItem("STAR 19 fix names");
         cbPDR = new JCheckBoxMenuItem("P/D/R");
         cbTSA = new JCheckBoxMenuItem("TSA");
         cbTRA = new JCheckBoxMenuItem("TRA");
@@ -81,9 +89,13 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         menuElements.add(cbTmaFixes);
         menuElements.addSeparator();
         menuElements.add(cbSid01);
+        menuElements.add(cbSid01fix);
         menuElements.add(cbSid19);
+        menuElements.add(cbSid19fix);
         menuElements.add(cbStar01);
+        menuElements.add(cbStar01fix);
         menuElements.add(cbStar19);
+        menuElements.add(cbStar19fix);
         menuElements.addSeparator();
         menuElements.add(cbPDR);
         menuElements.add(cbTSA);
@@ -138,16 +150,19 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
 
 
         if (e.getSource().equals(cbStar01)) {
-            toggleVisibility(cbStar01, PolygonType.STAR);
+            togglePolygonVisibility(cbStar01, PolygonType.STAR);
         }
 
         if (e.getSource().equals(cbTma)) {
-            toggleVisibility(cbTma, PolygonType.TMA);
+            togglePolygonVisibility(cbTma, PolygonType.TMA);
+        }
+        if (e.getSource().equals(cbCtr)) {
+            togglePolygonVisibility(cbCtr, PolygonType.CTR);
         }
 
     }
 
-    private void toggleVisibility(JCheckBoxMenuItem cb, PolygonType pt) {
+    private void togglePolygonVisibility(JCheckBoxMenuItem cb, PolygonType pt) {
         for (Polygon poly : airspace.getPolygonList()) {
             if (poly.getPolygonType() == pt) {
                 poly.setVisible(cb.isSelected());

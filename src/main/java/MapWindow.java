@@ -25,7 +25,7 @@ public class MapWindow extends JFrame {
      * Creates a new window.
      */
     public MapWindow(Airspace airspace) {
-        super("EPSY Airspace Display - NIE DO UZYTKU OPERACYJNEGO!");
+        super("EPSY Airspace Display - NOT FOR OPERATIONAL USE!");
         map = new MapPanel();
         this.airspace = airspace;
         map.addPolygons(airspace.getPolygonList());
