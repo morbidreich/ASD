@@ -142,6 +142,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         if (e.getSource() == miAbout) {
             AboutWindow aw = new AboutWindow();
             aw.setLocationRelativeTo(mapPanel);
@@ -149,8 +150,12 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         }
 
 
-        if (e.getSource().equals(cbStar01)) {
-            togglePolygonVisibility(cbStar01, PolygonType.STAR);
+        if (e.getSource().equals(cbStar01) ||
+            e.getSource().equals(cbStar19) ||
+            e.getSource().equals(cbSid01) ||
+            e.getSource().equals(cbSid19)) {
+
+            toggleSidStarVisibility((JCheckBoxMenuItem) e.getSource());
         }
 
         if (e.getSource().equals(cbTma)) {
@@ -162,13 +167,49 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
 
     }
 
+    private void toggleSidStarVisibility(JCheckBoxMenuItem source) {
+
+        switch (source.getText()) {
+            case "SID 01": {
+                for (Sid sid : airspace.getSids()) {
+                    if (sid.getRunway() == Runway.RUNWAY_01)
+                        sid.setVisible(source.isSelected());
+                }
+                break;
+            }
+            case "SID 19": {
+                for (Sid sid : airspace.getSids()) {
+                    if (sid.getRunway() == Runway.RUNWAY_19)
+                        sid.setVisible(source.isSelected());
+                }
+                break;
+            }
+            case "STAR 01": {
+                for (Star star : airspace.getStars()) {
+                    if (star.getRunway() == Runway.RUNWAY_01)
+                        star.setVisible(source.isSelected());
+                }
+                break;
+            }
+            case "STAR 19": {
+                for (Star star : airspace.getStars()) {
+                    if (star.getRunway() == Runway.RUNWAY_19)
+                        star.setVisible(source.isSelected());
+                }
+                break;
+            }
+        }
+
+
+        mapPanel.repaint();
+    }
+
     private void togglePolygonVisibility(JCheckBoxMenuItem cb, PolygonType pt) {
         for (Polygon poly : airspace.getPolygonList()) {
             if (poly.getPolygonType() == pt) {
                 poly.setVisible(cb.isSelected());
             }
         }
-        mapPanel.repaint();
     }
 
     @Override

@@ -25,44 +25,43 @@ public class SqlDataReader {
     }
 
     private static void readSidStar(List<Polygon> polygonList, Connection conn) {
-        String[] stars = new String[] {
+        String[] procedures = new String[] {
                 //TODO unhardcode these
-                "IBINO1R", "UDROV1R", "ARDUT1R", "IBINO2T", "UDROV2T", "ARDUT2T"
-        };
-
-        String[] sids = new String[] {
-                //TODO unhardcode these
+                "IBINO1R", "UDROV1R", "ARDUT1R", "IBINO2T", "UDROV2T", "ARDUT2T",
                 "NIVON1S", "UDROV1S", "LUSUL1S", "NIVON1W", "UDROV1W", "LUSUL1W"
         };
 
+
         try {
             Statement st = conn.createStatement();
-            for (String star: stars) {
-                Polygon poly = new Polygon(star);
-                poly.setPolygonType(PolygonType.STAR);
-                String query = "SELECT * FROM STAR WHERE STAR_NAME = '" + star + "'";
-                ResultSet rs = st.executeQuery(query);
-                while (rs.next()) {
-                    String fixName = rs.getString("fix_name");
-                    System.out.println(rs.getString("coordinates"));
-                    Coordinates fixCoord = CoordinateConverter.getFromDMS((rs.getString("coordinates")));
-                    Fix starFix = new Fix(fixName, fixCoord);
-                    poly.addFix(starFix);
+            for (String procedure: procedures) {
+                Polygon poly;
+
+                if (procedure.endsWith("1R")) {
+                    poly = new Star(procedure, Runway.RUNWAY_01);
+                    poly.setPolygonType(PolygonType.STAR);
                 }
-                polygonList.add(poly);
-            }
-            // this is copypasted from above, definitely needs refactoring
-            for (String sid: sids) {
-                Polygon poly = new Polygon(sid);
-                poly.setPolygonType(PolygonType.SID);
-                String query = "SELECT * FROM SID WHERE SID_NAME = '" + sid + "'";
+                else if (procedure.endsWith("2T")) {
+                    poly = new Star(procedure, Runway.RUNWAY_19);
+                    poly.setPolygonType(PolygonType.STAR);
+                }
+                else if (procedure.endsWith("1S")) {
+                    poly = new Sid(procedure, Runway.RUNWAY_01);
+                    poly.setPolygonType(PolygonType.SID);
+                }
+                else {
+                    poly = new Sid(procedure, Runway.RUNWAY_19);
+                    poly.setPolygonType(PolygonType.SID);
+                }
+
+                String query = "SELECT * FROM SID_STAR WHERE PROC_NAME = '" + procedure + "'";
                 ResultSet rs = st.executeQuery(query);
                 while (rs.next()) {
                     String fixName = rs.getString("fix_name");
-                    System.out.println(rs.getString("coordinates"));
                     Coordinates fixCoord = CoordinateConverter.getFromDMS((rs.getString("coordinates")));
-                    Fix starFix = new Fix(fixName, fixCoord);
-                    poly.addFix(starFix);
+                    Fix fix = new Fix(fixName, fixCoord);
+                    poly.addFix(fix);
+                    poly.setVisible(false);
                 }
                 polygonList.add(poly);
             }

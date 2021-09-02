@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Airspace {
 
@@ -39,9 +38,22 @@ public class Airspace {
         finally {
 
         }
+    }
+    ArrayList<Sid> getSids() {
+        ArrayList<Sid> list = new ArrayList<Sid>();
+        for (Polygon poly : getPolygonList()) {
+            if (poly instanceof Sid)
+                list.add((Sid)poly);
+        }
+        return list;
+    }
 
-
-
-
+    ArrayList<Star> getStars() {
+        ArrayList<Star> list = new ArrayList<>();
+        for (Polygon poly: getPolygonList()) {
+            if (poly instanceof Star)
+                list.add((Star) poly);
+        }
+        return list;
     }
 }
