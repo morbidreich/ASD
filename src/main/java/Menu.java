@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
+import javax.swing.plaf.basic.BasicCheckBoxMenuItemUI;
+import java.awt.*;
 import java.awt.event.*;
 
 public class Menu implements ActionListener, MenuListener, MouseListener {
@@ -34,7 +36,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         this.airspace = airspace;
 
 
-
         menuBar = new JMenuBar();
 
         menuOptions = new JMenu("Options");
@@ -44,6 +45,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         menuClose = new JMenu("Close");
         menuClose.addMenuListener(this);
         menuClose.addMouseListener(this);
+
 
         menuBar.add(menuElements);
         menuBar.add(menuClearRbls);
@@ -91,6 +93,25 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         menuElements.add(cbRivers);
         menuElements.add(cbRoads);
 
+        //add action listener to every submenu of menuElements
+        for (int i = 0; i < menuElements.getMenuComponentCount(); i++) {
+            Component comp = menuElements.getMenuComponent(i);
+            if (comp instanceof JCheckBoxMenuItem) {
+                JCheckBoxMenuItem cb = (JCheckBoxMenuItem) comp;
+
+                // prevent menu from closing after click to mimic PEGASUS_21 behaviour
+                // https://stackoverflow.com/questions/9198530/how-to-prevent-jmenuitem-from-closing-menu-upon-clicking-the-jmenuitem
+                cb.setUI(new BasicCheckBoxMenuItemUI() {
+                    @Override
+                    protected void doClick(MenuSelectionManager msm) {
+                        cb.doClick(0);
+                    }
+                });
+                cb.addActionListener(this);
+            }
+        }
+
+
         cbRoads.setEnabled(false);
         cbRivers.setEnabled(false);
         cbTowns.setEnabled(false);
@@ -114,8 +135,25 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
             aw.setLocationRelativeTo(mapPanel);
             aw.setVisible(true);
         }
-        if (e.getSource() == menuClose)
-            System.out.println(e.getActionCommand());
+
+
+        if (e.getSource().equals(cbStar01)) {
+            toggleVisibility(cbStar01, PolygonType.STAR);
+        }
+
+        if (e.getSource().equals(cbTma)) {
+            toggleVisibility(cbTma, PolygonType.TMA);
+        }
+
+    }
+
+    private void toggleVisibility(JCheckBoxMenuItem cb, PolygonType pt) {
+        for (Polygon poly : airspace.getPolygonList()) {
+            if (poly.getPolygonType() == pt) {
+                poly.setVisible(cb.isSelected());
+            }
+        }
+        mapPanel.repaint();
     }
 
     @Override
@@ -140,6 +178,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         else if (e.getSource().equals(menuClearRbls)) {
             mapPanel.getRbls().clear();
             mapPanel.repaint();
+            menuClearRbls.setSelected(false);
+
         }
     }
 

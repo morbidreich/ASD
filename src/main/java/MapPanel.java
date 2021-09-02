@@ -1,6 +1,6 @@
 /**
- *  code by Cristopher Jacquet with my my slight modifications
- *  https://github.com/ChristopheJacquet/Minigeo
+ * code by Cristopher Jacquet with my my slight modifications
+ * https://github.com/ChristopheJacquet/Minigeo
  */
 
 import java.awt.Color;
@@ -24,6 +24,7 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 class MapPanel extends JPanel {
     private final List<Segment> segments = new ArrayList<Segment>();
+    private final List<Polygon> polygons = new ArrayList<Polygon>();
     private final List<POI> pois = new ArrayList<POI>();
 
     private final List<RBL> rbls = new ArrayList<RBL>();
@@ -34,8 +35,9 @@ class MapPanel extends JPanel {
 
     private double minEasting, maxEasting, minNorthing, maxNorthing;
 
-    private double oEasting, oNorthing;		// coordinates of the origin
+    private double oEasting, oNorthing;        // coordinates of the origin
     private double scale = -1;
+
     public MapPanel() {
         setMinimumSize(new Dimension(800, 600));
         setPreferredSize(new Dimension(1000, 800));
@@ -68,10 +70,31 @@ class MapPanel extends JPanel {
         g.setColor(Colors.BACKGROUND_COLOR);
         g.fillRect(0, 0, w, h);
 
-        if(segments.size() == 0) return;
-        if(this.scale == -1) scale();
+        if (polygons.size() == 0) return;
+        if (this.scale == -1) scale();
 
-        for(Segment seg : segments) {
+        for (Polygon poly : polygons) {
+            if (poly.isVisible()) {
+
+                List<Fix> fl = poly.getFixList();
+
+                for (int i = 0; i < fl.size() - 1; i++) {
+                    Point pA = new Point(fl.get(i).getLatitude(), fl.get(i).getLongitude());
+                    Point pB = new Point(fl.get(i + 1).getLatitude(), fl.get(i + 1).getLongitude());
+
+                    g.setColor(Colors.getColor(poly.getPolygonType()));
+
+                    g.drawLine(
+                            convertX(pA.getEasting()), convertY(pA.getNorthing(), h),
+                            convertX(pB.getEasting()), convertY(pB.getNorthing(), h));
+
+                    updateMinMaxEastingNorthing(pA);
+                    updateMinMaxEastingNorthing(pB);
+                }
+            }
+        }
+
+        for (Segment seg : segments) {
             Point pA = seg.getPointA();
             Point pB = seg.getPointB();
 
@@ -85,10 +108,10 @@ class MapPanel extends JPanel {
 
         g.setColor(Color.WHITE);
 
-        for(POI poi : pois) {
+        for (POI poi : pois) {
             int x = convertX(poi.getEasting());
             int y = convertY(poi.getNorthing(), h);
-            g.fillOval(x-1, y-1, 3, 3);
+            g.fillOval(x - 1, y - 1, 3, 3);
             g.drawString(poi.getLabel(), x, y);
         }
 
@@ -111,14 +134,14 @@ class MapPanel extends JPanel {
         g.setColor(Color.GREEN);
 
         // unit is the unit of the scale. It must be a power of ten, such that unit * scale in [25, 250]
-        double unit = Math.pow(10, Math.ceil(Math.log10(25/scale)));
+        double unit = Math.pow(10, Math.ceil(Math.log10(25 / scale)));
         String strUnit;
-        if(unit >= 1) strUnit = ((int) unit) + " km";
-        else strUnit = ((int) (1000*unit)) + " m";
-        g.drawString(strUnit + " \u2194 " + ((int)(unit * scale)) + " px", 10, 10+g.getFontMetrics().getHeight());
+        if (unit >= 1) strUnit = ((int) unit) + " km";
+        else strUnit = ((int) (1000 * unit)) + " m";
+        g.drawString(strUnit + " \u2194 " + ((int) (unit * scale)) + " px", 10, 10 + g.getFontMetrics().getHeight());
         // draw a 1-kilometer segment
-        for(int i=6; i<=9; i++) {
-            g.drawLine(10, i, 10+(int)(unit*scale*(i<8 ? 1 : .5)), i);
+        for (int i = 6; i <= 9; i++) {
+            g.drawLine(10, i, 10 + (int) (unit * scale * (i < 8 ? 1 : .5)), i);
         }
     }
 
@@ -138,13 +161,27 @@ class MapPanel extends JPanel {
     }
 
     public void addSegments(Collection<Segment> segments) {
-        for(Segment seg : segments) addSegment(seg);
+        for (Segment seg : segments) addSegment(seg);
     }
 
     public synchronized void addPOI(POI poi) {
         this.pois.add(poi);
 
         updateMinMaxEastingNorthing(poi);
+    }
+
+    public synchronized void addPolygon(Polygon poly) {
+        this.polygons.add(poly);
+
+        List<Fix> fl = poly.getFixList();
+
+        for (Fix fix : fl) {
+            updateMinMaxEastingNorthing(new Point(fix.getLatitude(), fix.getLongitude()));
+        }
+    }
+
+    public void addPolygons(List<Polygon> polygons) {
+        for (Polygon poly : polygons) addPolygon(poly);
     }
 
     public synchronized void addRBL(RBL rbl) {
@@ -156,12 +193,12 @@ class MapPanel extends JPanel {
 
     private synchronized void updateMinMaxEastingNorthing(Point point) {
         double easting = point.getEasting();
-        if(easting > maxEasting) maxEasting = easting;
-        if(easting < minEasting) minEasting = easting;
+        if (easting > maxEasting) maxEasting = easting;
+        if (easting < minEasting) minEasting = easting;
 
         double northing = point.getNorthing();
-        if(northing > maxNorthing) maxNorthing = northing;
-        if(northing < minNorthing) minNorthing = northing;
+        if (northing > maxNorthing) maxNorthing = northing;
+        if (northing < minNorthing) minNorthing = northing;
     }
 
     private synchronized void resetMinMaxEastingNorthing() {
@@ -186,7 +223,7 @@ class MapPanel extends JPanel {
     }
 
     private int applyScale(double km) {
-        return (int)(km*scale);
+        return (int) (km * scale);
     }
 
     private int convertX(double easting) {
@@ -202,14 +239,14 @@ class MapPanel extends JPanel {
         double w = getWidth();
         double xd = x;
 
-        return xd/scale + oEasting;
+        return xd / scale + oEasting;
     }
 
     private double convertNorthing(int y) {
         double h = getHeight();
         double yd = y;
 
-        return (h - yd)/scale + oNorthing;
+        return (h - yd) / scale + oNorthing;
     }
 
     class MouseWheelZoomer implements MouseWheelListener {
@@ -220,7 +257,7 @@ class MapPanel extends JPanel {
             double oldScale = scale;
 
             int rotation = e.getWheelRotation();
-            if(rotation > 0) {
+            if (rotation > 0) {
                 scale /= (1 + rotation * zoomFactor);
             } else {
                 scale *= (1 - rotation * zoomFactor);
@@ -242,8 +279,8 @@ class MapPanel extends JPanel {
             int y = e.getY();
             int h = getHeight();
 
-            oEasting = oEasting + x * (1/oldScale - 1/scale);
-            oNorthing = oNorthing + (h - y) * (1/oldScale - 1/scale);
+            oEasting = oEasting + x * (1 / oldScale - 1 / scale);
+            oNorthing = oNorthing + (h - y) * (1 / oldScale - 1 / scale);
 
             //System.out.println(rotation + " => " + scale);
             repaint();
@@ -262,8 +299,7 @@ class MapPanel extends JPanel {
                 dragOriginY = e.getY();
                 dragOriginOEasting = oEasting;
                 dragOriginONorthing = oNorthing;
-            }
-            else if (SwingUtilities.isRightMouseButton(e)) {
+            } else if (SwingUtilities.isRightMouseButton(e)) {
                 if (!drawingRBL) {
                     // detect if clicked inside RBL label. If so then delete clicked RBL
                     // if not draw another RBL
@@ -271,15 +307,14 @@ class MapPanel extends JPanel {
                     if (tryDeleteRBL(e))
                         return;
 
-                    RBL rbl = new RBL(new Point(0,0,-2), new Point(0,0,-1));
+                    RBL rbl = new RBL(new Point(0, 0, -2), new Point(0, 0, -1));
                     rbls.add(rbl);
-                    Point startPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()),-1);
+                    Point startPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()), -1);
                     Point endPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()), -1);
                     rbl.setStartPoint(startPoint);
                     rbl.setEndPoint(endPoint);
                     drawingRBL = true;
-                }
-                else {
+                } else {
                     drawingRBL = false;
                 }
                 repaint();

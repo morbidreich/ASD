@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
@@ -27,6 +28,7 @@ public class MapWindow extends JFrame {
         super("EPSY Airspace Display - NIE DO UZYTKU OPERACYJNEGO!");
         map = new MapPanel();
         this.airspace = airspace;
+        map.addPolygons(airspace.getPolygonList());
         menu = new Menu(map, airspace);
         setLayout(new BorderLayout());
         add(map, BorderLayout.CENTER);
@@ -62,6 +64,8 @@ public class MapWindow extends JFrame {
     public void addSegments(Collection<Segment> segments) {
         map.addSegments(segments);
     }
+
+    public void addPolygons(List<Polygon> polygons) { map.addPolygons(polygons); }
 
     /**
      * Adds a point of interest (POI) to the list of POIs to display.
