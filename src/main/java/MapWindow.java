@@ -30,6 +30,7 @@ public class MapWindow extends JFrame {
         this.airspace = airspace;
         map.addPolygons(airspace.getPolygonList());
         map.addFixes(airspace.getFixList());
+        map.addPolygon(Airport.getRunwayPolygon());
         setMapZoomLevel(map);
         menu = new Menu(map, airspace);
         setLayout(new BorderLayout());
@@ -43,7 +44,6 @@ public class MapWindow extends JFrame {
 
 
     }
-
 
     private void setMapZoomLevel(MapPanel map) {
         // fool minigeo to zoom out view by adding two dummy invisible fixes outside of tma

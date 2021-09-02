@@ -6,6 +6,7 @@ public class Airspace {
     private List<Polygon> polygonList;
     private List<Polygon> sidList;
     private List<Polygon> starList;
+    public Airport EPSY;
 
     public Airspace() {
         fixList = new ArrayList<>();
