@@ -1,14 +1,11 @@
 
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;;
+;
 /**
  *  code by Cristopher Jacquet with my my slight modifications
  *  https://github.com/ChristopheJacquet/Minigeo
@@ -62,31 +59,7 @@ public class MapWindow extends JFrame {
         map.clear();
     }
 
-    /**
-     * Adds a segment to the list of segments to display.
-     * @param segment the segment to add
-     */
-    public void addSegment(Segment segment) {
-        map.addSegment(segment);
-    }
-
-    /**
-     * Adds a whole collection of segments to the list of segments to display
-     * @param segments the collection of segments to add
-     */
-    public void addSegments(Collection<Segment> segments) {
-        map.addSegments(segments);
-    }
-
     public void addPolygons(List<Polygon> polygons) { map.addPolygons(polygons); }
-
-    /**
-     * Adds a point of interest (POI) to the list of POIs to display.
-     * @param poi the POI to add
-     */
-    public void addPOI(POI poi) {
-        map.addPOI(poi);
-    }
 
     /**
      * Adds a Range Bearing Line (RBL) to the list of RBLs to display.

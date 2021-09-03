@@ -5,6 +5,11 @@ import java.util.List;
 /** Reads airspace data from H2 database **/
 public class SqlDataReader {
 
+    public static void readData(Airspace airspace) throws Exception{
+        airspace.setPolygonList(getPolygons());
+        airspace.setFixList(getFixes());
+    }
+
     public static List<Polygon> getPolygons() throws Exception {
 
         List<Polygon> polygonList = new ArrayList<>();
@@ -22,6 +27,7 @@ public class SqlDataReader {
         conn.close();
         return polygonList;
     }
+
     public static List<Fix> getFixes() throws Exception {
         Connection conn = DriverManager.getConnection("jdbc:h2:file:./airspace", "sa", "");
         return readFixes(conn);
@@ -60,10 +66,9 @@ public class SqlDataReader {
                 String query = "SELECT * FROM SID_STAR WHERE PROC_NAME = '" + procedure + "'";
                 ResultSet rs = st.executeQuery(query);
                 while (rs.next()) {
-                    String fixName = rs.getString("fix_name");
-                    Coordinates fixCoord = CoordinateConverter.getFromDMS((rs.getString("coordinates")));
-                    Fix fix = new Fix(fixName, fixCoord);
-                    poly.addFix(fix);
+                    Coordinates c = CoordinateConverter.getFromDMS((rs.getString("coordinates")));
+                    Point pt = new Point(c);
+                    poly.addPoint(pt);
                     poly.setVisible(false);
                 }
                 polygonList.add(poly);
@@ -90,9 +95,10 @@ public class SqlDataReader {
             String query = "SELECT * FROM " + name;
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
-                poly.addFix(new Fix("", CoordinateConverter.getFromDMS(rs.getString("Coordinates"))));
+                Coordinates c = CoordinateConverter.getFromDMS(rs.getString("Coordinates"));
+                poly.addPoint(new Point(c));
             }
-            System.out.println(name + " read with " + poly.getFixList().size() + " coordinates");
+            System.out.println(name + " read with " + poly.getPointList().size() + " coordinates");
 
         }
         catch (Exception e) {
@@ -149,6 +155,5 @@ public class SqlDataReader {
             default: return FixType.UNDEFINED;
         }
     }
-
 
 }

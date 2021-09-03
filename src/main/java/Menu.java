@@ -63,6 +63,9 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         menuOptions.add(miSettings);
         menuOptions.add(miAbout);
 
+        JSlider slider = new JSlider(JSlider.HORIZONTAL);
+        slider.setPreferredSize(new Dimension(120,20));
+
         cbTma = new JCheckBoxMenuItem("TMA");
         cbCtr = new JCheckBoxMenuItem("CTR");
         cbTmaFixes = new JCheckBoxMenuItem("TMA entry fixes");
@@ -83,6 +86,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         cbRoads = new JCheckBoxMenuItem("Roads");
 
         menuElements.add(cbTma);
+        menuElements.add(slider);
         menuElements.add(cbCtr);
         menuElements.addSeparator();
         menuElements.add(cbTmaFixes);

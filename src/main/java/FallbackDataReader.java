@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 public class FallbackDataReader {
 
-    public static List<Polygon> getPolygons() {
+    private static List<Polygon> getPolygons() {
         List<Polygon> polygonList = new ArrayList<>();
         String[] paths = new String[]{
                 "src/main/resources/EPSY/CTR",
@@ -25,7 +25,8 @@ public class FallbackDataReader {
                 File file = new File(path);
                 Scanner fileReader = new Scanner(file);
                 while (fileReader.hasNextLine()) {
-                    poly.addFix(new Fix("", CoordinateConverter.getFromDMS(fileReader.nextLine())));
+                    Coordinates c = CoordinateConverter.getFromDMS(fileReader.nextLine());
+                    poly.addPoint(new Point(c));
                 }
                 polygonList.add(poly);
             } catch (Exception e) {
@@ -35,12 +36,16 @@ public class FallbackDataReader {
         return polygonList;
     }
 
-    public static List<Fix> getFixes() {
+    private static List<Fix> getFixes() {
         //TODO read fixes
         List<Fix> fixList = new ArrayList<Fix>();
 
-
         return fixList;
 
+    }
+
+    public static void readData(Airspace airspace) {
+        airspace.setFixList(getFixes());
+        airspace.setPolygonList(getPolygons());
     }
 }

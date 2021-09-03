@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Airport {
     public static final String ICAO = "EPSY";
     public static final String[] runways = new String[]{"01", "19"};
@@ -12,11 +10,12 @@ public class Airport {
         Coordinates c4 = new Coordinates(53.47123, 20.93135);
 
         Polygon out = new Polygon("Runway");
-        out.addFix(new Fix("", c1, FixType.UNDEFINED));
-        out.addFix(new Fix("", c2, FixType.UNDEFINED));
-        out.addFix(new Fix("", c3, FixType.UNDEFINED));
-        out.addFix(new Fix("", c4, FixType.UNDEFINED));
-        out.addFix(new Fix("", c1, FixType.UNDEFINED));
+        out.addPoint(new Point(c1));
+        out.addPoint(new Point(c2));
+        out.addPoint(new Point(c3));
+        out.addPoint(new Point(c4));
+        //repeat first one to create closed polygon
+        out.addPoint(new Point(c1));
 
         return out;
     }

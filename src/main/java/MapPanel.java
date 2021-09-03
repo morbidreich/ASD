@@ -21,9 +21,7 @@ import javax.swing.*;
 
 @SuppressWarnings("serial")
 class MapPanel extends JPanel {
-    private final List<Segment> segments = new ArrayList<Segment>();
     private final List<Polygon> polygons = new ArrayList<Polygon>();
-    private final List<POI> pois = new ArrayList<POI>();
     private final List<Fix> fixes = new ArrayList<Fix>();
     private final List<RBL> rbls = new ArrayList<RBL>();
 
@@ -74,11 +72,11 @@ class MapPanel extends JPanel {
         for (Polygon poly : polygons) {
             if (poly.isVisible()) {
 
-                List<Fix> fl = poly.getFixList();
+                List<Point> pointList = poly.getPointList();
 
-                for (int i = 0; i < fl.size() - 1; i++) {
-                    Point pA = new Point(fl.get(i).getLatitude(), fl.get(i).getLongitude());
-                    Point pB = new Point(fl.get(i + 1).getLatitude(), fl.get(i + 1).getLongitude());
+                for (int i = 0; i < pointList.size() - 1; i++) {
+                    Point pA = new Point(pointList.get(i).getLatitude(), pointList.get(i).getLongitude());
+                    Point pB = new Point(pointList.get(i + 1).getLatitude(), pointList.get(i + 1).getLongitude());
 
                     g.setColor(Colors.getColor(poly.getPolygonType()));
 
@@ -99,7 +97,7 @@ class MapPanel extends JPanel {
                 int x = convertX(fix.getEasting());
                 int y = convertY(fix.getNorthing(), h);
                 FixSymbolDrawer.drawFixSymbol(x, y, g, fix);
-                g.drawString(fix.getLabel(), x+10, y+2);
+                g.drawString(fix.getName(), x+10, y+2);
             }
         }
 
@@ -134,22 +132,11 @@ class MapPanel extends JPanel {
     }
 
     public synchronized void clear() {
-        this.segments.clear();
-        this.pois.clear();
+        this.fixes.clear();
+        this.polygons.clear();
         this.rbls.clear();
 
         resetMinMaxEastingNorthing();
-    }
-
-    public synchronized void addSegment(Segment segment) {
-        this.segments.add(segment);
-
-        updateMinMaxEastingNorthing(segment.getPointA());
-        updateMinMaxEastingNorthing(segment.getPointB());
-    }
-
-    public void addSegments(Collection<Segment> segments) {
-        for (Segment seg : segments) addSegment(seg);
     }
 
     public synchronized void addFix(Fix fix) {
@@ -162,19 +149,13 @@ class MapPanel extends JPanel {
         for (Fix fix : fixes) addFix(fix);
     }
 
-    public synchronized void addPOI(POI poi) {
-        this.pois.add(poi);
-
-        updateMinMaxEastingNorthing(poi);
-    }
-
     public synchronized void addPolygon(Polygon poly) {
         this.polygons.add(poly);
 
-        List<Fix> fl = poly.getFixList();
+        List<Point> pointList = poly.getPointList();
 
-        for (Fix fix : fl) {
-            updateMinMaxEastingNorthing(fix);
+        for (Point point : pointList) {
+            updateMinMaxEastingNorthing(point);
         }
     }
 

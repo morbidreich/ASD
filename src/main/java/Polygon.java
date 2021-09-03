@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Polygon {
-    private List<Fix> fixList;
+    private List<Point> pointList;
     private final String name;
     private boolean isVisible = true;
 
-    public void setFixList(List<Fix> fixList) {
-        this.fixList = fixList;
+    public void setPointList(List<Point> pointList) {
+        this.pointList = pointList;
     }
 
     public boolean isVisible() {
@@ -31,20 +31,20 @@ public class Polygon {
 
     public Polygon(String name) {
         this.name = name;
-        fixList = new ArrayList<>();
+        pointList = new ArrayList<>();
     }
 
-    public Polygon(String name, List<Fix> fixList) {
+    public Polygon(String name, List<Point> pointList) {
         this.name = name;
-        this.fixList = fixList;
+        this.pointList = pointList;
     }
 
-    public void addFix(Fix fix) {
-        fixList.add(fix);
+    public void addPoint(Point point) {
+        pointList.add(point);
     }
 
-    public List<Fix> getFixList() {
-        return fixList;
+    public List<Point> getPointList() {
+        return pointList;
     }
 
     public String getName() {

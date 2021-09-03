@@ -42,6 +42,10 @@ public class Point {
      * @param latitude
      * @param longitude
      */
+    public Point(Coordinates coords) {
+        this(coords.getLatitude(), coords.getLongitude());
+    }
+
     public Point(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;

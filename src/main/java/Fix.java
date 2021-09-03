@@ -1,27 +1,26 @@
 
-public class Fix extends POI {
+public class Fix extends Point {
 
-    private String name;
+    private final String name;
+
     private boolean isVisible = false;
-
-    public FixType getFixType() {
-        return fixType;
-    }
-
-    private FixType fixType;
-
-
-    public Fix(String name, Coordinates coords) {
-        super(coords.getLatitude(), coords.getLongitude(), name);
-    }
-
+    private final FixType fixType;
     public Fix(String name, Coordinates coords, FixType fixType) {
-        super(coords.getLatitude(), coords.getLongitude(), name);
+        super(coords.getLatitude(), coords.getLongitude());
+        this.fixType = fixType;
+        this.name = name;
+    }
+
+    public Fix(String name, double latitude, double longitude, FixType fixType) {
+        super(latitude, longitude);
+        this.name = name;
         this.fixType = fixType;
     }
 
-    public Fix(String name, double latitude, double longitude) {
-        super(latitude, longitude, name);
+    public String getName() { return name; }
+
+    public FixType getFixType() {
+        return fixType;
     }
 
     public boolean isVisible() {
