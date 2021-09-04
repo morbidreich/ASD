@@ -7,6 +7,11 @@
     <groupId>io.github.morbidreich</groupId>
     <artifactId>AirspaceDisplay</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>AirspaceDisplay</name>
+    <description>Simple tool for displaying airspace elements and structures around Olsztyn-Mazury airport.</description>
+    <url>http://www.github.com/morbidreich</url>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>

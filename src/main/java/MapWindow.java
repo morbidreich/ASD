@@ -1,5 +1,3 @@
-
-
 import java.awt.BorderLayout;
 import java.util.Collection;
 import java.util.List;
@@ -38,9 +36,8 @@ public class MapWindow extends JFrame {
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-
-
     }
+
 
     private void setMapZoomLevel(MapPanel map) {
         // fool minigeo to zoom out view by adding two dummy invisible fixes outside of tma
