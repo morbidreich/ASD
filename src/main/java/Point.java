@@ -3,6 +3,8 @@
  * https://github.com/ChristopheJacquet/Minigeo
  */
 
+import javax.persistence.*;
+
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.pow;
@@ -14,13 +16,31 @@ import static java.lang.Math.tan;
  * Geographic point, specified by its coordinates.
  *
  * @author Christophe Jacquet
- *
  */
+@Entity
+@Table(name = "points")
 public class Point {
-    private final double latitude;
-    private final double longitude;
-    private double easting;
-    private double northing;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+
+    @Column(name = "coordinates")
+    private String coordinates;
+
+    @Transient
+    private double latitude = -1;
+
+    @Transient
+    private double longitude = -1;
+
+    @Transient
+    private double easting = -1;
+
+    @Transient
+    private double northing = -1;
+
 
     // We need to use a single "reference meridian" for all points, for the
     // projection to be meaningful. We use the first point's longitude for
@@ -37,16 +57,25 @@ public class Point {
     private static double a = 6378.137;                // Earth's radius
     private static double e = .0818192;
 
-    /**
-     * Creates a new point, given its coordinates according to the WGS84 datum.
-     * @param latitude
-     * @param longitude
-     */
+    @SuppressWarnings("unused") // for hibernate
+    public Point() {
+    }
+
     public Point(Coordinates coords) {
         this(coords.getLatitude(), coords.getLongitude());
     }
 
+    /**
+     * Creates a new point, given its coordinates according to the WGS84 datum.
+     *
+     * @param latitude
+     * @param longitude
+     */
     public Point(double latitude, double longitude) {
+        calculateNorthingEasting(latitude, longitude);
+    }
+
+    private void calculateNorthingEasting(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
 
@@ -86,8 +115,8 @@ public class Point {
         double T = Math.pow(tan(phi), 2);
         double C = e2 / (1 - e * e) * pow(cos(phi), 2);
 
-        easting = 500 + k0 * a * nu * (A + (1 - T + C) * A3 / 6 + (5 - 18 * T + T * T) * A5 / 120);
-        northing = n0 + k0 * a * (s + nu * tan(phi) * (A2 / 2 + (5 - T + 9 * C + 4 * C * C) * A4 / 24 + (61 - 58 * T + T * T) * A6 / 720));
+        this.easting = 500 + k0 * a * nu * (A + (1 - T + C) * A3 / 6 + (5 - 18 * T + T * T) * A5 / 120);
+        this.northing = n0 + k0 * a * (s + nu * tan(phi) * (A2 / 2 + (5 - T + 9 * C + 4 * C * C) * A4 / 24 + (61 - 58 * T + T * T) * A6 / 720));
     }
 
     /**
@@ -97,7 +126,7 @@ public class Point {
      *
      * @param northing
      * @param easting
-     * @param foo - dummy parameter
+     * @param foo      - dummy parameter
      */
     public Point(double northing, double easting, int foo) {
         this.northing = northing;
@@ -110,18 +139,24 @@ public class Point {
 
     }
 
-
-    public Point(Point a, Point b, double fraction) {
-        this(a.latitude + fraction * (b.latitude - a.latitude), a.longitude + fraction * (b.longitude - a.longitude));
-    }
-
+    //#################################################
+    //
+    // changes to getLatitude/Longitude/Easting/Northing
+    // because of switching to hibernate. Database for points contain only coordinate string. To properly
+    // initialize these fields i'm using modified getters. Initial value of params is set to -1,
+    // when they're called getter checks if they're -1. If so they get initialized using coordinates string.
+    //
+    //#################################################
     /**
      * Returns the latitude of the point.
      *
      * @return the latitude
      */
     public double getLatitude() {
-        return latitude;
+        if (latitude != -1)
+            return latitude;
+        else
+            return CoordinateConverter.getFromDMS(coordinates).getLatitude();
     }
 
     /**
@@ -130,7 +165,10 @@ public class Point {
      * @return the longitude
      */
     public double getLongitude() {
-        return longitude;
+        if (longitude != -1)
+            return longitude;
+        else
+            return CoordinateConverter.getFromDMS(coordinates).getLongitude();
     }
 
     /**
@@ -139,6 +177,8 @@ public class Point {
      * @return the easting
      */
     double getEasting() {
+        if (easting == -1)
+            calculateNorthingEasting(getLatitude(), getLongitude());
         return easting;
     }
 
@@ -148,6 +188,8 @@ public class Point {
      * @return the northing
      */
     double getNorthing() {
+        if (northing == -1)
+            calculateNorthingEasting(getLatitude(), getLongitude());
         return northing;
     }
 
@@ -177,5 +219,10 @@ public class Point {
 
     public void setEasting(double easting) {
         this.easting = easting;
+    }
+
+    @Override
+    public String toString() {
+        return "Point: [id=" + id + "nrth=" + getNorthing() + ", estng=" + getEasting() + "]";
     }
 }

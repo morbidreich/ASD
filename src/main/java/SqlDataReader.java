@@ -85,6 +85,8 @@ public class SqlDataReader {
         System.out.println("Attempting to read polygon: " + name);
         Polygon poly = new Polygon(name);
 
+
+
         if (name.startsWith("CTR"))
             poly.setPolygonType(PolygonType.CTR);
         else if(name.startsWith("TMA"))

@@ -75,17 +75,14 @@ class MapPanel extends JPanel {
                 List<Point> pointList = poly.getPointList();
 
                 for (int i = 0; i < pointList.size() - 1; i++) {
-                    Point pA = new Point(pointList.get(i).getLatitude(), pointList.get(i).getLongitude());
-                    Point pB = new Point(pointList.get(i + 1).getLatitude(), pointList.get(i + 1).getLongitude());
-
                     g.setColor(Colors.getColor(poly.getPolygonType()));
 
                     g.drawLine(
-                            convertX(pA.getEasting()), convertY(pA.getNorthing(), h),
-                            convertX(pB.getEasting()), convertY(pB.getNorthing(), h));
+                            convertX(pointList.get(i).getEasting()), convertY(pointList.get(i).getNorthing(), h),
+                            convertX(pointList.get(i + 1).getEasting()), convertY(pointList.get(i + 1).getNorthing(), h));
 
-                    updateMinMaxEastingNorthing(pA);
-                    updateMinMaxEastingNorthing(pB);
+                    updateMinMaxEastingNorthing(pointList.get(i));
+                    updateMinMaxEastingNorthing(pointList.get(i + 1));
                 }
             }
         }
@@ -97,7 +94,7 @@ class MapPanel extends JPanel {
                 int x = convertX(fix.getEasting());
                 int y = convertY(fix.getNorthing(), h);
                 FixSymbolDrawer.drawFixSymbol(x, y, g, fix);
-                g.drawString(fix.getName(), x+10, y+2);
+                g.drawString(fix.getName(), x + 10, y + 2);
             }
         }
 
