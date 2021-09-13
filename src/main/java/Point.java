@@ -18,11 +18,12 @@ import static java.lang.Math.tan;
  * @author Christophe Jacquet
  */
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Table(name = "points")
 public class Point {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
     private int id;
 
@@ -41,22 +42,21 @@ public class Point {
     @Transient
     private double northing = -1;
 
-
     // We need to use a single "reference meridian" for all points, for the
     // projection to be meaningful. We use the first point's longitude for
     // this. UTM ensures that distortion is below 1/1000 for a 6° longitude
     // span around lambda0.
     // Alternatively, we could use an explicit UTM zone and project within
     // this zone.
+
     private static double lambda0 = Double.NaN;
-
     private static final int N0_NORTH = 0;            // northern hemisphere
-    private static final int N0_SOUTH = 10000;        // southern hemisphere
 
+    private static final int N0_SOUTH = 10000;        // southern hemisphere
     private static double k0 = .9996;
+
     private static double a = 6378.137;                // Earth's radius
     private static double e = .0818192;
-
     @SuppressWarnings("unused") // for hibernate
     public Point() {
     }
@@ -139,6 +139,7 @@ public class Point {
 
     }
 
+
     //#################################################
     //
     // changes to getLatitude/Longitude/Easting/Northing
@@ -158,7 +159,6 @@ public class Point {
         else
             return CoordinateConverter.getFromDMS(coordinates).getLatitude();
     }
-
     /**
      * Returns the longitude of the point.
      *
@@ -193,6 +193,22 @@ public class Point {
         return northing;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
+    }
+
     /**
      * Returns the distance between this point and another point, in
      * kilometers.
@@ -223,6 +239,6 @@ public class Point {
 
     @Override
     public String toString() {
-        return "Point: [id=" + id + "nrth=" + getNorthing() + ", estng=" + getEasting() + "]";
+        return "Point: [id=" + id + ", nrth=" + getNorthing() + ", estng=" + getEasting() + "]";
     }
 }

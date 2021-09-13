@@ -6,10 +6,10 @@ public class Airspace {
     private List<Polygon> polygonList;
 
     public Airspace() {
-        fixList = new ArrayList<>();
-        polygonList = new ArrayList<>();
+        //fixList = new ArrayList<>();
+        //polygonList = new ArrayList<>();
 
-        readData();
+        //readData();
     }
 
     public List<Polygon> getPolygonList() {

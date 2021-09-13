@@ -4,8 +4,8 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "polygons")
-public class Polygon {
+@Table(name = "polygon")
+public class TempPolygon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class Polygon {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "polygon_id")
-    private List<Point> pointList;
+    private List<TempPoint> pointList;
 
     @Transient
     private boolean isVisible = true;
@@ -34,11 +34,11 @@ public class Polygon {
         this.id = id;
     }
 
-    public void setPointList(List<Point> pointList) {
+    public void setPointList(List<TempPoint> pointList) {
         this.pointList = pointList;
     }
 
-    public List<Point> getPointList() {
+    public List<TempPoint> getPointList() {
         return pointList;
     }
 
@@ -59,21 +59,21 @@ public class Polygon {
     }
 
     @SuppressWarnings("unused") // hibernate needs it
-    public Polygon() {
+    public TempPolygon() {
     }
 
 
-    public Polygon(String name) {
+    public TempPolygon(String name) {
         this.name = name;
         pointList = new ArrayList<>();
     }
 
-    public Polygon(String name, List<Point> pointList) {
+    public TempPolygon(String name, List<TempPoint> pointList) {
         this.name = name;
         this.pointList = pointList;
     }
 
-    public void addPoint(Point point) {
+    public void addPoint(TempPoint point) {
         pointList.add(point);
     }
 
