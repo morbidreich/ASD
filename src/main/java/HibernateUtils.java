@@ -8,8 +8,8 @@ public class HibernateUtils {
     }
 
     public static SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
-            .addAnnotatedClass(Point.class)
-            .addAnnotatedClass(Polygon.class)
-            .addAnnotatedClass(Fix.class)
+            .addAnnotatedClass(TempPoint.class)
+            .addAnnotatedClass(TempPolygon.class)
+            .addAnnotatedClass(TempFix.class)
             .buildSessionFactory();
 }

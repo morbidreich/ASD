@@ -32,19 +32,6 @@ insert into fixes (fix_name, coordinates, fix_type_id) values ('LUSUL', '53°49'
 insert into fixes (fix_name, coordinates, fix_type_id) values ('IBINO', '53°33''46"N 019°58''50"E', 0);
 insert into fixes (fix_name, coordinates, fix_type_id) values ('ARDUT', '53°51''29"N 021°10''02"E', 0);
 
-insert into fixes (fix_name, coordinates, fix_type_id) values ('SY363', '53°31''53"N 020°58''13"E', 3);
-insert into fixes (fix_name, coordinates, fix_type_id) values ('SY362', '53°48''54"N 020°59''13"E', 3);
-insert into fixes (fix_name, coordinates, fix_type_id) values ('SY364', '53°33''44"N 020°47''56"E', 3);
-insert into fixes (fix_name, coordinates, fix_type_id) values ('SY361', '53°27''10"N 020°21''13"E', 3);
-insert into fixes (fix_name, coordinates, fix_type_id) values ('SY366', '53°21''49"N 020°39''10"E', 3);
-insert into fixes (fix_name, coordinates, fix_type_id) values ('SY357', '53°42''45"N 020°54''37"E', 3);
-
-insert into fixes (fix_name, coordinates, fix_type_id) values ('SY791', '53°26''34"N 020°25''40"E', 4);
-insert into fixes (fix_name, coordinates, fix_type_id) values ('SY792', '53°33''17"N 020°36''13"E', 4);
-insert into fixes (fix_name, coordinates, fix_type_id) values ('SY793', '53°49''01"N 020°55''42"E', 4);
-insert into fixes (fix_name, coordinates, fix_type_id) values ('SY801', '53°44''23"N 020°52''25"E', 4);
-insert into fixes (fix_name, coordinates, fix_type_id) values ('SY802', '53°41''38"N 021°03''29"E', 4);
-
 insert into fixes (fix_name, coordinates, fix_type_id) values ('SY411', '53°32''55"N 020°58''30"E', 1);
 insert into fixes (fix_name, coordinates, fix_type_id) values ('SY412', '53°36''59"N 020°47''13"E', 1);
 insert into fixes (fix_name, coordinates, fix_type_id) values ('SY413', '53°33''57"N 020°26''46"E', 1);
@@ -58,6 +45,19 @@ insert into fixes (fix_name, coordinates, fix_type_id) values ('SY513', '53°33'
 insert into fixes (fix_name, coordinates, fix_type_id) values ('SY514', '53°34''30"N 020°49''23"E', 2);
 insert into fixes (fix_name, coordinates, fix_type_id) values ('SY516', '53°36''36"N 021°09''06"E', 2);
 insert into fixes (fix_name, coordinates, fix_type_id) values ('SY517', '53°32''43"N 020°58''23"E', 2);
+
+insert into fixes (fix_name, coordinates, fix_type_id) values ('SY363', '53°31''53"N 020°58''13"E', 3);
+insert into fixes (fix_name, coordinates, fix_type_id) values ('SY362', '53°48''54"N 020°59''13"E', 3);
+insert into fixes (fix_name, coordinates, fix_type_id) values ('SY364', '53°33''44"N 020°47''56"E', 3);
+insert into fixes (fix_name, coordinates, fix_type_id) values ('SY361', '53°27''10"N 020°21''13"E', 3);
+insert into fixes (fix_name, coordinates, fix_type_id) values ('SY366', '53°21''49"N 020°39''10"E', 3);
+insert into fixes (fix_name, coordinates, fix_type_id) values ('SY357', '53°42''45"N 020°54''37"E', 3);
+
+insert into fixes (fix_name, coordinates, fix_type_id) values ('SY791', '53°26''34"N 020°25''40"E', 4);
+insert into fixes (fix_name, coordinates, fix_type_id) values ('SY792', '53°33''17"N 020°36''13"E', 4);
+insert into fixes (fix_name, coordinates, fix_type_id) values ('SY793', '53°49''01"N 020°55''42"E', 4);
+insert into fixes (fix_name, coordinates, fix_type_id) values ('SY801', '53°44''23"N 020°52''25"E', 4);
+insert into fixes (fix_name, coordinates, fix_type_id) values ('SY802', '53°41''38"N 021°03''29"E', 4);
 
 insert into fixes (fix_name, coordinates, fix_type_id) values ('BRAVO',  '53°32''40"N 020°49''13"E', 5);
 insert into fixes (fix_name, coordinates, fix_type_id) values ('ECHO',   '53°28''26"N 020°58''03"E', 5);

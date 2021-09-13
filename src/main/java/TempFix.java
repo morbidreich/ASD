@@ -32,6 +32,6 @@ public class TempFix extends TempCoords {
 
     @Override
     public String toString() {
-        return "Fix: [id=" + getId() + ", name=" + name + ", coordinates=" + getCoordinates() + ", fixType=" + fixType + "]";
+        return "Fix: [id=" + getId() + ", name=" + name + ", lat/lon=" + getLatitude() + "/" + getLongitude() + ", fixType=" + fixType + "]";
     }
 }

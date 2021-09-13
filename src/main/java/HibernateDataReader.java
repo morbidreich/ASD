@@ -13,10 +13,19 @@ public class HibernateDataReader implements AirspaceReader{
         try {
             session.beginTransaction();
 
-            List<Polygon> polygonList = session.createQuery("from Polygon").getResultList();
+            List<Polygon> polygonList = session.createQuery("from TempPolygon").getResultList();
             airspace.setPolygonList(polygonList);
 
-            List<Fix> fixList = session.createQuery("from Fixes").getResultList();
+            // not sure why, but i get error message when executing two queries without closing session
+            // and creating new one in between (org.hibernate.WrongClassException: Object [id=1] was not of
+            // the specified subclass [TempFix] : loaded object was of wrong class class TempPoint)
+            // closing and reopening session seems to help
+
+            session.getTransaction().commit();
+            session = HibernateUtils.factory.getCurrentSession();
+            session.beginTransaction();
+
+            List<Fix> fixList = session.createQuery("from TempFix").getResultList();
             airspace.setFixList(fixList);
 
             session.getTransaction().commit();

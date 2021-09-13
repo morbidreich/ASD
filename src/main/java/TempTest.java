@@ -19,9 +19,20 @@ public class TempTest {
             session.beginTransaction();
 
             List<TempPolygon> polygons = session.createQuery("from TempPolygon").getResultList();
+            List<TempPoint> points = session.createQuery("from TempPoint").getResultList();
 
-            System.out.println(polygons);
-            System.out.println(polygons.get(0).getPointList());
+            session.getTransaction().commit();
+            session.close();
+
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            List<TempFix> fixes = session.createQuery("from TempFix").getResultList();
+            for (TempFix f : fixes)
+                System.out.println(f);
+
+            //System.out.println(polygons);
+            //System.out.println(polygons.get(0).getPointList());
 
 //            session.getTransaction().commit();
 //            session = factory.getCurrentSession();
