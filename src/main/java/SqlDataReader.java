@@ -133,7 +133,7 @@ public class SqlDataReader {
                 String coordString = result.getString("coordinates");
                 Coordinates coord = CoordinateConverter.getFromDMS(coordString);
                 FixType fixType = determineFixType(result.getString("fix_type"));
-                out.add(new Fix(name, coord, fixType));
+                //out.add(new Fix(name, coord, fixType));
             }
         }
         catch(Exception e) {

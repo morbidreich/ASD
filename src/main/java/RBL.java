@@ -2,31 +2,31 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class RBL {
-    private Point startPoint;
-    private Point endPoint;
+    private BasePoint startPoint;
+    private BasePoint endPoint;
     private int labelX, labelY;
     private final int labelWidth = 65;
     private final int labelHeight = 35;
 
 
-    public RBL(Point startPoint, Point endPoint) {
+    public RBL(BasePoint startPoint, BasePoint endPoint) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
     }
 
-    public Point getStartPoint() {
+    public BasePoint getStartPoint() {
         return startPoint;
     }
 
-    public void setStartPoint(Point startPoint) {
+    public void setStartPoint(BasePoint startPoint) {
         this.startPoint = startPoint;
     }
 
-    public Point getEndPoint() {
+    public BasePoint getEndPoint() {
         return endPoint;
     }
 
-    public void setEndPoint(Point endPoint) {
+    public void setEndPoint(BasePoint endPoint) {
         this.endPoint = endPoint;
     }
 

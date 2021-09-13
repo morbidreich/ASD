@@ -1,41 +1,26 @@
 import javax.persistence.*;
 
 @Entity
-@Table(name="fixes")
-public class Fix extends Point {
+@Table(name="fix")
+public class Fix extends BasePoint {
 
     @Column(name="fix_name")
     private String name;
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name="fix_type_id")
+    private FixType fixType;
 
     @Transient
     private boolean isVisible = false;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name="fix_type_id")
-    private FixType fixType = FixType.UNDEFINED;
+    @SuppressWarnings("unused")
+    public Fix() {}
 
-    public Fix(String name, Coordinates coords, FixType fixType) {
-        super(coords.getLatitude(), coords.getLongitude());
-        this.fixType = fixType;
-        this.name = name;
+    public String getName() {
+        return name;
     }
 
-    @SuppressWarnings("unused") // for hibernate
-    public Fix() {
-
-    }
-    public Fix(String name, double latitude, double longitude, FixType fixType) {
-        super(latitude, longitude);
-        this.name = name;
-        this.fixType = fixType;
-    }
-
-
-    public String getName() { return name; }
-
-
-    @SuppressWarnings("unused") // hibernate
     public void setName(String name) {
         this.name = name;
     }
@@ -44,7 +29,6 @@ public class Fix extends Point {
         return fixType;
     }
 
-    @SuppressWarnings("unused") // hibernate
     public void setFixType(FixType fixType) {
         this.fixType = fixType;
     }
@@ -59,6 +43,6 @@ public class Fix extends Point {
 
     @Override
     public String toString() {
-        return "Fix: [id=" + super.getId() + ", name=" + name + ", fixType=" + fixType + "]";
+        return "Fix: [id=" + getId() + ", name=" + name + ", lat/lon=" + getLatitude() + "/" + getLongitude() + ", fixType=" + fixType + "]";
     }
 }

@@ -100,8 +100,8 @@ class MapPanel extends JPanel {
 
         g.setColor(Colors.RBL_COLOR);
         for (RBL rbl : rbls) {
-            Point startPoint = rbl.getStartPoint();
-            Point endPoint = rbl.getEndPoint();
+            BasePoint startPoint = rbl.getStartPoint();
+            BasePoint endPoint = rbl.getEndPoint();
 
             int x1 = convertX(endPoint.getEasting());
             int y1 = convertY(endPoint.getNorthing(), h);
@@ -167,7 +167,7 @@ class MapPanel extends JPanel {
         updateMinMaxEastingNorthing(rbl.getEndPoint());
     }
 
-    private synchronized void updateMinMaxEastingNorthing(Point point) {
+    private synchronized void updateMinMaxEastingNorthing(BasePoint point) {
         double easting = point.getEasting();
         if (easting > maxEasting) maxEasting = easting;
         if (easting < minEasting) minEasting = easting;
@@ -283,10 +283,16 @@ class MapPanel extends JPanel {
                     if (tryDeleteRBL(e))
                         return;
 
-                    RBL rbl = new RBL(new Point(0, 0, -2), new Point(0, 0, -1));
+                    RBL rbl = new RBL(new BasePoint(), new BasePoint());
                     rbls.add(rbl);
-                    Point startPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()), -1);
-                    Point endPoint = new Point(convertNorthing(e.getY()), convertEasting(e.getX()), -1);
+                    BasePoint startPoint = new BasePoint(); //convertNorthing(e.getY()), convertEasting(e.getX()));
+                    startPoint.setNorthing(convertNorthing(e.getY()));
+                    startPoint.setEasting(convertEasting(e.getX()));
+
+                    BasePoint endPoint = new BasePoint();   //convertNorthing(e.getY()), convertEasting(e.getX()));
+                    endPoint.setNorthing(convertNorthing(e.getY()));
+                    endPoint.setEasting(convertEasting(e.getX()));
+
                     rbl.setStartPoint(startPoint);
                     rbl.setEndPoint(endPoint);
                     drawingRBL = true;

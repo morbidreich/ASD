@@ -13,7 +13,7 @@ public class HibernateDataReader implements AirspaceReader{
         try {
             session.beginTransaction();
 
-            List<Polygon> polygonList = session.createQuery("from TempPolygon").getResultList();
+            List<Polygon> polygonList = session.createQuery("from Polygon").getResultList();
             airspace.setPolygonList(polygonList);
 
             // not sure why, but i get error message when executing two queries without closing session
@@ -25,7 +25,7 @@ public class HibernateDataReader implements AirspaceReader{
             session = HibernateUtils.factory.getCurrentSession();
             session.beginTransaction();
 
-            List<Fix> fixList = session.createQuery("from TempFix").getResultList();
+            List<Fix> fixList = session.createQuery("from Fix").getResultList();
             airspace.setFixList(fixList);
 
             session.getTransaction().commit();

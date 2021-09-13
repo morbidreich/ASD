@@ -7,10 +7,10 @@ import java.util.List;
 public class TempTest {
     public static void main(String[] args) {
         SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
-                .addAnnotatedClass(TempCoords.class)
-                .addAnnotatedClass(TempFix.class)
-                .addAnnotatedClass(TempPoint.class)
-                .addAnnotatedClass(TempPolygon.class)
+                .addAnnotatedClass(BasePoint.class)
+                .addAnnotatedClass(Fix.class)
+                .addAnnotatedClass(Point.class)
+                .addAnnotatedClass(Polygon.class)
                 .buildSessionFactory();
 
         Session session = factory.getCurrentSession();
@@ -18,8 +18,8 @@ public class TempTest {
             //get session
             session.beginTransaction();
 
-            List<TempPolygon> polygons = session.createQuery("from TempPolygon").getResultList();
-            List<TempPoint> points = session.createQuery("from TempPoint").getResultList();
+            List<Polygon> polygons = session.createQuery("from Polygon").getResultList();
+            List<Point> points = session.createQuery("from Point").getResultList();
 
             session.getTransaction().commit();
             session.close();
@@ -27,8 +27,8 @@ public class TempTest {
             session = factory.getCurrentSession();
             session.beginTransaction();
 
-            List<TempFix> fixes = session.createQuery("from TempFix").getResultList();
-            for (TempFix f : fixes)
+            List<Fix> fixes = session.createQuery("from Fix").getResultList();
+            for (Fix f : fixes)
                 System.out.println(f);
 
             //System.out.println(polygons);

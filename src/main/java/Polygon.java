@@ -4,7 +4,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "polygons")
+@Table(name = "polygon")
 public class Polygon {
 
     @Id

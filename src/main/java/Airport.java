@@ -4,10 +4,10 @@ public class Airport {
 
     public static Polygon getRunwayPolygon() {
 
-        Coordinates c1 = new Coordinates(53.49261, 20.9433);
-        Coordinates c2 = new Coordinates(53.49237, 20.94416);
-        Coordinates c3 = new Coordinates(53.47121, 20.93233);
-        Coordinates c4 = new Coordinates(53.47123, 20.93135);
+        Coordinates c1 = new Coordinates(53.4926, 20.9433);
+        Coordinates c2 = new Coordinates(53.4923, 20.9441);
+        Coordinates c3 = new Coordinates(53.4712, 20.9323);
+        Coordinates c4 = new Coordinates(53.4712, 20.9313);
 
         Polygon out = new Polygon("Runway");
         out.addPoint(new Point(c1));

@@ -5,7 +5,7 @@ import static java.lang.Math.tan;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class TempCoords {
+public class BasePoint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -28,7 +28,11 @@ public class TempCoords {
     private double easting = -1;
 
     @SuppressWarnings("unused")
-    public TempCoords () {}
+    public BasePoint() {}
+
+    public BasePoint(Coordinates coordinates) {
+        calculateNorthingEasting(coordinates.getLatitude(), coordinates.getLongitude());
+    }
 
     // We need to use a single "reference meridian" for all points, for the
     // projection to be meaningful. We use the first point's longitude for
@@ -101,6 +105,10 @@ public class TempCoords {
         return easting;
     }
 
+    public void setEasting(double easting) {
+        this.easting = easting;
+    }
+
     /**
      * Returns the northing of the point.
      *
@@ -110,6 +118,10 @@ public class TempCoords {
         if (northing == -1)
             calculateNorthingEasting(getLatitude(), getLongitude());
         return northing;
+    }
+
+    public void setNorthing(double northing) {
+        this.northing = northing;
     }
 
     private void calculateNorthingEasting(double latitude, double longitude) {

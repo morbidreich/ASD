@@ -159,20 +159,20 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
                 e.getSource().equals(cbSid01) ||
                 e.getSource().equals(cbSid19)) {
 
-            toggleSidStarVisibility((JCheckBoxMenuItem) e.getSource());
+            //toggleSidStarVisibility((JCheckBoxMenuItem) e.getSource());
         }
 
         else if (e.getSource().equals(cbTma)) {
-            togglePolygonVisibility(cbTma, PolygonType.TMA);
+            //togglePolygonVisibility(cbTma, PolygonType.TMA);
         }
         else if  (e.getSource().equals(cbCtr)) {
-            togglePolygonVisibility(cbCtr, PolygonType.CTR);
+            //togglePolygonVisibility(cbCtr, PolygonType.CTR);
         }
         else if (
                 e.getSource().equals(cbTmaFixes) || e.getSource().equals(cbVfrFixes) ||
                 e.getSource().equals(cbStar01fix) || e.getSource().equals(cbStar19fix) ||
                 e.getSource().equals(cbSid01fix) || e.getSource().equals(cbSid19fix)) {
-            toggleFixVisibility((JCheckBoxMenuItem) e.getSource());
+            //toggleFixVisibility((JCheckBoxMenuItem) e.getSource());
         }
         mapPanel.repaint();
     }
