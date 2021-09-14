@@ -9,6 +9,7 @@ public class Colors {
     public static final Color RBL_COLOR = new Color(158, 195, 255);
     public static final Color VFR_COLOR = new Color(220, 220, 0);
     public static final Color FIX_COLOR = new Color(200, 200, 200);
+    public static final Color AERODROME_COLOR = new Color(200, 200, 200);
     public static final Color RIVER_COLOR = new Color(0, 0, 255);
     public static final Color TOWN_COLOR = new Color(0, 0, 255);
     public static final Color ROAD_COLOR = new Color(0, 0, 255);
@@ -53,7 +54,7 @@ public class Colors {
             case ENTRY:
             case VOR:
             case AERODROME:
-                return TMA_COLOR;
+                return AERODROME_COLOR;
             case VFR: return VFR_COLOR;
             case TOWN: return TOWN_COLOR;
             case UNDEFINED:

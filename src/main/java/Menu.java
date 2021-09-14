@@ -47,11 +47,22 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         menuClose.addMenuListener(this);
         menuClose.addMouseListener(this);
 
+        JTextField jtfSearchText = new JTextField();
+        jtfSearchText.setSize(new Dimension(100, 30));
+        jtfSearchText.setMinimumSize(new Dimension(100, 30));
+        JLabel jlSearch = new JLabel("Search: ");
+        JButton jbClear = new JButton("Clear results");
+
 
         menuBar.add(menuElements);
         menuBar.add(menuClearRbls);
         menuBar.add(menuOptions);
         menuBar.add(menuClose);
+        menuBar.add(Box.createHorizontalStrut(400));
+        menuBar.add(jlSearch);
+        //menuBar.add(Box.createHorizontalStrut(400));
+        menuBar.add(jtfSearchText);
+        menuBar.add(jbClear);
 
         miSettings = new JMenuItem("Settings");
         miAbout = new JMenuItem("About...");
