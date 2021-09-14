@@ -2,8 +2,10 @@ import java.util.*;
 
 public class Airspace {
 
-    private List<Fix> fixList;
-    private List<Polygon> polygonList;
+    private List<Fix> fixList = new ArrayList<>();
+    private List<Polygon> polygonList = new ArrayList<>();
+
+    private List<Procedure> procedureList = new ArrayList<>();
 
     public Airspace() {
         //fixList = new ArrayList<>();
@@ -20,6 +22,13 @@ public class Airspace {
     public List<Fix> getFixList() { return fixList; }
     public void setFixList(List<Fix> fixList) { this.fixList = fixList; }
 
+    public List<Procedure> getProcedureList() {
+        return procedureList;
+    }
+    public void setProcedureList(List<Procedure> procedureList) {
+        this.procedureList = procedureList;
+    }
+
     private void readData() {
         try {
             System.out.println("trying to load from sql database");
@@ -34,22 +43,5 @@ public class Airspace {
         finally {
 
         }
-    }
-    ArrayList<Sid> getSids() {
-        ArrayList<Sid> list = new ArrayList<>();
-        for (Polygon poly : getPolygonList()) {
-            if (poly instanceof Sid)
-                list.add((Sid)poly);
-        }
-        return list;
-    }
-
-    ArrayList<Star> getStars() {
-        ArrayList<Star> list = new ArrayList<>();
-        for (Polygon poly: getPolygonList()) {
-            if (poly instanceof Star)
-                list.add((Star) poly);
-        }
-        return list;
     }
 }

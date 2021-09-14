@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name="procedures")
 public class Procedure {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +19,9 @@ public class Procedure {
     @Column(name="procedure_type")
     private ProcedureType procedureType;
 
+    @Transient
+    private boolean isVisible = false;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.DETACH,
@@ -25,6 +29,11 @@ public class Procedure {
     @JoinTable(name="procedure_fix",
             joinColumns = @JoinColumn(name="procedure_id"),
             inverseJoinColumns = @JoinColumn(name="fix_id"))
+    //@OrderColumn(name = "id")
+    //in order to perserve correct fix order i added id column to procedure_fix table
+    //that's why it's important to add rows to procedure_fix in exact order
+    //not the greatest solution, but works for now.
+    //after loading fixes i can sort them using id column, hence annotation
     private List<Fix> fixList;
 
     public Procedure() {
@@ -66,6 +75,20 @@ public class Procedure {
 
     public void setProcedureType(ProcedureType procedureType) {
         this.procedureType = procedureType;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
+        setFixesVisibility(visible);
+    }
+
+    private void setFixesVisibility(boolean visible) {
+        for (Fix f : fixList)
+            f.setVisible(visible);
     }
 
     public List<Fix> getFixList() {

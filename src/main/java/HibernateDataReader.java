@@ -3,7 +3,7 @@ import org.hibernate.Session;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HibernateDataReader implements AirspaceReader{
+public class HibernateDataReader implements AirspaceReader {
     @Override
     public Airspace readAirspace() {
         Airspace airspace = new Airspace();
@@ -25,9 +25,9 @@ public class HibernateDataReader implements AirspaceReader{
             session = HibernateUtils.factory.getCurrentSession();
             session.beginTransaction();
 
-            List<Fix> fixList = session.createQuery("from Fix").getResultList();
-            airspace.setFixList(fixList);
+            airspace.setFixList(session.createQuery("from Fix").getResultList());
 
+            airspace.setProcedureList(session.createQuery("from Procedure").getResultList());
             session.getTransaction().commit();
         }
         catch (Exception e) {

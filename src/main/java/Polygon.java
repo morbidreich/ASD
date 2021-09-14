@@ -20,7 +20,7 @@ public class Polygon {
     private List<Point> pointList;
 
     @Transient
-    private boolean isVisible = true;
+    private boolean isVisible = false;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name="polygon_type_id")

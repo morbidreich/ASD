@@ -19,11 +19,11 @@ public class Fix extends BasePoint {
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.DETACH,
-            CascadeType.REFRESH})
-    @JoinTable(
-            name="procedure_fix",
-            joinColumns = @JoinColumn(name="fix_id"),
-            inverseJoinColumns = @JoinColumn(name="procedure_id"))
+            CascadeType.REFRESH}, mappedBy = "fixList")
+//    @JoinTable(
+//            name="procedure_fix",
+//            joinColumns = @JoinColumn(name="fix_id"),
+//            inverseJoinColumns = @JoinColumn(name="procedure_id"))
     private List<Procedure> procedureList;
 
     @SuppressWarnings("unused")

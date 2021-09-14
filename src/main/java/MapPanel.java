@@ -23,6 +23,7 @@ import javax.swing.*;
 class MapPanel extends JPanel {
     private final List<Polygon> polygons = new ArrayList<Polygon>();
     private final List<Fix> fixes = new ArrayList<Fix>();
+    private final List<Procedure> procedures = new ArrayList<>();
     private final List<RBL> rbls = new ArrayList<RBL>();
 
     private boolean drawingRBL = false;
@@ -39,12 +40,32 @@ class MapPanel extends JPanel {
         setPreferredSize(new Dimension(1000, 800));
 
         resetMinMaxEastingNorthing();
+        setDefaultElementsVisibility();
+
+        setDefaultViewPoint();
 
         addMouseWheelListener(new MouseWheelZoomer());
 
         MousePanner mousePanner = new MousePanner();
         addMouseListener(mousePanner);
         addMouseMotionListener(mousePanner);
+    }
+
+    public void setDefaultElementsVisibility() {
+        for (Polygon p : polygons)
+            if (p.getPolygonType() == PolygonType.CTR ||
+                p.getPolygonType() == PolygonType.TMA)
+                p.setVisible(true);
+    }
+
+    private void setDefaultViewPoint() {
+        //create two fixes that will keep map focused on EPSY_TMA
+        Coordinates c1 = CoordinateConverter.getFromDMS("53°40'00\"N 019°48'00\"E");
+        Coordinates c2 = CoordinateConverter.getFromDMS("53°10'00\"N 021°24'00\"E");
+        Fix f1 = new Fix(c1);
+        Fix f2 = new Fix(c2);
+        updateMinMaxEastingNorthing(f1);
+        updateMinMaxEastingNorthing(f2);
     }
 
     public List<RBL> getRbls() {
@@ -69,35 +90,33 @@ class MapPanel extends JPanel {
         if (polygons.size() == 0) return;
         if (this.scale == -1) scale();
 
-        for (Polygon poly : polygons) {
-            if (poly.isVisible()) {
+        drawPolygons(g, h);
 
-                List<Point> pointList = poly.getPointList();
+        drawFixes(g, h);
 
-                for (int i = 0; i < pointList.size() - 1; i++) {
-                    g.setColor(Colors.getColor(poly.getPolygonType()));
+        drawProcedures(g, h);
 
-                    g.drawLine(
-                            convertX(pointList.get(i).getEasting()), convertY(pointList.get(i).getNorthing(), h),
-                            convertX(pointList.get(i + 1).getEasting()), convertY(pointList.get(i + 1).getNorthing(), h));
+        drawRBLs(g, h);
 
-                    updateMinMaxEastingNorthing(pointList.get(i));
-                    updateMinMaxEastingNorthing(pointList.get(i + 1));
-                }
-            }
+        drawScale(g);
+    }
+
+    private void drawScale(Graphics2D g) {
+        g.setColor(Color.GREEN);
+
+        // unit is the unit of the scale. It must be a power of ten, such that unit * scale in [25, 250]
+        double unit = Math.pow(10, Math.ceil(Math.log10(25 / scale)));
+        String strUnit;
+        if (unit >= 1) strUnit = ((int) unit) + " km";
+        else strUnit = ((int) (1000 * unit)) + " m";
+        g.drawString(strUnit + " \u2194 " + ((int) (unit * scale)) + " px", 10, 10 + g.getFontMetrics().getHeight());
+        // draw a 1-kilometer segment
+        for (int i = 6; i <= 9; i++) {
+            g.drawLine(10, i, 10 + (int) (unit * scale * (i < 8 ? 1 : .5)), i);
         }
+    }
 
-        for (Fix fix : fixes) {
-
-            if (fix.isVisible()) {
-                g.setColor(Colors.getColor(fix.getFixType()));
-                int x = convertX(fix.getEasting());
-                int y = convertY(fix.getNorthing(), h);
-                FixSymbolDrawer.drawFixSymbol(x, y, g, fix);
-                g.drawString(fix.getName(), x + 10, y + 2);
-            }
-        }
-
+    private void drawRBLs(Graphics2D g, int h) {
         g.setColor(Colors.RBL_COLOR);
         for (RBL rbl : rbls) {
             BasePoint startPoint = rbl.getStartPoint();
@@ -113,19 +132,60 @@ class MapPanel extends JPanel {
 
             rbl.drawLabel(x1, y1, x2, y2, scale, g);
         }
+    }
 
-        g.setColor(Color.GREEN);
+    private void drawPolygons(Graphics2D g, int h) {
+        for (Polygon poly : polygons) {
+            if (poly.isVisible()) {
 
-        // unit is the unit of the scale. It must be a power of ten, such that unit * scale in [25, 250]
-        double unit = Math.pow(10, Math.ceil(Math.log10(25 / scale)));
-        String strUnit;
-        if (unit >= 1) strUnit = ((int) unit) + " km";
-        else strUnit = ((int) (1000 * unit)) + " m";
-        g.drawString(strUnit + " \u2194 " + ((int) (unit * scale)) + " px", 10, 10 + g.getFontMetrics().getHeight());
-        // draw a 1-kilometer segment
-        for (int i = 6; i <= 9; i++) {
-            g.drawLine(10, i, 10 + (int) (unit * scale * (i < 8 ? 1 : .5)), i);
+                List<Point> pointList = poly.getPointList();
+
+                for (int i = 0; i < pointList.size() - 1; i++) {
+                    g.setColor(Colors.getColor(poly.getPolygonType()));
+
+                    g.drawLine(
+                            convertX(pointList.get(i).getEasting()), convertY(pointList.get(i).getNorthing(), h),
+                            convertX(pointList.get(i + 1).getEasting()), convertY(pointList.get(i + 1).getNorthing(), h));
+
+                    //updateMinMaxEastingNorthing(pointList.get(i));
+                    //updateMinMaxEastingNorthing(pointList.get(i + 1));
+                }
+            }
         }
+    }
+
+    private void drawFixes(Graphics2D g, int h) {
+        for (Fix fix : fixes) {
+
+            if (fix.isVisible()) {
+                g.setColor(Colors.getColor(fix.getFixType()));
+                int x = convertX(fix.getEasting());
+                int y = convertY(fix.getNorthing(), h);
+                FixSymbolDrawer.drawFixSymbol(x, y, g, fix);
+                g.drawString(fix.getName(), x + 10, y + 2);
+            }
+        }
+    }
+
+    private void drawProcedures(Graphics2D g, int h) {
+        for (Procedure procedure : procedures) {
+            if (procedure.isVisible()) {
+                List<Fix> fixList = procedure.getFixList();
+                for (int i = 0; i < fixList.size() - 1; i++) {
+                    //that's awful, did that to avoid creating another getColor for procedureType
+                    g.setColor(Colors.getColor(procedure.getFixList().get(1).getFixType()));
+
+                    g.drawLine(
+                            convertX(fixList.get(i).getEasting()), convertY(fixList.get(i).getNorthing(), h),
+                            convertX(fixList.get(i + 1).getEasting()), convertY(fixList.get(i + 1).getNorthing(), h));
+
+                    //updateMinMaxEastingNorthing(fixList.get(i));
+                    //updateMinMaxEastingNorthing(fixList.get(i + 1));
+                }
+
+            }
+        }
+
     }
 
     public synchronized void clear() {
@@ -139,11 +199,19 @@ class MapPanel extends JPanel {
     public synchronized void addFix(Fix fix) {
         this.fixes.add(fix);
 
-        updateMinMaxEastingNorthing(fix);
+        //updateMinMaxEastingNorthing(fix);
     }
 
     public void addFixes(Collection<Fix> fixes) {
         for (Fix fix : fixes) addFix(fix);
+    }
+
+    public synchronized void addProcedure(Procedure procedure) {
+        this.procedures.add(procedure);
+    }
+
+    public void addProcedures(List<Procedure> procedureList) {
+        for (Procedure proc : procedureList) addProcedure(proc);
     }
 
     public synchronized void addPolygon(Polygon poly) {
@@ -152,7 +220,7 @@ class MapPanel extends JPanel {
         List<Point> pointList = poly.getPointList();
 
         for (BasePoint point : pointList) {
-            updateMinMaxEastingNorthing(point);
+            //updateMinMaxEastingNorthing(point);
         }
     }
 
@@ -163,8 +231,8 @@ class MapPanel extends JPanel {
     public synchronized void addRBL(RBL rbl) {
         this.rbls.add(rbl);
 
-        updateMinMaxEastingNorthing(rbl.getStartPoint());
-        updateMinMaxEastingNorthing(rbl.getEndPoint());
+        //updateMinMaxEastingNorthing(rbl.getStartPoint());
+        //updateMinMaxEastingNorthing(rbl.getEndPoint());
     }
 
     private synchronized void updateMinMaxEastingNorthing(BasePoint point) {
@@ -223,6 +291,13 @@ class MapPanel extends JPanel {
         double yd = y;
 
         return (h - yd) / scale + oNorthing;
+    }
+
+    public void addAirspace(Airspace airspace) {
+        addPolygons(airspace.getPolygonList());
+        addFixes(airspace.getFixList());
+        addProcedures(airspace.getProcedureList());
+        addPolygon(Airport.getRunwayPolygon());
     }
 
     class MouseWheelZoomer implements MouseWheelListener {

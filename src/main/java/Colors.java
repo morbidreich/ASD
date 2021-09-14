@@ -15,7 +15,7 @@ public class Colors {
     public static final Color D_COLOR = new Color(200, 0, 0);
     public static final Color P_COLOR = new Color(255, 195, 0);
     public static final Color R_COLOR = new Color(0, 150, 0);
-    public static final Color TSA_COLOR = new Color(150, 150, 150);
+    public static final Color TSA_COLOR = new Color(150, 100, 10);
     public static final Color TRA_COLOR = new Color(150, 150, 150);
     public static final Color AREA_COLOR = new Color(150, 150, 150);
 
@@ -45,6 +45,7 @@ public class Colors {
         switch (ft) {
             case SID01:
             case SID19:
+            case DER:
                 return SID_COLOR;
             case STAR01:
             case STAR19:

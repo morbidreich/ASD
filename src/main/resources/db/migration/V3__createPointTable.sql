@@ -92,3 +92,57 @@ insert into point (coordinates, polygon_id) values ('53°47''10"N 020°58''00"E'
 insert into point (coordinates, polygon_id) values ('53°47''02"N 020°57''39"E', 5);
 insert into point (coordinates, polygon_id) values ('53°40''45"N 020°41''20"E', 5);
 
+-- tma gd
+
+insert into point (coordinates, polygon_id) values ('55°08''07"N 016°15''01"E', 6);
+insert into point (coordinates, polygon_id) values ('55°17''24"N 018°24''03"E', 6);
+insert into point (coordinates, polygon_id) values ('54°25''18"N 020°00''00"E', 6);
+insert into point (coordinates, polygon_id) values ('53°33''51"N 020°18''20"E', 6);
+insert into point (coordinates, polygon_id) values ('53°26''21"N 019°24''33"E', 6);
+insert into point (coordinates, polygon_id) values ('53°19''05"N 018°44''35"E', 6);
+insert into point (coordinates, polygon_id) values ('53°11''34"N 018°06''35"E', 6);
+insert into point (coordinates, polygon_id) values ('52°44''05"N 017°34''42"E', 6);
+insert into point (coordinates, polygon_id) values ('53°11''18"N 016°34''37"E', 6);
+insert into point (coordinates, polygon_id) values ('53°37''29"N 016°56''09"E', 6);
+insert into point (coordinates, polygon_id) values ('54°31''54"N 015°33''12"E', 6);
+insert into point (coordinates, polygon_id) values ('54°41''06"N 015°43''09"E', 6);
+insert into point (coordinates, polygon_id) values ('54°55''00"N 015°52''00"E', 6);
+insert into point (coordinates, polygon_id) values ('55°08''07"N 016°15''01"E', 6);
+
+-- TSA02A
+insert into point (coordinates, polygon_id) values ('53°16''37"N 019°42''04"E', 7);
+insert into point (coordinates, polygon_id) values ('53°28''08"N 019°37''06"E', 7);
+insert into point (coordinates, polygon_id) values ('53°45''46"N 021°51''03"E', 7);
+insert into point (coordinates, polygon_id) values ('53°38''43"N 021°18''37"E', 7);
+insert into point (coordinates, polygon_id) values ('53°24''02"N 020°13''42"E', 7);
+insert into point (coordinates, polygon_id) values ('53°16''37"N 019°42''04"E', 7);
+
+-- TSA02B
+insert into point (coordinates, polygon_id) values ('53°16''37"N 019°42''04"E', 8);
+insert into point (coordinates, polygon_id) values ('53°24''02"N 020°13''42"E', 8);
+insert into point (coordinates, polygon_id) values ('53°23''33"N 020°15''25"E', 8);
+insert into point (coordinates, polygon_id) values ('53°18''55"N 020°28''15"E', 8);
+insert into point (coordinates, polygon_id) values ('53°17''21"N 020°34''42"E', 8);
+insert into point (coordinates, polygon_id) values ('53°13''42"N 020°51''37"E', 8);
+insert into point (coordinates, polygon_id) values ('53°17''57"N 020°56''02"E', 8);
+insert into point (coordinates, polygon_id) values ('53°25''31"N 021°03''48"E', 8);
+insert into point (coordinates, polygon_id) values ('53°38''43"N 021°18''37"E', 8);
+insert into point (coordinates, polygon_id) values ('53°45''46"N 021°51''03"E', 8);
+insert into point (coordinates, polygon_id) values ('53°46''21"N 022°20''29"E', 8);
+insert into point (coordinates, polygon_id) values ('52°41''55"N 020°59''26"E', 8);
+insert into point (coordinates, polygon_id) values ('52°42''37"N 020°46''02"E', 8);
+insert into point (coordinates, polygon_id) values ('52°46''13"N 020°24''44"E', 8);
+insert into point (coordinates, polygon_id) values ('52°51''16"N 020°15''26"E', 8);
+insert into point (coordinates, polygon_id) values ('53°06''59"N 019°46''11"E', 8);
+insert into point (coordinates, polygon_id) values ('53°16''37"N 019°42''04"E', 8);
+
+-- TSA02C
+insert into point (coordinates, polygon_id) values ('53°23''33"N 020°15''25"E', 9);
+insert into point (coordinates, polygon_id) values ('53°24''02"N 020°13''42"E', 9);
+insert into point (coordinates, polygon_id) values ('53°38''43"N 021°18''37"E', 9);
+insert into point (coordinates, polygon_id) values ('53°25''31"N 021°03''48"E', 9);
+insert into point (coordinates, polygon_id) values ('53°17''57"N 020°56''02"E', 9);
+insert into point (coordinates, polygon_id) values ('53°13''42"N 020°51''37"E', 9);
+insert into point (coordinates, polygon_id) values ('53°17''21"N 020°34''42"E', 9);
+insert into point (coordinates, polygon_id) values ('53°18''55"N 020°28''15"E', 9);
+insert into point (coordinates, polygon_id) values ('53°23''33"N 020°15''25"E', 9);
