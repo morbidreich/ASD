@@ -151,7 +151,7 @@ class MapPanel extends JPanel {
 
         List<Point> pointList = poly.getPointList();
 
-        for (Point point : pointList) {
+        for (BasePoint point : pointList) {
             updateMinMaxEastingNorthing(point);
         }
     }

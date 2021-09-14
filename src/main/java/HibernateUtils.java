@@ -11,5 +11,6 @@ public class HibernateUtils {
             .addAnnotatedClass(Point.class)
             .addAnnotatedClass(Polygon.class)
             .addAnnotatedClass(Fix.class)
+            .addAnnotatedClass(Procedure.class)
             .buildSessionFactory();
 }

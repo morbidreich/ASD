@@ -1,4 +1,6 @@
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="fix")
@@ -14,8 +16,22 @@ public class Fix extends BasePoint {
     @Transient
     private boolean isVisible = false;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH})
+    @JoinTable(
+            name="procedure_fix",
+            joinColumns = @JoinColumn(name="fix_id"),
+            inverseJoinColumns = @JoinColumn(name="procedure_id"))
+    private List<Procedure> procedureList;
+
     @SuppressWarnings("unused")
     public Fix() {}
+
+    public Fix(Coordinates coordinates) {
+        super(coordinates);
+    }
 
     public String getName() {
         return name;
@@ -39,6 +55,20 @@ public class Fix extends BasePoint {
 
     public void setVisible(boolean visible) {
         isVisible = visible;
+    }
+
+    public List<Procedure> getProcedureList() {
+        return procedureList;
+    }
+
+    public void setProcedureList(List<Procedure> procedureList) {
+        this.procedureList = procedureList;
+    }
+
+    public void addProcedure(Procedure procedure) {
+        if (procedureList == null)
+            procedureList = new ArrayList<>();
+        procedureList.add(procedure);
     }
 
     @Override
