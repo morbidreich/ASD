@@ -26,6 +26,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
     private final JCheckBoxMenuItem cbPDR;
     private final JCheckBoxMenuItem cbTSA;
     private final JCheckBoxMenuItem cbTRA;
+    private final JCheckBoxMenuItem cbAerodromes;
     private final JCheckBoxMenuItem cbTowns;
     private final JCheckBoxMenuItem cbRivers;
     private final JCheckBoxMenuItem cbRoads;
@@ -73,6 +74,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         cbPDR = new JCheckBoxMenuItem("P/D/R");
         cbTSA = new JCheckBoxMenuItem("TSA");
         cbTRA = new JCheckBoxMenuItem("TRA");
+        cbAerodromes = new JCheckBoxMenuItem("Aerodromes");
         cbTowns = new JCheckBoxMenuItem("Towns");
         cbRivers = new JCheckBoxMenuItem("Rivers");
         cbRoads = new JCheckBoxMenuItem("Roads");
@@ -93,6 +95,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         menuElements.add(cbTSA);
         menuElements.add(cbTRA);
         menuElements.addSeparator();
+        menuElements.add(cbAerodromes);
         menuElements.add(cbTowns);
         menuElements.add(cbRivers);
         menuElements.add(cbRoads);
@@ -160,7 +163,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
             togglePolygonVisibility(cbTSA, PolygonType.TSA);
         }
         else if (
-                e.getSource().equals(cbTmaFixes) || e.getSource().equals(cbVfrFixes)) {
+                e.getSource().equals(cbTmaFixes) || e.getSource().equals(cbVfrFixes) ||
+                e.getSource().equals(cbAerodromes))  {
             toggleFixVisibility((JCheckBoxMenuItem) e.getSource());
         }
         mapPanel.repaint();
@@ -174,6 +178,10 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
             }
             case "VFR fixes": {
                 setFixVisible(FixType.VFR, source);
+                break;
+            }
+            case "Aerodromes": {
+                setFixVisible(FixType.AERODROME, source);
                 break;
             }
         }
