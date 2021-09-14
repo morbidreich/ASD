@@ -11,7 +11,7 @@ public class MapWindow extends JFrame {
     private final MapPanel map;
 
     /**
-     * Creates a new window.
+     * Creates a new window..
      */
     public MapWindow(Airspace airspace) {
 
