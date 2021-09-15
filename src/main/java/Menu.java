@@ -27,6 +27,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
     private final JCheckBoxMenuItem cbTSA;
     private final JCheckBoxMenuItem cbTRA;
     private final JCheckBoxMenuItem cbAerodromes;
+    private final JCheckBoxMenuItem cbBorder;
     private final JCheckBoxMenuItem cbTowns;
     private final JCheckBoxMenuItem cbRivers;
     private final JCheckBoxMenuItem cbRoads;
@@ -86,6 +87,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         cbTSA = new JCheckBoxMenuItem("TSA");
         cbTRA = new JCheckBoxMenuItem("TRA");
         cbAerodromes = new JCheckBoxMenuItem("Aerodromes");
+        cbBorder = new JCheckBoxMenuItem("Border");
         cbTowns = new JCheckBoxMenuItem("Towns");
         cbRivers = new JCheckBoxMenuItem("Rivers");
         cbRoads = new JCheckBoxMenuItem("Roads");
@@ -106,6 +108,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         menuElements.add(cbTSA);
         menuElements.add(cbTRA);
         menuElements.addSeparator();
+        menuElements.add(cbBorder);
         menuElements.add(cbAerodromes);
         menuElements.add(cbTowns);
         menuElements.add(cbRivers);
@@ -172,6 +175,9 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         }
         else if  (e.getSource().equals(cbTSA)) {
             togglePolygonVisibility(cbTSA, PolygonType.TSA);
+        }
+        else if  (e.getSource().equals(cbBorder)) {
+            togglePolygonVisibility(cbBorder, PolygonType.BORDER);
         }
         else if (
                 e.getSource().equals(cbTmaFixes) || e.getSource().equals(cbVfrFixes) ||

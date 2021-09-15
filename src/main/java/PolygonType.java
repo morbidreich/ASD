@@ -8,6 +8,7 @@ public enum PolygonType {
     RIVER,
     TOWN,
     ROAD,
+    BORDER,
     TSA,
     TRA,
     AREA,

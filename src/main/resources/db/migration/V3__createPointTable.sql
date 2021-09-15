@@ -146,3 +146,5 @@ insert into point (coordinates, polygon_id) values ('53°13''42"N 020°51''37"E'
 insert into point (coordinates, polygon_id) values ('53°17''21"N 020°34''42"E', 9);
 insert into point (coordinates, polygon_id) values ('53°18''55"N 020°28''15"E', 9);
 insert into point (coordinates, polygon_id) values ('53°23''33"N 020°15''25"E', 9);
+
+
