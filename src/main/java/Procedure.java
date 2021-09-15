@@ -85,10 +85,16 @@ public class Procedure {
         isVisible = visible;
         setFixesVisibility(visible);
     }
-
+    // for sid display all fixes but first/last (DER, TMA exit)
+    // for star display all fixes but first (TMA entry)
+    // TMA boundary related are doubled by 'TMA entry fixes' layer
+    // and DER01/19 just looks plain bad
     private void setFixesVisibility(boolean visible) {
-        for (Fix f : fixList)
-            f.setVisible(visible);
+        for (int i = 1; i < fixList.size()-1; i ++) {
+            fixList.get(i).setVisible(visible);
+        }
+        if (procedureType == ProcedureType.STAR)
+            fixList.get(fixList.size()-1).setVisible(visible);
     }
 
     public List<Fix> getFixList() {
