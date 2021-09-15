@@ -25,6 +25,7 @@ class MapPanel extends JPanel {
     private final List<Fix> fixes = new ArrayList<Fix>();
     private final List<Procedure> procedures = new ArrayList<>();
     private final List<RBL> rbls = new ArrayList<RBL>();
+    private Colors colors = new Colors();
 
     private boolean drawingRBL = false;
 
@@ -84,7 +85,7 @@ class MapPanel extends JPanel {
         int w = getWidth();
         int h = getHeight();
 
-        g.setColor(Colors.BACKGROUND_COLOR);
+        g.setColor(colors.BACKGROUND_COLOR);
         g.fillRect(0, 0, w, h);
 
         if (polygons.size() == 0) return;
@@ -113,7 +114,7 @@ class MapPanel extends JPanel {
     }
 
     private void drawRBLs(Graphics2D g, int h) {
-        g.setColor(Colors.RBL_COLOR);
+        g.setColor(colors.RBL_COLOR);
         for (RBL rbl : rbls) {
             BasePoint startPoint = rbl.getStartPoint();
             BasePoint endPoint = rbl.getEndPoint();
@@ -137,7 +138,7 @@ class MapPanel extends JPanel {
                 List<Point> pointList = poly.getPointList();
 
                 for (int i = 0; i < pointList.size() - 1; i++) {
-                    g.setColor(Colors.getColor(poly.getPolygonType()));
+                    g.setColor(colors.getColor(poly.getPolygonType()));
 
                     g.drawLine(
                             convertX(pointList.get(i).getEasting()), convertY(pointList.get(i).getNorthing(), h),
@@ -154,7 +155,7 @@ class MapPanel extends JPanel {
         for (Fix fix : fixes) {
 
             if (fix.isVisible()) {
-                g.setColor(Colors.getColor(fix.getFixType()));
+                g.setColor(colors.getColor(fix.getFixType()));
                 int x = convertX(fix.getEasting());
                 int y = convertY(fix.getNorthing(), h);
                 FixSymbolDrawer.drawFixSymbol(x, y, g, fix);
@@ -169,7 +170,7 @@ class MapPanel extends JPanel {
                 List<Fix> fixList = procedure.getFixList();
                 for (int i = 0; i < fixList.size() - 1; i++) {
                     //that's awful, did that to avoid creating another getColor for procedureType
-                    g.setColor(Colors.getColor(procedure.getFixList().get(1).getFixType()));
+                    g.setColor(colors.getColor(procedure.getFixList().get(1).getFixType()));
 
                     g.drawLine(
                             convertX(fixList.get(i).getEasting()), convertY(fixList.get(i).getNorthing(), h),

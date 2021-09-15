@@ -1,11 +1,15 @@
+import org.h2.mvstore.tx.TransactionStore;
+
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.plaf.basic.BasicCheckBoxMenuItemUI;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Menu implements ActionListener, MenuListener, MouseListener {
+public class Menu implements ActionListener, MenuListener, MouseListener, ChangeListener {
     private Airspace airspace;
     private MapPanel mapPanel;
 
@@ -33,9 +37,13 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
     private final JCheckBoxMenuItem cbRoads;
     private final JMenuItem miAbout;
 
+    private BrightnessSlider bCtr;
+    private BrightnessSlider bTma;
+
     public Menu(MapPanel mapPanel, Airspace airspace) {
         this.mapPanel = mapPanel;
         this.airspace = airspace;
+
 
 
         menuBar = new JMenuBar();
@@ -72,8 +80,16 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         menuOptions.add(miSettings);
         menuOptions.add(miAbout);
 
-        JSlider slider = new JSlider(JSlider.HORIZONTAL);
-        slider.setPreferredSize(new Dimension(120,20));
+        JSlider sliderCtr = new JSlider(JSlider.HORIZONTAL);
+        JSlider sliderTma = new JSlider(JSlider.HORIZONTAL);
+        sliderCtr.setPreferredSize(new Dimension(120,20));
+        sliderTma.setPreferredSize(new Dimension(120,20));
+        bCtr = new BrightnessSlider(PolygonType.CTR, mapPanel);
+        bTma = new BrightnessSlider(PolygonType.TMA, mapPanel);
+        sliderCtr.addChangeListener(this);
+        sliderCtr.setMinorTickSpacing(6);
+        sliderTma.addChangeListener(this);
+        sliderTma.setMinorTickSpacing(6);
 
         cbTma = new JCheckBoxMenuItem("TMA");
         cbCtr = new JCheckBoxMenuItem("CTR");
@@ -93,8 +109,9 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         cbRoads = new JCheckBoxMenuItem("Roads");
 
         menuElements.add(cbTma);
-        menuElements.add(slider,0);
+        menuElements.add(sliderTma);
         menuElements.add(cbCtr);
+        menuElements.add(sliderCtr);
 
         menuElements.addSeparator();
         menuElements.add(cbTmaFixes);
@@ -299,5 +316,19 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        JSlider slider = (JSlider) e.getSource();
+        System.out.println(slider.getValue());
+    }
+
+    private class SliderEventListener implements ChangeListener {
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            System.out.println("That works too");
+        }
     }
 }

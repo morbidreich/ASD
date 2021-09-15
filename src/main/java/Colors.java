@@ -1,27 +1,27 @@
 import java.awt.*;
 
 public class Colors {
-    public static final Color BACKGROUND_COLOR = new Color(30,30,30);
-    public static final Color CTR_COLOR = new Color(128, 51, 0);
-    public static final Color TMA_COLOR = new Color(71, 71, 71);
-    public static final Color SID_COLOR = new Color(30, 90, 225);
-    public static final Color STAR_COLOR = new Color(184, 141, 71);
-    public static final Color RBL_COLOR = new Color(158, 195, 255);
-    public static final Color VFR_COLOR = new Color(220, 220, 0);
-    public static final Color FIX_COLOR = new Color(200, 200, 200);
-    public static final Color AERODROME_COLOR = new Color(200, 200, 200);
-    public static final Color BORDER_COLOR = new Color(0, 200, 0);
-    public static final Color RIVER_COLOR = new Color(0, 0, 255);
-    public static final Color TOWN_COLOR = new Color(0, 0, 255);
-    public static final Color ROAD_COLOR = new Color(0, 0, 255);
-    public static final Color D_COLOR = new Color(200, 0, 0);
-    public static final Color P_COLOR = new Color(255, 195, 0);
-    public static final Color R_COLOR = new Color(0, 150, 0);
-    public static final Color TSA_COLOR = new Color(150, 100, 10);
-    public static final Color TRA_COLOR = new Color(150, 150, 150);
-    public static final Color AREA_COLOR = new Color(150, 150, 150);
+    public Color BACKGROUND_COLOR = new Color(30,30,30);
+    public Color CTR_COLOR = new Color(128, 51, 0);
+    public Color TMA_COLOR = new Color(71, 71, 71);
+    public Color SID_COLOR = new Color(30, 90, 225);
+    public Color STAR_COLOR = new Color(184, 141, 71);
+    public Color RBL_COLOR = new Color(158, 195, 255);
+    public Color VFR_COLOR = new Color(220, 220, 0);
+    public Color FIX_COLOR = new Color(200, 200, 200);
+    public Color AERODROME_COLOR = new Color(200, 200, 200);
+    public Color BORDER_COLOR = new Color(0, 200, 0);
+    public Color RIVER_COLOR = new Color(0, 0, 255);
+    public Color TOWN_COLOR = new Color(0, 0, 255);
+    public Color ROAD_COLOR = new Color(0, 0, 255);
+    public Color D_COLOR = new Color(200, 0, 0);
+    public Color P_COLOR = new Color(255, 195, 0);
+    public Color R_COLOR = new Color(0, 150, 0);
+    public Color TSA_COLOR = new Color(150, 100, 10);
+    public Color TRA_COLOR = new Color(150, 150, 150);
+    public Color AREA_COLOR = new Color(150, 150, 150);
 
-    public static final Color getColor(PolygonType pt) {
+    public Color getColor(PolygonType pt) {
         switch (pt) {
             case CTR: return CTR_COLOR;
             case TMA: return TMA_COLOR;
@@ -44,7 +44,7 @@ public class Colors {
         }
     }
 
-    public static final Color getColor(FixType ft) {
+    public Color getColor(FixType ft) {
         switch (ft) {
             case SID01:
             case SID19:
@@ -62,7 +62,5 @@ public class Colors {
             case UNDEFINED:
             default: return new Color(255,255,255);
         }
-
-
     }
 }

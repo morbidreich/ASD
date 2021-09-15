@@ -4,7 +4,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class AboutWindow extends JFrame {
-    JPanel panel;
     JLabel label;
 
     public AboutWindow() {
@@ -14,7 +13,6 @@ public class AboutWindow extends JFrame {
         setPreferredSize(new Dimension(300, 300));
 
         label = new JLabel("This is some important informations");
-        panel = new JPanel();
 
         AboutPanel myPanel = new AboutPanel();
 
@@ -29,12 +27,20 @@ public class AboutWindow extends JFrame {
 
     class AboutPanel extends JPanel implements ChangeListener {
 
+        JSlider slider;
+        JLabel label;
+        int x = 100;
+        int y = 100;
+
         public AboutPanel() {
             super();
-            JSlider slider = new JSlider(SwingConstants.HORIZONTAL);
+            slider = new JSlider(SwingConstants.HORIZONTAL);
+            slider.setPaintTicks(true);
+            //slider.setMajorTickSpacing(30);
+            slider.setMinorTickSpacing(10);
             slider.addChangeListener(this);
             add(slider, BorderLayout.SOUTH);
-            JLabel label = new JLabel(String.valueOf(slider.getValue()));
+            label = new JLabel("it is working");
             add(label);
         }
 
@@ -42,17 +48,22 @@ public class AboutWindow extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.setColor(Color.BLACK);
-            g.drawLine(10,10,100,100);
-
-
+            g.drawLine(10,10,x,y);
         }
 
         @Override
         public void stateChanged(ChangeEvent e) {
-            JSlider slider = (JSlider) e.getSource();
-            label.setText(String.valueOf(slider.getValue()));
-            repaint();
+            label.setText("Val " + slider.getValue());
+            x = slider.getValue();
+            y = slider.getValue() * 2;
 
+            repaint();
+            System.out.println(x + " " + y);
         }
+    }
+
+    //for quicker testing slider events
+    public static void main(String[] args) {
+        AboutWindow aw = new AboutWindow();
     }
 }

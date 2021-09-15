@@ -16,6 +16,7 @@ public class FallbackDataReader implements AirspaceReader {
                 "src/main/resources/EPSY/TMA_B",
                 "src/main/resources/EPSY/TMA_C",
                 "src/main/resources/EPSY/TMA_D"};
+        System.out.println("FallbackDataReader begin data read...");
         for (String path : paths) {
 
             String polyName = path.substring(path.lastIndexOf('/') + 1);
@@ -39,6 +40,7 @@ public class FallbackDataReader implements AirspaceReader {
                 System.out.println("Data read failed; " + e.getMessage());
             }
         }
+        System.out.println("FallbackDataReader polygons read: " + polygonList.size());
         return polygonList;
     }
 
