@@ -62,23 +62,21 @@ public class Polygon {
     public Polygon() {
     }
 
-
-    public Polygon(String name) {
-        this.name = name;
-        pointList = new ArrayList<>();
-    }
-
-    public Polygon(String name, List<Point> pointList) {
-        this.name = name;
-        this.pointList = pointList;
-    }
-
     public void addPoint(Point point) {
+        if (pointList == null)
+            pointList = new ArrayList<>();
         pointList.add(point);
+    }
+    public void addPoints(List<Point> pointList) {
+        for (Point p : pointList) addPoint(p);
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

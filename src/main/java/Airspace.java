@@ -4,7 +4,6 @@ public class Airspace {
 
     private List<Fix> fixList = new ArrayList<>();
     private List<Polygon> polygonList = new ArrayList<>();
-
     private List<Procedure> procedureList = new ArrayList<>();
 
     public Airspace() {

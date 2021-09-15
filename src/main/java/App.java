@@ -2,12 +2,11 @@
 public class App {
     public static void main(String[] args) {
 
+        AirspaceReader mainReader = new HibernateDataReader();
+        AirspaceReader fallbackReader = new FallbackDataReader();
 
-
-        AirspaceReader reader = new HibernateDataReader();
-        MapWindow mapWindow = new MapWindow(reader.readAirspace());
+        //using FallbackDataReader to speed up launch time
+        MapWindow mapWindow = new MapWindow(fallbackReader.readAirspace());
         mapWindow.setVisible(true);
-
-
     }
 }

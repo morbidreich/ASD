@@ -91,13 +91,9 @@ class MapPanel extends JPanel {
         if (this.scale == -1) scale();
 
         drawPolygons(g, h);
-
         drawFixes(g, h);
-
         drawProcedures(g, h);
-
         drawRBLs(g, h);
-
         drawScale(g);
     }
 
@@ -297,6 +293,7 @@ class MapPanel extends JPanel {
         addPolygons(airspace.getPolygonList());
         addFixes(airspace.getFixList());
         addProcedures(airspace.getProcedureList());
+
         addPolygon(Airport.getRunwayPolygon());
     }
 

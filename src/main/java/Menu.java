@@ -93,8 +93,9 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         cbRoads = new JCheckBoxMenuItem("Roads");
 
         menuElements.add(cbTma);
-        menuElements.add(slider);
+        menuElements.add(slider,0);
         menuElements.add(cbCtr);
+
         menuElements.addSeparator();
         menuElements.add(cbTmaFixes);
         menuElements.add(cbVfrFixes);
@@ -157,8 +158,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
             aw.setLocationRelativeTo(mapPanel);
             aw.setVisible(true);
         }
-
-
         else if (e.getSource().equals(cbStar01) ||
                 e.getSource().equals(cbStar19) ||
                 e.getSource().equals(cbSid01) ||
@@ -166,7 +165,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
 
             toggleProcedureVisibility((JCheckBoxMenuItem) e.getSource());
         }
-
         else if (e.getSource().equals(cbTma)) {
             togglePolygonVisibility(cbTma, PolygonType.TMA);
         }
@@ -203,14 +201,12 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
             }
         }
     }
-
     private void setFixVisible(FixType fixType, JCheckBoxMenuItem source) {
         for (Fix fix : airspace.getFixList()) {
             if (fix.getFixType() == fixType)
                 fix.setVisible(source.isSelected());
         }
     }
-
     private void toggleProcedureVisibility(JCheckBoxMenuItem source) {
 
         switch (source.getText()) {
@@ -251,7 +247,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
 
         mapPanel.repaint();
     }
-
     private void togglePolygonVisibility(JCheckBoxMenuItem cb, PolygonType pt) {
         for (Polygon poly : airspace.getPolygonList()) {
             if (poly.getPolygonType() == pt) {
@@ -260,22 +255,18 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         }
         mapPanel.repaint();
     }
-
     @Override
     public void menuSelected(MenuEvent e) {
 
     }
-
     @Override
     public void menuDeselected(MenuEvent e) {
 
     }
-
     @Override
     public void menuCanceled(MenuEvent e) {
 
     }
-
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource().equals(menuClose))
@@ -284,25 +275,27 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
             mapPanel.getRbls().clear();
             mapPanel.repaint();
             menuClearRbls.setSelected(false);
+        }
 
+        if (SwingUtilities.isMiddleMouseButton(e)) {
+
+            if (e.getSource().equals(cbCtr)) {
+                System.out.println("Middle click on");
+            }
         }
     }
-
     @Override
     public void mousePressed(MouseEvent e) {
 
     }
-
     @Override
     public void mouseReleased(MouseEvent e) {
 
     }
-
     @Override
     public void mouseEntered(MouseEvent e) {
 
     }
-
     @Override
     public void mouseExited(MouseEvent e) {
 

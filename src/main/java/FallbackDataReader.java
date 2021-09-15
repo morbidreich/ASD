@@ -6,7 +6,7 @@ import java.util.Scanner;
 /**
  * Fallback data set in case if H2 is unavailable
  */
-public class FallbackDataReader {
+public class FallbackDataReader implements AirspaceReader {
 
     private static List<Polygon> getPolygons() {
         List<Polygon> polygonList = new ArrayList<>();
@@ -19,15 +19,21 @@ public class FallbackDataReader {
         for (String path : paths) {
 
             String polyName = path.substring(path.lastIndexOf('/') + 1);
-            Polygon poly = new Polygon(polyName);
+
+            Polygon poly = new Polygon();
+            if (polyName.equals("CTR"))
+                poly.setPolygonType(PolygonType.CTR);
+            else
+                poly.setPolygonType(PolygonType.TMA);
 
             try {
                 File file = new File(path);
                 Scanner fileReader = new Scanner(file);
                 while (fileReader.hasNextLine()) {
                     Coordinates c = CoordinateConverter.getFromDMS(fileReader.nextLine());
-                    //poly.addPoint(new Point(c));
+                    poly.addPoint(new Point(c));
                 }
+                poly.setVisible(true);
                 polygonList.add(poly);
             } catch (Exception e) {
                 System.out.println("Data read failed; " + e.getMessage());
@@ -41,11 +47,19 @@ public class FallbackDataReader {
         List<Fix> fixList = new ArrayList<Fix>();
 
         return fixList;
-
     }
 
-    public static void readData(Airspace airspace) {
-        airspace.setFixList(getFixes());
-        airspace.setPolygonList(getPolygons());
+    private static List<Procedure> getProcedures() {
+        return new ArrayList<Procedure>();
+    }
+
+    @Override
+    public Airspace readAirspace() {
+        Airspace a = new Airspace();
+        a.setPolygonList(getPolygons());
+        a.setProcedureList(getProcedures());
+        a.setFixList(getFixes());
+
+        return a;
     }
 }
