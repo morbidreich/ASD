@@ -290,6 +290,14 @@ class MapPanel extends JPanel {
         return (h - yd) / scale + oNorthing;
     }
 
+    public Colors getColors() {
+        return colors;
+    }
+
+    public void setColors(Colors colors) {
+        this.colors = colors;
+    }
+
     public void addAirspace(Airspace airspace) {
         addPolygons(airspace.getPolygonList());
         addFixes(airspace.getFixList());

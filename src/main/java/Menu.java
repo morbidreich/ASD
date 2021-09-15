@@ -9,7 +9,7 @@ import javax.swing.plaf.basic.BasicCheckBoxMenuItemUI;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Menu implements ActionListener, MenuListener, MouseListener, ChangeListener {
+public class Menu implements ActionListener, MenuListener, MouseListener {
     private Airspace airspace;
     private MapPanel mapPanel;
 
@@ -37,8 +37,9 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private final JCheckBoxMenuItem cbRoads;
     private final JMenuItem miAbout;
 
-    private BrightnessSlider bCtr;
-    private BrightnessSlider bTma;
+
+    private JSlider sliderCtr;
+    private JSlider sliderTma;
 
     public Menu(MapPanel mapPanel, Airspace airspace) {
         this.mapPanel = mapPanel;
@@ -80,19 +81,15 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         menuOptions.add(miSettings);
         menuOptions.add(miAbout);
 
-        JSlider sliderCtr = new JSlider(JSlider.HORIZONTAL);
-        JSlider sliderTma = new JSlider(JSlider.HORIZONTAL);
-        sliderCtr.setPreferredSize(new Dimension(120,20));
-        sliderTma.setPreferredSize(new Dimension(120,20));
-        bCtr = new BrightnessSlider(PolygonType.CTR, mapPanel);
-        bTma = new BrightnessSlider(PolygonType.TMA, mapPanel);
-        sliderCtr.addChangeListener(this);
-        sliderCtr.setMinorTickSpacing(6);
-        sliderTma.addChangeListener(this);
-        sliderTma.setMinorTickSpacing(6);
+
+        sliderCtr = createJSlider("CTR", PolygonType.CTR, mapPanel);
+        sliderTma = createJSlider("TMA", PolygonType.TMA, mapPanel);
+
 
         cbTma = new JCheckBoxMenuItem("TMA");
+        cbTma.addMouseListener(this);
         cbCtr = new JCheckBoxMenuItem("CTR");
+        cbCtr.addMouseListener(this);
         cbTmaFixes = new JCheckBoxMenuItem("TMA entry fixes");
         cbVfrFixes = new JCheckBoxMenuItem("VFR fixes");
         cbSid01 = new JCheckBoxMenuItem("SID 01");
@@ -163,9 +160,28 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
 
     }
 
+    //convenience method for creating JSlider items
+    private JSlider createJSlider(String name, PolygonType pt, MapPanel mapPanel) {
+
+        JSlider slider = new JSlider(JSlider.HORIZONTAL);
+        slider.setVisible(true);
+        slider.setName(name);
+        slider.setMaximum(123);
+        slider.setValue(0);
+        slider.setMinimum(-122);
+        slider.setPreferredSize(new Dimension(120, 20));
+
+        BrightnessSlider bs = new BrightnessSlider(pt, mapPanel);
+        slider.addChangeListener(bs);
+
+        return slider;
+    }
+
     public JMenuBar getMenuBar() {
         return menuBar;
     }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -275,6 +291,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     @Override
     public void menuSelected(MenuEvent e) {
 
+
     }
     @Override
     public void menuDeselected(MenuEvent e) {
@@ -294,12 +311,17 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
             menuClearRbls.setSelected(false);
         }
 
-        if (SwingUtilities.isMiddleMouseButton(e)) {
-
-            if (e.getSource().equals(cbCtr)) {
-                System.out.println("Middle click on");
+        if (e.getSource().equals(cbTma)) {
+            System.out.println("TMA CLICKED");
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                if (sliderTma.isVisible())
+                    sliderTma.setVisible(false);
+                else
+                    sliderTma.setVisible(true);
             }
-        }
+
+            }
+
     }
     @Override
     public void mousePressed(MouseEvent e) {
@@ -316,19 +338,5 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     @Override
     public void mouseExited(MouseEvent e) {
 
-    }
-
-    @Override
-    public void stateChanged(ChangeEvent e) {
-        JSlider slider = (JSlider) e.getSource();
-        System.out.println(slider.getValue());
-    }
-
-    private class SliderEventListener implements ChangeListener {
-
-        @Override
-        public void stateChanged(ChangeEvent e) {
-            System.out.println("That works too");
-        }
     }
 }

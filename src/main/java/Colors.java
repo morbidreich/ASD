@@ -1,25 +1,26 @@
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 
 public class Colors {
-    public Color BACKGROUND_COLOR = new Color(30,30,30);
-    public Color CTR_COLOR = new Color(128, 51, 0);
-    public Color TMA_COLOR = new Color(71, 71, 71);
-    public Color SID_COLOR = new Color(30, 90, 225);
-    public Color STAR_COLOR = new Color(184, 141, 71);
-    public Color RBL_COLOR = new Color(158, 195, 255);
-    public Color VFR_COLOR = new Color(220, 220, 0);
-    public Color FIX_COLOR = new Color(200, 200, 200);
-    public Color AERODROME_COLOR = new Color(200, 200, 200);
-    public Color BORDER_COLOR = new Color(0, 200, 0);
-    public Color RIVER_COLOR = new Color(0, 0, 255);
-    public Color TOWN_COLOR = new Color(0, 0, 255);
-    public Color ROAD_COLOR = new Color(0, 0, 255);
-    public Color D_COLOR = new Color(200, 0, 0);
-    public Color P_COLOR = new Color(255, 195, 0);
-    public Color R_COLOR = new Color(0, 150, 0);
-    public Color TSA_COLOR = new Color(150, 100, 10);
-    public Color TRA_COLOR = new Color(150, 150, 150);
-    public Color AREA_COLOR = new Color(150, 150, 150);
+    public Color BACKGROUND_COLOR = new Color(30,30,30, 255);
+    public Color CTR_COLOR = new Color(250, 170, 10, 122);
+    public Color TMA_COLOR = new Color(170, 170, 170, 122);
+    public Color SID_COLOR = new Color(30, 90, 225, 122);
+    public Color STAR_COLOR = new Color(184, 141, 71, 122);
+    public Color RBL_COLOR = new Color(158, 195, 255, 122);
+    public Color VFR_COLOR = new Color(220, 220, 0, 122);
+    public Color FIX_COLOR = new Color(200, 200, 200, 122);
+    public Color AERODROME_COLOR = new Color(200, 200, 200, 122);
+    public Color BORDER_COLOR = new Color(0, 200, 0, 122);
+    public Color RIVER_COLOR = new Color(0, 0, 255, 122);
+    public Color TOWN_COLOR = new Color(0, 0, 255, 122);
+    public Color ROAD_COLOR = new Color(0, 0, 255, 122);
+    public Color D_COLOR = new Color(200, 0, 0, 122);
+    public Color P_COLOR = new Color(255, 195, 0, 122);
+    public Color R_COLOR = new Color(0, 150, 0, 122);
+    public Color TSA_COLOR = new Color(150, 100, 10, 122);
+    public Color TRA_COLOR = new Color(150, 150, 150, 122);
+    public Color AREA_COLOR = new Color(150, 150, 150, 122);
 
     public Color getColor(PolygonType pt) {
         switch (pt) {
@@ -40,7 +41,78 @@ public class Colors {
             case TSA: return TSA_COLOR;
             case AREA: return AREA_COLOR;
 
-            default: return new Color(255,255,255);
+            default: return new Color(255,255,122);
+        }
+    }
+
+    public void setColor(PolygonType pt, Color color) {
+        switch (pt) {
+            case CTR -> {
+                CTR_COLOR = color;
+                break;
+            }
+            case TMA -> {
+                TMA_COLOR = color;
+                break;
+            }
+            case SID -> {
+                SID_COLOR = color;
+                break;
+            }
+            case STAR -> {
+                STAR_COLOR = color;
+                break;
+            }
+            case VFR -> {
+                VFR_COLOR = color;
+                break;
+            }
+            case FIX -> {
+                FIX_COLOR = color;
+                break;
+            }
+            case RIVER -> {
+                RIVER_COLOR = color;
+                break;
+            }
+            case TOWN -> {
+                TOWN_COLOR = color;
+                break;
+            }
+            case ROAD -> {
+                ROAD_COLOR = color;
+                break;
+            }
+            case BORDER -> {
+                BORDER_COLOR = color;
+                break;
+            }
+            case TSA -> {
+                TSA_COLOR = color;
+                break;
+            }
+            case TRA -> {
+                TRA_COLOR = color;
+                break;
+            }
+            case AREA -> {
+                AREA_COLOR = color;
+                break;
+            }
+            case P -> {
+                P_COLOR = color;
+                break;
+            }
+            case R -> {
+                R_COLOR = color;
+                break;
+            }
+            case D -> {
+                D_COLOR = color;
+                break;
+            }
+            case UNDEFINED -> {
+            }
         }
     }
 
@@ -60,7 +132,7 @@ public class Colors {
             case VFR: return VFR_COLOR;
             case TOWN: return TOWN_COLOR;
             case UNDEFINED:
-            default: return new Color(255,255,255);
+            default: return new Color(255,255,122);
         }
     }
 }
