@@ -7,7 +7,7 @@ public class Colors {
     public Color TMA_COLOR = new Color(170, 170, 170, 122);
     public Color SID_COLOR = new Color(30, 90, 225, 122);
     public Color STAR_COLOR = new Color(184, 141, 71, 122);
-    public Color RBL_COLOR = new Color(158, 195, 255, 122);
+    public Color RBL_COLOR = new Color(158, 195, 255, 220);
     public Color VFR_COLOR = new Color(220, 220, 0, 122);
     public Color FIX_COLOR = new Color(200, 200, 200, 122);
     public Color AERODROME_COLOR = new Color(200, 200, 200, 122);
