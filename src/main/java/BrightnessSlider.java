@@ -5,6 +5,7 @@ import java.awt.*;
 
 public class BrightnessSlider implements ChangeListener {
     private PolygonType polygonType;
+    private FixType fixType;
     private MapPanel mapPanel;
     private Color reference;
 
@@ -12,6 +13,13 @@ public class BrightnessSlider implements ChangeListener {
         this.mapPanel = mapPanel;
         this.polygonType = polygonType;
         this.reference = mapPanel.getColors().getColor(polygonType);
+
+    }
+
+    public BrightnessSlider(FixType fixType, MapPanel mapPanel) {
+        this.mapPanel = mapPanel;
+        this.fixType = fixType;
+        this.reference = mapPanel.getColors().getColor(fixType);
 
     }
 
@@ -23,7 +31,10 @@ public class BrightnessSlider implements ChangeListener {
 
         Color newColor = new Color(reference.getRed(), reference.getGreen(), reference.getBlue(), reference.getAlpha() + multiplier);
 
-        mapPanel.getColors().setColor(polygonType, newColor);
+        if (polygonType != null)
+            mapPanel.getColors().setColor(polygonType, newColor);
+        else if (fixType != null)
+            mapPanel.getColors().setColor(fixType, newColor);
 
         mapPanel.repaint();
     }

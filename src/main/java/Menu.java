@@ -38,8 +38,17 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
     private final JMenuItem miAbout;
 
 
-    private JSlider sliderCtr;
     private JSlider sliderTma;
+    private JSlider sliderCtr;
+    private JSlider sliderTmaEntryFix;
+    private JSlider sliderVfrFix;
+    private JSlider sliderSid01;
+    private JSlider sliderSid19;
+    private JSlider sliderStar01;
+    private JSlider sliderStar19;
+    private JSlider sliderTsa;
+    private JSlider sliderBorder;
+    private JSlider sliderAerodromes;
 
     public Menu(MapPanel mapPanel, Airspace airspace) {
         this.mapPanel = mapPanel;
@@ -83,6 +92,15 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
 
         sliderCtr = createJSlider("CTR", PolygonType.CTR, mapPanel);
         sliderTma = createJSlider("TMA", PolygonType.TMA, mapPanel);
+        sliderTmaEntryFix = createJSlider("TMA entry fixes", FixType.ENTRY, mapPanel);
+        sliderVfrFix = createJSlider("VFR fixes", FixType.VFR, mapPanel);
+        sliderSid01 = createJSlider("TMA", PolygonType.TMA, mapPanel);
+        sliderSid19 = createJSlider("TMA", PolygonType.TMA, mapPanel);
+        sliderStar01 = createJSlider("TMA", PolygonType.TMA, mapPanel);
+        sliderStar19 = createJSlider("TMA", PolygonType.TMA, mapPanel);
+        sliderTsa = createJSlider("TMA", PolygonType.TMA, mapPanel);
+        sliderBorder = createJSlider("TMA", PolygonType.TMA, mapPanel);
+        sliderAerodromes = createJSlider("TMA", PolygonType.TMA, mapPanel);
 
 
         cbTma = new JCheckBoxMenuItem("TMA");
@@ -90,16 +108,25 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         cbCtr = new JCheckBoxMenuItem("CTR");
         cbCtr.addMouseListener(this);
         cbTmaFixes = new JCheckBoxMenuItem("TMA entry fixes");
+        cbTmaFixes.addMouseListener(this);
         cbVfrFixes = new JCheckBoxMenuItem("VFR fixes");
+        cbVfrFixes.addMouseListener(this);
         cbSid01 = new JCheckBoxMenuItem("SID 01");
+        cbSid01.addMouseListener(this);
         cbSid19 = new JCheckBoxMenuItem("SID 19");
+        cbSid19.addMouseListener(this);
         cbStar01 = new JCheckBoxMenuItem("STAR 01");
+        cbStar01.addMouseListener(this);
         cbStar19 = new JCheckBoxMenuItem("STAR 19");
+        cbStar19.addMouseListener(this);
         cbPDR = new JCheckBoxMenuItem("P/D/R");
         cbTSA = new JCheckBoxMenuItem("TSA");
+        cbTSA.addMouseListener(this);
         cbTRA = new JCheckBoxMenuItem("TRA");
         cbAerodromes = new JCheckBoxMenuItem("Aerodromes");
+        cbAerodromes.addMouseListener(this);
         cbBorder = new JCheckBoxMenuItem("Border");
+        cbBorder.addMouseListener(this);
         cbTowns = new JCheckBoxMenuItem("Towns");
         cbRivers = new JCheckBoxMenuItem("Rivers");
         cbRoads = new JCheckBoxMenuItem("Roads");
@@ -109,21 +136,39 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         menuElements.add(cbCtr);
         menuElements.add(sliderCtr);
 
+//        sliderTmaEntryFix
+//                sliderVfrFix
+//        sliderSid01
+//                sliderSid19
+//        sliderStar01
+//                sliderStar19
+//        sliderTsa
+//                sliderBorder
+//        sliderAerodromes
         menuElements.addSeparator();
         menuElements.add(cbTmaFixes);
+        menuElements.add(sliderTmaEntryFix);
         menuElements.add(cbVfrFixes);
+        menuElements.add(sliderVfrFix);
         menuElements.addSeparator();
         menuElements.add(cbSid01);
+        menuElements.add(sliderSid01);
         menuElements.add(cbSid19);
+        menuElements.add(sliderSid19);
         menuElements.add(cbStar01);
+        menuElements.add(sliderStar01);
         menuElements.add(cbStar19);
+        menuElements.add(sliderStar19);
         menuElements.addSeparator();
         menuElements.add(cbPDR);
         menuElements.add(cbTSA);
+        menuElements.add(sliderTsa);
         menuElements.add(cbTRA);
         menuElements.addSeparator();
         menuElements.add(cbBorder);
+        menuElements.add(sliderBorder);
         menuElements.add(cbAerodromes);
+        menuElements.add(sliderAerodromes);
         menuElements.add(cbTowns);
         menuElements.add(cbRivers);
         menuElements.add(cbRoads);
@@ -173,6 +218,22 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         slider.setPreferredSize(new Dimension(120, 20));
 
         BrightnessSlider bs = new BrightnessSlider(pt, mapPanel);
+        slider.addChangeListener(bs);
+
+        return slider;
+    }
+
+    private JSlider createJSlider(String name, FixType ft, MapPanel mapPanel) {
+
+        JSlider slider = new JSlider(JSlider.HORIZONTAL);
+        slider.setVisible(false);
+        slider.setName(name);
+        slider.setMaximum(123);
+        slider.setValue(0);
+        slider.setMinimum(-122);
+        slider.setPreferredSize(new Dimension(120, 20));
+
+        BrightnessSlider bs = new BrightnessSlider(ft, mapPanel);
         slider.addChangeListener(bs);
 
         return slider;
@@ -303,6 +364,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
 
     }
 
+
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource().equals(menuClose))
@@ -332,10 +394,51 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
                 togglePolygonVisibility(cbCtr, PolygonType.CTR);//
             }
         }
+
+        if (e.getSource().equals(cbTmaFixes)) {
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                JCheckBoxMenuItem cb = (JCheckBoxMenuItem) e.getSource();
+                sliderTmaEntryFix.setVisible(!sliderTmaEntryFix.isVisible());
+
+                // thats soooo messy. When detecting middle mouse click to show/hide brightness slider
+                // what happens is that ActionEvent is also fired, repeatedly checking checkbox and
+                // therefore disabling visibility of polygon. My fix for now is to, when ActionEvent fired,
+                // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
+                cb.setSelected(!cb.isSelected());
+                toggleFixVisibility(cb);
+
+            }
+
+        }
+
+        if (e.getSource().equals(cbVfrFixes)) {
+
+        }
+        if (e.getSource().equals(cbSid01)) {
+
+        }
+        if (e.getSource().equals(cbSid19)) {
+
+        }
+        if (e.getSource().equals(cbStar01)) {
+
+        }
+        if (e.getSource().equals(cbStar19)) {
+
+        }
+        if (e.getSource().equals(cbTSA)) {
+
+        }
+        if (e.getSource().equals(cbBorder)) {
+
+        }
+        if (e.getSource().equals(cbAerodromes)) {
+
+        }
+
     }
 
     private void HandleTma(MouseEvent e) {
-        System.out.println("TMA CLICKED");
         if (SwingUtilities.isMiddleMouseButton(e)) {
             JCheckBoxMenuItem cb = (JCheckBoxMenuItem) e.getSource();
             sliderTma.setVisible(!sliderTma.isVisible());

@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
 
 public class Colors {
     public Color BACKGROUND_COLOR = new Color(30,30,30, 255);
@@ -133,6 +132,53 @@ public class Colors {
             case TOWN: return TOWN_COLOR;
             case UNDEFINED:
             default: return new Color(255,255,122);
+        }
+    }
+    public void setColor(FixType fixType, Color color) {
+        switch (fixType) {
+            case ENTRY -> {
+                TMA_COLOR = color;
+                break;
+            }
+            case SID01 -> {
+                SID_COLOR = color;
+                break;
+            }
+            case SID19 -> {
+                SID_COLOR = color;
+                break;
+            }
+            case DER -> {
+                SID_COLOR = color;
+                break;
+            }
+            case STAR01 -> {
+                STAR_COLOR = color;
+                break;
+            }
+            case STAR19 -> {
+                STAR_COLOR = color;
+                break;
+            }
+            case VFR -> {
+                VFR_COLOR = color;
+                break;
+            }
+            case VOR -> {
+                AERODROME_COLOR = color;
+                break;
+            }
+            case AERODROME -> {
+                AERODROME_COLOR = color;
+                break;
+            }
+            case TOWN -> {
+                TOWN_COLOR = color;
+                break;
+            }
+            case UNDEFINED -> {
+                break;
+            }
         }
     }
 }
