@@ -40,17 +40,16 @@ public class CoordinateConverter {
 
     private static String getSfromD(double coord, CoordType coordType) {
         double degree = Math.floor(coord);
-        double minuteRest = coord - degree;
-        double minutes = minuteRest / (1d/60d);
-        double minFloor = Math.floor(minutes);
-        double secondRest = minutes - minFloor;
-        double seconds = secondRest / (1d/60d);
+        double minuteRest = ((coord - degree) * 60);
+        double minute = Math.floor(minuteRest);
 
+        double secondRest = (minuteRest - minute) * 60;
+        double second = Math.floor(secondRest);
 
 
         String degreesS = coordType == CoordType.N ? String.format("%02d", Math.round(degree)) : String.format("%03d", Math.round(degree));
-        String minutesS = String.format("%02d", Math.round(minutes) == 60 ? 59 : Math.round(minutes));
-        String secondsS = String.format("%02d", Math.round(seconds) == 60 ? 59 : Math.round(seconds));
+        String minutesS = String.format("%02d", Math.round(minute) == 60 ? 59 : Math.round(minute));
+        String secondsS = String.format("%02d", Math.round(second) == 60 ? 59 : Math.round(second));
 
         // example: '53°38''41"N 020°02''30"E'
 
