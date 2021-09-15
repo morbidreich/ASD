@@ -9,7 +9,7 @@ import javax.swing.plaf.basic.BasicCheckBoxMenuItemUI;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Menu implements ActionListener, MenuListener, MouseListener {
+public class Menu implements ActionListener, MenuListener, MouseListener, ChangeListener {
     private Airspace airspace;
     private MapPanel mapPanel;
 
@@ -50,9 +50,11 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
     private JSlider sliderBorder;
     private JSlider sliderAerodromes;
 
+
     public Menu(MapPanel mapPanel, Airspace airspace) {
         this.mapPanel = mapPanel;
         this.airspace = airspace;
+
 
 
         menuBar = new JMenuBar();
@@ -103,6 +105,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
         sliderAerodromes = createJSlider("TMA", PolygonType.TMA, mapPanel);
 
 
+
         cbTma = new JCheckBoxMenuItem("TMA");
         cbTma.addMouseListener(this);
         cbCtr = new JCheckBoxMenuItem("CTR");
@@ -145,6 +148,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
 //        sliderTsa
 //                sliderBorder
 //        sliderAerodromes
+
 
         menuElements.addSeparator();
         menuElements.add(cbTmaFixes);
@@ -479,5 +483,19 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        JSlider slider = (JSlider) e.getSource();
+        System.out.println(slider.getValue());
+    }
+
+    private class SliderEventListener implements ChangeListener {
+
+        @Override
+        public void stateChanged(ChangeEvent e) {
+            System.out.println("That works too");
+        }
     }
 }

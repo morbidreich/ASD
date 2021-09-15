@@ -1,6 +1,7 @@
 import java.awt.*;
 
 public class Colors {
+
     public Color BACKGROUND_COLOR = new Color(30,30,30, 255);
     public Color CTR_COLOR = new Color(250, 170, 10, 122);
     public Color TMA_COLOR = new Color(170, 170, 170, 122);
@@ -20,6 +21,7 @@ public class Colors {
     public Color TSA_COLOR = new Color(150, 100, 10, 122);
     public Color TRA_COLOR = new Color(150, 150, 150, 122);
     public Color AREA_COLOR = new Color(150, 150, 150, 122);
+
 
     public Color getColor(PolygonType pt) {
         switch (pt) {
@@ -114,6 +116,7 @@ public class Colors {
             }
         }
     }
+
 
     public Color getColor(FixType ft) {
         switch (ft) {

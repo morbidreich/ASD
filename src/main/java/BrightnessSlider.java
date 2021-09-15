@@ -21,6 +21,7 @@ public class BrightnessSlider implements ChangeListener {
         this.fixType = fixType;
         this.reference = mapPanel.getColors().getColor(fixType);
 
+
     }
 
     @Override
@@ -37,5 +38,6 @@ public class BrightnessSlider implements ChangeListener {
             mapPanel.getColors().setColor(fixType, newColor);
 
         mapPanel.repaint();
+
     }
 }
