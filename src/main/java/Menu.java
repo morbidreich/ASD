@@ -57,6 +57,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
 
         menuOptions = new JMenu("Options");
         menuElements = new JMenu("Select elements");
+
         menuClearRbls = new JMenu("Clear RBLs");
         menuClearRbls.addMouseListener(this);
         menuClose = new JMenu("Close");
@@ -76,7 +77,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         menuBar.add(menuClose);
         menuBar.add(Box.createHorizontalStrut(400));
         menuBar.add(jlSearch);
-        //menuBar.add(Box.createHorizontalStrut(400));
         menuBar.add(jtfSearchText);
         menuBar.add(jbClear);
 
@@ -204,7 +204,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         slider.setMaximum(123);
         slider.setValue(0);
         slider.setMinimum(-122);
-        slider.setPreferredSize(new Dimension(120, 20));
+        slider.setPreferredSize(new Dimension(60, 20));
+        slider.setMinimumSize(new Dimension(60,19));
 
         BrightnessSlider bs = new BrightnessSlider(pt, mapPanel);
         slider.addChangeListener(bs);
@@ -220,7 +221,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         slider.setMaximum(123);
         slider.setValue(0);
         slider.setMinimum(-122);
-        slider.setPreferredSize(new Dimension(120, 20));
+        slider.setPreferredSize(new Dimension(60, 20));
+        slider.setMinimumSize(new Dimension(60,19));
 
         BrightnessSlider bs = new BrightnessSlider(ft, mapPanel);
         slider.addChangeListener(bs);
@@ -374,6 +376,12 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
             System.out.println("Ctr CLICKED");
             if (SwingUtilities.isMiddleMouseButton(e)) {
                 sliderCtr.setVisible(!sliderCtr.isVisible());
+
+                JCheckBoxMenuItem newCb = new JCheckBoxMenuItem("Text of new element");
+                int i = menuElements.getMenuComponentCount();
+                menuElements.add(newCb, i-1);
+
+
 
                 // thats soooo messy. When detecting middle mouse click to show/hide brightness slider
                 // what happens is that ActionEvent is also fired, repeatedly checking checkbox and
