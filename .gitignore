@@ -2,3 +2,4 @@
 target/*
 airspace.mv.db
 airspace.trace.db
+.idea*/*
