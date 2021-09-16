@@ -377,12 +377,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
             if (SwingUtilities.isMiddleMouseButton(e)) {
                 sliderCtr.setVisible(!sliderCtr.isVisible());
 
-                JCheckBoxMenuItem newCb = new JCheckBoxMenuItem("Text of new element");
-                int i = menuElements.getMenuComponentCount();
-                menuElements.add(newCb, i-1);
-
-
-
                 // thats soooo messy. When detecting middle mouse click to show/hide brightness slider
                 // what happens is that ActionEvent is also fired, repeatedly checking checkbox and
                 // therefore disabling visibility of polygon. My fix for now is to, when ActionEvent fired,

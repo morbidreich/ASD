@@ -1,13 +1,3 @@
---create table fix (
---    id int not null auto_increment,
---    coordinates varchar(30) not null,
---    fix_name varchar(15) not null,
---    fix_type_id int not null,
---    primary key (id)-- ,
---    -- foreign key (fix_type_id) references fix_type(id)
---    );
-
-
 insert into fix (coordinates, fix_name, fix_type_id) values ('51°12''21"N 016°59''53"E','EPWS', 8);
 insert into fix (coordinates, fix_name, fix_type_id) values ('51°13''26"N 021°51''43"E','EPSZ', 8);
 insert into fix (coordinates, fix_name, fix_type_id) values ('51°13''23"N 022°33''06"E','EPLA', 8);
@@ -136,7 +126,6 @@ insert into fix (coordinates, fix_name, fix_type_id) values ('51°14''24"N 022°
 insert into fix (coordinates, fix_name, fix_type_id) values ('54°00''29"N 018°30''00"E','EPLI', 8);
 insert into fix (coordinates, fix_name, fix_type_id) values ('50°49''01"N 016°34''55"E','EPSS', 8);
 insert into fix (coordinates, fix_name, fix_type_id) values ('51°38''56"N 018°33''44"E','EPCT', 8);
-insert into fix (coordinates, fix_name, fix_type_id) values ('54°42''37"N 018°38''43"E','EPJA', 8);
 insert into fix (coordinates, fix_name, fix_type_id) values ('53°06''05"N 023°10''14"E','EPBK', 8);
 insert into fix (coordinates, fix_name, fix_type_id) values ('50°04''39"N 019°47''05"E','EPKK', 8);
 insert into fix (coordinates, fix_name, fix_type_id) values ('51°32''08"N 018°48''04"E','EPSI', 8);
@@ -197,4 +186,3 @@ insert into fix (coordinates, fix_name, fix_type_id) values ('52°34''26"N 020°
 insert into fix (coordinates, fix_name, fix_type_id) values ('51°03''19"N 016°00''45"E','EPBR', 8);
 insert into fix (coordinates, fix_name, fix_type_id) values ('51°35''22"N 019°15''15"E','EPLD', 8);
 insert into fix (coordinates, fix_name, fix_type_id) values ('52°41''36"N 015°12''59"E','EPGU', 8);
-
