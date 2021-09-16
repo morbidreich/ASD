@@ -140,7 +140,7 @@ public class Colors {
     public void setColor(FixType fixType, Color color) {
         switch (fixType) {
             case ENTRY -> {
-                TMA_COLOR = color;
+                AERODROME_COLOR = color;
                 break;
             }
             case SID01 -> {

@@ -1,19 +1,14 @@
 import java.awt.*;
 
 public class playground {
+    static PolygonType pt;
+
     public static void main(String[] args) {
+        test();
 
-        Color t = new Color(130,230,30) {
-            @Override
-            public String toString() {
-                return "łokurwategomsieniespodziewał";
-            }
-        };
+    }
 
-        System.out.println(t.toString());
-        float[] table = new float[3];
-        table = Color.RGBtoHSB(t.getRed(), t.getGreen(), t.getBlue(), table);
-
-
+    private static void test() {
+        System.out.println(pt);
     }
 }

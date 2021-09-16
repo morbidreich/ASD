@@ -1,5 +1,3 @@
-import org.h2.mvstore.tx.TransactionStore;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -50,11 +48,9 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private JSlider sliderBorder;
     private JSlider sliderAerodromes;
 
-
     public Menu(MapPanel mapPanel, Airspace airspace) {
         this.mapPanel = mapPanel;
         this.airspace = airspace;
-
 
 
         menuBar = new JMenuBar();
@@ -96,14 +92,13 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         sliderTma = createJSlider("TMA", PolygonType.TMA, mapPanel);
         sliderTmaEntryFix = createJSlider("TMA entry fixes", FixType.ENTRY, mapPanel);
         sliderVfrFix = createJSlider("VFR fixes", FixType.VFR, mapPanel);
-        sliderSid01 = createJSlider("TMA", PolygonType.TMA, mapPanel);
-        sliderSid19 = createJSlider("TMA", PolygonType.TMA, mapPanel);
-        sliderStar01 = createJSlider("TMA", PolygonType.TMA, mapPanel);
-        sliderStar19 = createJSlider("TMA", PolygonType.TMA, mapPanel);
-        sliderTsa = createJSlider("TMA", PolygonType.TMA, mapPanel);
-        sliderBorder = createJSlider("TMA", PolygonType.TMA, mapPanel);
-        sliderAerodromes = createJSlider("TMA", PolygonType.TMA, mapPanel);
-
+        sliderSid01 = createJSlider("SID 01", FixType.SID01, mapPanel);
+        sliderSid19 = createJSlider("SID 19", FixType.SID19, mapPanel);
+        sliderStar01 = createJSlider("STAR 01", FixType.STAR01, mapPanel);
+        sliderStar19 = createJSlider("STAR 19", FixType.STAR19, mapPanel);
+        sliderTsa = createJSlider("TSA", PolygonType.TSA, mapPanel);
+        sliderBorder = createJSlider("Border", PolygonType.BORDER, mapPanel);
+        sliderAerodromes = createJSlider("Aerodromes", FixType.AERODROME, mapPanel);
 
 
         cbTma = new JCheckBoxMenuItem("TMA");
@@ -138,17 +133,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         menuElements.add(sliderTma);
         menuElements.add(cbCtr);
         menuElements.add(sliderCtr);
-
-//        sliderTmaEntryFix
-//                sliderVfrFix
-//        sliderSid01
-//                sliderSid19
-//        sliderStar01
-//                sliderStar19
-//        sliderTsa
-//                sliderBorder
-//        sliderAerodromes
-
 
         menuElements.addSeparator();
         menuElements.add(cbTmaFixes);
@@ -311,7 +295,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 for (Procedure p : airspace.getProcedureList()) {
                     if (p.getRunway() == Runway.RUNWAY_01 &&
                             p.getProcedureType() == ProcedureType.SID)
-                        p.setVisible(source.isSelected());
+                        p.setVisibility(source.isSelected());
                 }
                 break;
             }
@@ -319,7 +303,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 for (Procedure p : airspace.getProcedureList()) {
                     if (p.getRunway() == Runway.RUNWAY_19 &&
                             p.getProcedureType() == ProcedureType.SID)
-                        p.setVisible(source.isSelected());
+                        p.setVisibility(source.isSelected());
                 }
                 break;
             }
@@ -327,7 +311,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 for (Procedure p : airspace.getProcedureList()) {
                     if (p.getRunway() == Runway.RUNWAY_01 &&
                             p.getProcedureType() == ProcedureType.STAR)
-                        p.setVisible(source.isSelected());
+                        p.setVisibility(source.isSelected());
                 }
                 break;
             }
@@ -335,7 +319,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 for (Procedure p : airspace.getProcedureList()) {
                     if (p.getRunway() == Runway.RUNWAY_19 &&
                             p.getProcedureType() == ProcedureType.STAR)
-                        p.setVisible(source.isSelected());
+                        p.setVisibility(source.isSelected());
                 }
                 break;
             }
@@ -384,6 +368,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
 
             HandleTma(e);
         }
+
         if (e.getSource().equals(cbCtr)) {
 
             System.out.println("Ctr CLICKED");
@@ -417,28 +402,112 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         }
 
         if (e.getSource().equals(cbVfrFixes)) {
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                JCheckBoxMenuItem cb = (JCheckBoxMenuItem) e.getSource();
+                sliderVfrFix.setVisible(!sliderVfrFix.isVisible());
+
+
+                // thats soooo messy. When detecting middle mouse click to show/hide brightness slider
+                // what happens is that ActionEvent is also fired, repeatedly checking checkbox and
+                // therefore disabling visibility of polygon. My fix for now is to, when ActionEvent fired,
+                // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
+                cb.setSelected(!cb.isSelected());
+                toggleFixVisibility(cb);
+
+            }
 
         }
         if (e.getSource().equals(cbSid01)) {
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                JCheckBoxMenuItem cb = (JCheckBoxMenuItem) e.getSource();
+                sliderSid01.setVisible(!sliderSid01.isVisible());
+
+                // thats soooo messy. When detecting middle mouse click to show/hide brightness slider
+                // what happens is that ActionEvent is also fired, repeatedly checking checkbox and
+                // therefore disabling visibility of polygon. My fix for now is to, when ActionEvent fired,
+                // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
+                cb.setSelected(!cb.isSelected());
+                toggleProcedureVisibility(cb);
+            }
 
         }
         if (e.getSource().equals(cbSid19)) {
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                JCheckBoxMenuItem cb = (JCheckBoxMenuItem) e.getSource();
+                sliderSid19.setVisible(!sliderSid19.isVisible());
 
+                // thats soooo messy. When detecting middle mouse click to show/hide brightness slider
+                // what happens is that ActionEvent is also fired, repeatedly checking checkbox and
+                // therefore disabling visibility of polygon. My fix for now is to, when ActionEvent fired,
+                // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
+                cb.setSelected(!cb.isSelected());
+                toggleProcedureVisibility(cb);
+            }
         }
         if (e.getSource().equals(cbStar01)) {
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                JCheckBoxMenuItem cb = (JCheckBoxMenuItem) e.getSource();
+                sliderStar01.setVisible(!sliderStar01.isVisible());
 
+                // thats soooo messy. When detecting middle mouse click to show/hide brightness slider
+                // what happens is that ActionEvent is also fired, repeatedly checking checkbox and
+                // therefore disabling visibility of polygon. My fix for now is to, when ActionEvent fired,
+                // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
+                cb.setSelected(!cb.isSelected());
+                toggleProcedureVisibility(cb);
+            }
         }
         if (e.getSource().equals(cbStar19)) {
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                JCheckBoxMenuItem cb = (JCheckBoxMenuItem) e.getSource();
+                sliderStar19.setVisible(!sliderStar19.isVisible());
 
+                // thats soooo messy. When detecting middle mouse click to show/hide brightness slider
+                // what happens is that ActionEvent is also fired, repeatedly checking checkbox and
+                // therefore disabling visibility of polygon. My fix for now is to, when ActionEvent fired,
+                // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
+                cb.setSelected(!cb.isSelected());
+                toggleProcedureVisibility(cb);
+            }
         }
         if (e.getSource().equals(cbTSA)) {
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                JCheckBoxMenuItem cb = (JCheckBoxMenuItem) e.getSource();
+                sliderTsa.setVisible(!sliderTsa.isVisible());
 
+                // thats soooo messy. When detecting middle mouse click to show/hide brightness slider
+                // what happens is that ActionEvent is also fired, repeatedly checking checkbox and
+                // therefore disabling visibility of polygon. My fix for now is to, when ActionEvent fired,
+                // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
+                cb.setSelected(!cb.isSelected());
+                togglePolygonVisibility(cb, PolygonType.TSA);
+            }
         }
         if (e.getSource().equals(cbBorder)) {
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                JCheckBoxMenuItem cb = (JCheckBoxMenuItem) e.getSource();
+                sliderBorder.setVisible(!sliderBorder.isVisible());
 
+                // thats soooo messy. When detecting middle mouse click to show/hide brightness slider
+                // what happens is that ActionEvent is also fired, repeatedly checking checkbox and
+                // therefore disabling visibility of polygon. My fix for now is to, when ActionEvent fired,
+                // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
+                cb.setSelected(!cb.isSelected());
+                togglePolygonVisibility(cb, PolygonType.BORDER);
+            }
         }
         if (e.getSource().equals(cbAerodromes)) {
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                JCheckBoxMenuItem cb = (JCheckBoxMenuItem) e.getSource();
+                sliderAerodromes.setVisible(!sliderAerodromes.isVisible());
 
+                // thats soooo messy. When detecting middle mouse click to show/hide brightness slider
+                // what happens is that ActionEvent is also fired, repeatedly checking checkbox and
+                // therefore disabling visibility of polygon. My fix for now is to, when ActionEvent fired,
+                // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
+                cb.setSelected(!cb.isSelected());
+                toggleFixVisibility(cb);
+            }
         }
 
     }
@@ -454,14 +523,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
             // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
             cb.setSelected(!cb.isSelected());
             togglePolygonVisibility(cb, PolygonType.TMA);
-
-
-            if (SwingUtilities.isMiddleMouseButton(e)) {
-
-                if (e.getSource().equals(cbCtr)) {
-                    System.out.println("Middle click on");
-                }
-            }
         }
     }
 
@@ -497,5 +558,13 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         public void stateChanged(ChangeEvent e) {
             System.out.println("That works too");
         }
+    }
+
+    class CustomCheckBox extends JCheckBoxMenuItem {
+        public CustomCheckBox(String text) {
+            super(text);
+        }
+
+        public JSlider slider;
     }
 }

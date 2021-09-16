@@ -81,7 +81,7 @@ public class Procedure {
         return isVisible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisibility(boolean visible) {
         isVisible = visible;
         setFixesVisibility(visible);
     }
