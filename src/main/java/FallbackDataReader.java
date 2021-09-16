@@ -47,7 +47,28 @@ public class FallbackDataReader implements AirspaceReader {
     private static List<Fix> getFixes() {
         //TODO read fixes
         List<Fix> fixList = new ArrayList<Fix>();
+        String path = "src/main/resources/EPSY/FIXES";
 
+        try {
+            File file = new File(path);
+            Scanner fileReader = new Scanner(file);
+            while (fileReader.hasNextLine()) {
+
+                Fix fix = new Fix();
+                fix.setFixType(FixType.UNDEFINED);
+
+                String[] out = fileReader.nextLine().split("\s");
+
+                System.out.println(out[0] + " " + out[1]);
+                fix.setCoordinates(out[0] + " " + out[1]);
+                fix.setName(out[2]);
+                fix.setVisible(true);
+                fixList.add(fix);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Data read failed; " + e.getMessage());
+        }
         return fixList;
     }
 

@@ -6,7 +6,7 @@ public class App {
         AirspaceReader fallbackReader = new FallbackDataReader();
 
         //use FallbackDataReader to speed up launch time
-        MapWindow mapWindow = new MapWindow(mainReader.readAirspace());
+        MapWindow mapWindow = new MapWindow(fallbackReader.readAirspace());
         mapWindow.setVisible(true);
     }
 }
