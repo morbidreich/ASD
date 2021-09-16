@@ -145,6 +145,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
 //        sliderTsa
 //                sliderBorder
 //        sliderAerodromes
+
         menuElements.addSeparator();
         menuElements.add(cbTmaFixes);
         menuElements.add(sliderTmaEntryFix);
@@ -251,14 +252,15 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
             AboutWindow aw = new AboutWindow();
             aw.setLocationRelativeTo(mapPanel);
             aw.setVisible(true);
+
         } else if (e.getSource().equals(cbStar01) ||
                 e.getSource().equals(cbStar19) ||
                 e.getSource().equals(cbSid01) ||
                 e.getSource().equals(cbSid19)) {
 
             toggleProcedureVisibility((JCheckBoxMenuItem) e.getSource());
-        } else if (e.getSource().equals(cbTma)) {
 
+        } else if (e.getSource().equals(cbTma)) {
             togglePolygonVisibility(cbTma, PolygonType.TMA);
         } else if (e.getSource().equals(cbCtr)) {
             togglePolygonVisibility(cbCtr, PolygonType.CTR);
@@ -364,7 +366,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
 
     }
 
-
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource().equals(menuClose))
@@ -450,6 +451,13 @@ public class Menu implements ActionListener, MenuListener, MouseListener {
             cb.setSelected(!cb.isSelected());
             togglePolygonVisibility(cb, PolygonType.TMA);
 
+
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+
+                if (e.getSource().equals(cbCtr)) {
+                    System.out.println("Middle click on");
+                }
+            }
         }
     }
 
