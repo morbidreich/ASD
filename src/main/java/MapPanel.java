@@ -92,11 +92,12 @@ class MapPanel extends JPanel {
         if (polygons.size() == 0) return;
         if (this.scale == -1) scale();
 
-        drawPolygons(g, h);
-        drawProcedures(g, h);
-        drawFixes(g, h);
+        drawPolygons(polygons, g, h);
+        drawProcedures(procedures, g, h);
+        drawFixes(fixes, g, h);
         drawRBLs(g, h);
         drawScale(g);
+        //last in order to display results on top
         drawSearchResults(g, h);
     }
 
@@ -133,8 +134,8 @@ class MapPanel extends JPanel {
         }
     }
 
-    private void drawPolygons(Graphics2D g, int h) {
-        for (Polygon poly : polygons) {
+    private void drawPolygons(List<Polygon> polygonList, Graphics2D g, int h) {
+        for (Polygon poly : polygonList) {
             if (poly.isVisible()) {
 
                 List<Point> pointList = poly.getPointList();
@@ -153,7 +154,7 @@ class MapPanel extends JPanel {
         }
     }
 
-    private void drawFixes(Graphics2D g, int h) {
+    private void drawFixes(List<Fix> fixes, Graphics2D g, int h) {
         for (Fix fix : fixes) {
 
             if (fix.isVisible()) {
@@ -166,7 +167,7 @@ class MapPanel extends JPanel {
         }
     }
 
-    private void drawProcedures(Graphics2D g, int h) {
+    private void drawProcedures(List<Procedure> procedures, Graphics2D g, int h) {
         for (Procedure procedure : procedures) {
             if (procedure.isVisible()) {
                 List<Fix> fixList = procedure.getFixList();
@@ -183,8 +184,9 @@ class MapPanel extends JPanel {
     }
 
     private void drawSearchResults(Graphics2D g, int h) {
-        g.setColor(Color.MAGENTA); //pick better later
-
+        drawFixes(searchResult.getFixList(), g, h);
+        drawPolygons(searchResult.getPolygonList(), g, h);
+        drawProcedures(searchResult.getProcedureList(), g, h);
     }
 
     public synchronized void clear() {

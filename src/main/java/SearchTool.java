@@ -64,9 +64,12 @@ public class SearchTool implements KeyListener, ActionListener {
     public void keyReleased(KeyEvent e) {
         // perform search and send result to mapPanel
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (searchResult != null)
+            if (searchResult != null) {
+                // CLONE SEARCHRESULT
                 mapPanel.setSearchResult(searchResult);
+            }
             System.out.println(searchResult);
+            mapPanel.repaint();
         }
         // clear searchPhrase and JTextField
         else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {

@@ -4,7 +4,9 @@ import java.util.List;
 
 @Entity
 @Table(name="fix")
-public class Fix extends BasePoint {
+public class Fix extends BasePoint implements Cloneable {
+    //i need cloneable for SearchEngine - it clones object to
+    //be able to modify isVisible field without modifying original Fix
 
     @Column(name="fix_name")
     private String name;

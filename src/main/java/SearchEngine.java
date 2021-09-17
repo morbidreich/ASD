@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class SearchEngine {
     private Airspace airspace;
@@ -11,7 +12,7 @@ public class SearchEngine {
 
     public SearchEngine(Airspace airspace) {
         this.airspace = airspace;
-        minSearchPhraseLength = 3;
+        minSearchPhraseLength = 2;
     }
 
     /**
@@ -23,9 +24,13 @@ public class SearchEngine {
      */
     public SearchResult doSearch(Airspace airspace, String searchPhrase) {
         searchResult = new SearchResult();
+        searchPhrase = searchPhrase.toUpperCase(Locale.ROOT);
 
-        if (searchPhrase.length() >= minSearchPhraseLength)
+        if (searchPhrase.length() >= minSearchPhraseLength) {
             searchResult.setFixList(searchFix(searchPhrase));
+            searchResult.setPolygonList(searchPolygon(searchPhrase));
+            searchResult.setProcedureList(searchProcedure(searchPhrase));
+        }
         return searchResult;
 
         //searchResult.getFixList().add(airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null));
@@ -40,8 +45,11 @@ public class SearchEngine {
         //airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null);
         List<Fix> out = new ArrayList<>();
         for (Fix fix : airspace.getFixList()) {
-            if (fix.getName().contains(searchPhrase))
+            if (fix.getName().contains(searchPhrase)) {
+                // by default all fixes ale invisible
+                fix.setVisible(true);
                 out.add(fix);
+            }
         }
         return out;
     }
@@ -50,8 +58,11 @@ public class SearchEngine {
         //airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null);
         List<Polygon> out = new ArrayList<>();
         for (Polygon polygon : airspace.getPolygonList()) {
-            if (polygon.getName().contains(searchPhrase))
+            if (polygon.getName().contains(searchPhrase)) {
+                // by default all polygons ale invisible
+                polygon.setVisible(true);
                 out.add(polygon);
+            }
         }
         return out;
     }
@@ -60,8 +71,11 @@ public class SearchEngine {
         //airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null);
         List<Procedure> out = new ArrayList<>();
         for (Procedure procedure : airspace.getProcedureList()) {
-            if (procedure.getName().contains(searchPhrase))
+            if (procedure.getName().contains(searchPhrase)) {
+                // by default all procedures ale invisible
+                procedure.setVisibility(true);
                 out.add(procedure);
+            }
         }
         return out;
     }

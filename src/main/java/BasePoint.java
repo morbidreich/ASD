@@ -5,7 +5,7 @@ import static java.lang.Math.tan;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class BasePoint {
+public class BasePoint implements Cloneable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -167,6 +167,7 @@ public class BasePoint {
         this.easting = 500 + k0 * a * nu * (A + (1 - T + C) * A3 / 6 + (5 - 18 * T + T * T) * A5 / 120);
         this.northing = n0 + k0 * a * (s + nu * tan(phi) * (A2 / 2 + (5 - T + 9 * C + 4 * C * C) * A4 / 24 + (61 - 58 * T + T * T) * A6 / 720));
     }
+
 
     @Override
     public String toString() {
