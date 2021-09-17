@@ -5,7 +5,9 @@ import java.util.List;
 @Entity
 // sql table is, as exception, plural, because of sql keyword 'procedure'
 @Table(name="procedures")
-public class Procedure {
+public class Procedure implements Cloneable {
+    //i need cloneable for SearchEngine - it clones object to
+    //be able to modify isVisible field without modifying original Procedure
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

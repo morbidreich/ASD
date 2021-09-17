@@ -5,7 +5,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "polygon")
-public class Polygon {
+public class Polygon implements Cloneable{
+    //i need cloneable for SearchEngine - it clones object to
+    //be able to modify isVisible field without modifying original Polygon
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
