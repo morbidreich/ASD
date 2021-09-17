@@ -82,6 +82,17 @@ public class Polygon implements Cloneable{
     }
 
     @Override
+    protected Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println("Error cloning fix");
+            e.printStackTrace();
+            return this;
+        }
+    }
+
+    @Override
     public String toString() {
         return "Polygon: [id=" + id + ", name=" + name + ", type=" + polygonType + "]";
     }

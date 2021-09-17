@@ -187,6 +187,10 @@ class MapPanel extends JPanel {
         drawFixes(searchResult.getFixList(), g, h);
         drawPolygons(searchResult.getPolygonList(), g, h);
         drawProcedures(searchResult.getProcedureList(), g, h);
+
+        for (Procedure p : searchResult.getProcedureList()) {
+            drawFixes(p.getFixList(), g, h);
+        }
     }
 
     public synchronized void clear() {

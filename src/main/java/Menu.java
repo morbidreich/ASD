@@ -200,7 +200,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         slider.setValue(0);
         slider.setMinimum(-100);
         slider.setPreferredSize(new Dimension(60, 20));
-        slider.setMinimumSize(new Dimension(60,19));
+        slider.setMinimumSize(new Dimension(60,25));
 
         BrightnessSlider bs = new BrightnessSlider(pt, mapPanel);
         slider.addChangeListener(bs);
@@ -217,7 +217,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         slider.setValue(0);
         slider.setMinimum(-100);
         slider.setPreferredSize(new Dimension(60, 20));
-        slider.setMinimumSize(new Dimension(60,19));
+        slider.setMinimumSize(new Dimension(60,25));
 
         BrightnessSlider bs = new BrightnessSlider(ft, mapPanel);
         slider.addChangeListener(bs);

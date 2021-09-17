@@ -15,6 +15,7 @@ public enum PolygonType {
     P,
     R,
     D,
+    SEARCH_RESULT,
     UNDEFINED
 }
 

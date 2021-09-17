@@ -74,6 +74,17 @@ public class Fix extends BasePoint implements Cloneable {
     }
 
     @Override
+    protected Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println("Error cloning fix");
+            e.printStackTrace();
+            return this;
+        }
+    }
+
+    @Override
     public String toString() {
         return "Fix: [id=" + getId() + ", name=" + name + ", lat/lon=" + getLatitude() + "/" + getLongitude() + ", fixType=" + fixType + "]";
     }

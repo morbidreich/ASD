@@ -115,6 +115,26 @@ public class Procedure implements Cloneable {
     }
 
     @Override
+    protected Object clone() {
+        try {
+            Procedure p = (Procedure) super.clone();
+            List<Fix> l = new ArrayList<>();
+            for (Fix f : fixList) {
+                Fix f_clone = (Fix) f.clone();
+                l.add(f_clone);
+            }
+            p.setFixList(l);
+            return p;
+
+
+        } catch (CloneNotSupportedException e) {
+            System.out.println("Error cloning fix");
+            e.printStackTrace();
+            return this;
+        }
+    }
+
+    @Override
     public String toString() {
         return "Procedure: [id=" + id + ", name=" + name + ", runway=" + runway + ", type=" + procedureType + "]";
     }
