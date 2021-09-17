@@ -203,7 +203,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         slider.setName(name);
         slider.setMaximum(123);
         slider.setValue(0);
-        slider.setMinimum(-122);
+        slider.setMinimum(-100);
         slider.setPreferredSize(new Dimension(60, 20));
         slider.setMinimumSize(new Dimension(60,19));
 
@@ -220,7 +220,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         slider.setName(name);
         slider.setMaximum(123);
         slider.setValue(0);
-        slider.setMinimum(-122);
+        slider.setMinimum(-100);
         slider.setPreferredSize(new Dimension(60, 20));
         slider.setMinimumSize(new Dimension(60,19));
 
@@ -384,6 +384,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
 
                 cbCtr.setSelected(!cbCtr.isSelected());
                 togglePolygonVisibility(cbCtr, PolygonType.CTR);//
+                menuElements.setPopupMenuVisible(false);
+                menuElements.setPopupMenuVisible(true);
             }
         }
 
@@ -398,6 +400,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
                 cb.setSelected(!cb.isSelected());
                 toggleFixVisibility(cb);
+                menuElements.setPopupMenuVisible(false);
+                menuElements.setPopupMenuVisible(true);
 
             }
 
@@ -415,6 +419,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
                 cb.setSelected(!cb.isSelected());
                 toggleFixVisibility(cb);
+                menuElements.setPopupMenuVisible(false);
+                menuElements.setPopupMenuVisible(true);
 
             }
 
@@ -430,6 +436,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
                 cb.setSelected(!cb.isSelected());
                 toggleProcedureVisibility(cb);
+                menuElements.setPopupMenuVisible(false);
+                menuElements.setPopupMenuVisible(true);
             }
 
         }
@@ -444,6 +452,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
                 cb.setSelected(!cb.isSelected());
                 toggleProcedureVisibility(cb);
+                menuElements.setPopupMenuVisible(false);
+                menuElements.setPopupMenuVisible(true);
             }
         }
         if (e.getSource().equals(cbStar01)) {
@@ -457,6 +467,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
                 cb.setSelected(!cb.isSelected());
                 toggleProcedureVisibility(cb);
+                menuElements.setPopupMenuVisible(false);
+                menuElements.setPopupMenuVisible(true);
             }
         }
         if (e.getSource().equals(cbStar19)) {
@@ -470,6 +482,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
                 cb.setSelected(!cb.isSelected());
                 toggleProcedureVisibility(cb);
+                menuElements.setPopupMenuVisible(false);
+                menuElements.setPopupMenuVisible(true);
             }
         }
         if (e.getSource().equals(cbTSA)) {
@@ -483,6 +497,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
                 cb.setSelected(!cb.isSelected());
                 togglePolygonVisibility(cb, PolygonType.TSA);
+                menuElements.setPopupMenuVisible(false);
+                menuElements.setPopupMenuVisible(true);
             }
         }
         if (e.getSource().equals(cbBorder)) {
@@ -496,6 +512,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
                 cb.setSelected(!cb.isSelected());
                 togglePolygonVisibility(cb, PolygonType.BORDER);
+                menuElements.setPopupMenuVisible(false);
+                menuElements.setPopupMenuVisible(true);
             }
         }
         if (e.getSource().equals(cbAerodromes)) {
@@ -509,6 +527,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                 // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
                 cb.setSelected(!cb.isSelected());
                 toggleFixVisibility(cb);
+                menuElements.setPopupMenuVisible(false);
+                menuElements.setPopupMenuVisible(true);
             }
         }
 
@@ -525,6 +545,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
             // reverse isSelected and polygon visibility. Works with ultra short flicker/glich of checkbox xD
             cb.setSelected(!cb.isSelected());
             togglePolygonVisibility(cb, PolygonType.TMA);
+            menuElements.setPopupMenuVisible(false);
+            menuElements.setPopupMenuVisible(true);
         }
     }
 
