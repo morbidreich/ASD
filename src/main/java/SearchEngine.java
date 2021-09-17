@@ -47,8 +47,10 @@ public class SearchEngine {
         for (Fix fix : airspace.getFixList()) {
             if (fix.getName().contains(searchPhrase)) {
                 // by default all fixes ale invisible
-                fix.setVisible(true);
-                out.add(fix);
+                Fix f = (Fix) fix.clone();
+                f.setVisible(true);
+                f.setFixType(FixType.SEARCH_RESULT);
+                out.add(f);
             }
         }
         return out;
@@ -60,8 +62,10 @@ public class SearchEngine {
         for (Polygon polygon : airspace.getPolygonList()) {
             if (polygon.getName().contains(searchPhrase)) {
                 // by default all polygons ale invisible
-                polygon.setVisible(true);
-                out.add(polygon);
+                Polygon p = (Polygon) polygon.clone();
+                p.setVisible(true);
+                p.setPolygonType(PolygonType.SEARCH_RESULT);
+                out.add(p);
             }
         }
         return out;
@@ -73,8 +77,15 @@ public class SearchEngine {
         for (Procedure procedure : airspace.getProcedureList()) {
             if (procedure.getName().contains(searchPhrase)) {
                 // by default all procedures ale invisible
-                procedure.setVisibility(true);
-                out.add(procedure);
+                Procedure p = (Procedure) procedure.clone();
+                p.setVisibility(true);
+                for (Fix f : p.getFixList()) {
+                    f.setVisible(true);
+                    f.setFixType(FixType.SEARCH_RESULT);
+                }
+                p.setProcedureType(ProcedureType.SEARCH_RESULT);
+
+                out.add(p);
             }
         }
         return out;

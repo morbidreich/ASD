@@ -21,6 +21,7 @@ public class Colors {
     public Color TSA_COLOR = new Color(250, 90, 0, 122);
     public Color TRA_COLOR = new Color(150, 150, 150, 122);
     public Color AREA_COLOR = new Color(150, 150, 150, 122);
+    public Color SEARCH_RESULT_COLOR = new Color(250,90,0,255);
 
 
     public Color getColor(PolygonType pt) {
@@ -41,6 +42,7 @@ public class Colors {
             case TRA: return TRA_COLOR;
             case TSA: return TSA_COLOR;
             case AREA: return AREA_COLOR;
+            case SEARCH_RESULT: return SEARCH_RESULT_COLOR;
 
             default: return new Color(255,255,122);
         }
@@ -133,6 +135,7 @@ public class Colors {
                 return AERODROME_COLOR;
             case VFR: return VFR_COLOR;
             case TOWN: return TOWN_COLOR;
+            case SEARCH_RESULT: return SEARCH_RESULT_COLOR;
             case UNDEFINED:
             default: return new Color(255,255,122);
         }

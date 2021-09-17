@@ -1,5 +1,6 @@
 public enum ProcedureType {
     SID,
     STAR,
-    ARR
+    ARR,
+    SEARCH_RESULT
 }

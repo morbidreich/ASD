@@ -9,5 +9,6 @@ enum FixType {
     VOR,
     AERODROME,
     TOWN,
+    SEARCH_RESULT,
     UNDEFINED
 }
