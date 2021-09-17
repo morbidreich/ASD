@@ -6,6 +6,7 @@ public class Airspace {
     private List<Polygon> polygonList = new ArrayList<>();
     private List<Procedure> procedureList = new ArrayList<>();
 
+
     public Airspace() {
         //fixList = new ArrayList<>();
         //polygonList = new ArrayList<>();

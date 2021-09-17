@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+// sql table is, as exception, plural, because of sql keyword 'procedure'
 @Table(name="procedures")
 public class Procedure {
     @Id
@@ -10,7 +11,7 @@ public class Procedure {
     private int id;
 
     @Column(name="procedure_name")
-    private String procedureName;
+    private String name;
 
     @Enumerated
     private Runway runway;
@@ -39,8 +40,8 @@ public class Procedure {
     public Procedure() {
     }
 
-    public Procedure(String procedureName, Runway runway, ProcedureType procedureType) {
-        this.procedureName = procedureName;
+    public Procedure(String name, Runway runway, ProcedureType procedureType) {
+        this.name = name;
         this.runway = runway;
         this.procedureType = procedureType;
     }
@@ -53,12 +54,12 @@ public class Procedure {
         this.id = id;
     }
 
-    public String getProcedureName() {
-        return procedureName;
+    public String getName() {
+        return name;
     }
 
-    public void setProcedureName(String procedureName) {
-        this.procedureName = procedureName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Runway getRunway() {
@@ -113,6 +114,6 @@ public class Procedure {
 
     @Override
     public String toString() {
-        return "Procedure: [id=" + id + ", name=" + procedureName + ", runway=" + runway + ", type=" + procedureType + "]";
+        return "Procedure: [id=" + id + ", name=" + name + ", runway=" + runway + ", type=" + procedureType + "]";
     }
 }

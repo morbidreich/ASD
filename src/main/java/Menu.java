@@ -7,7 +7,7 @@ import javax.swing.plaf.basic.BasicCheckBoxMenuItemUI;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Menu implements ActionListener, MenuListener, MouseListener, ChangeListener {
+public class Menu implements ActionListener, MenuListener, MouseListener, ChangeListener, KeyListener {
     private Airspace airspace;
     private MapPanel mapPanel;
 
@@ -52,6 +52,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         this.mapPanel = mapPanel;
         this.airspace = airspace;
 
+        SearchTool searchTool = new SearchTool(airspace, mapPanel);
+
 
         menuBar = new JMenuBar();
 
@@ -64,21 +66,14 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         menuClose.addMenuListener(this);
         menuClose.addMouseListener(this);
 
-        JTextField jtfSearchText = new JTextField();
-        jtfSearchText.setSize(new Dimension(100, 30));
-        jtfSearchText.setMinimumSize(new Dimension(100, 30));
-        JLabel jlSearch = new JLabel("Search: ");
-        JButton jbClear = new JButton("Clear results");
-
-
         menuBar.add(menuElements);
         menuBar.add(menuClearRbls);
         menuBar.add(menuOptions);
         menuBar.add(menuClose);
         menuBar.add(Box.createHorizontalStrut(400));
-        menuBar.add(jlSearch);
-        menuBar.add(jtfSearchText);
-        menuBar.add(jbClear);
+        menuBar.add(searchTool.getJlSearch());
+        menuBar.add(searchTool.getJtfSearchText());
+        menuBar.add(searchTool.getJbClear());
 
         miSettings = new JMenuItem("Settings");
         miAbout = new JMenuItem("About...");
@@ -576,19 +571,19 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         System.out.println(slider.getValue());
     }
 
-    private class SliderEventListener implements ChangeListener {
+    @Override
+    public void keyTyped(KeyEvent e) {
+        System.out.println(e.getKeyChar());
 
-        @Override
-        public void stateChanged(ChangeEvent e) {
-            System.out.println("That works too");
-        }
     }
 
-    class CustomCheckBox extends JCheckBoxMenuItem {
-        public CustomCheckBox(String text) {
-            super(text);
-        }
+    @Override
+    public void keyPressed(KeyEvent e) {
 
-        public JSlider slider;
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

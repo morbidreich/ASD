@@ -26,6 +26,7 @@ class MapPanel extends JPanel {
     private final List<Procedure> procedures = new ArrayList<>();
     private final List<RBL> rbls = new ArrayList<RBL>();
     private Colors colors = new Colors();
+    private SearchResult searchResult = new SearchResult();
 
     private boolean drawingRBL = false;
 
@@ -92,10 +93,11 @@ class MapPanel extends JPanel {
         if (this.scale == -1) scale();
 
         drawPolygons(g, h);
-        drawFixes(g, h);
         drawProcedures(g, h);
+        drawFixes(g, h);
         drawRBLs(g, h);
         drawScale(g);
+        drawSearchResults(g, h);
     }
 
     private void drawScale(Graphics2D g) {
@@ -175,13 +177,13 @@ class MapPanel extends JPanel {
                     g.drawLine(
                             convertX(fixList.get(i).getEasting()), convertY(fixList.get(i).getNorthing(), h),
                             convertX(fixList.get(i + 1).getEasting()), convertY(fixList.get(i + 1).getNorthing(), h));
-
-                    //updateMinMaxEastingNorthing(fixList.get(i));
-                    //updateMinMaxEastingNorthing(fixList.get(i + 1));
                 }
-
             }
         }
+    }
+
+    private void drawSearchResults(Graphics2D g, int h) {
+        g.setColor(Color.MAGENTA); //pick better later
 
     }
 
@@ -189,6 +191,7 @@ class MapPanel extends JPanel {
         this.fixes.clear();
         this.polygons.clear();
         this.rbls.clear();
+        this.searchResult.clear();
 
         resetMinMaxEastingNorthing();
     }
@@ -441,5 +444,13 @@ class MapPanel extends JPanel {
         }
         repaint();
         return out;
+    }
+
+    public SearchResult getSearchResult() {
+        return searchResult;
+    }
+
+    public void setSearchResult(SearchResult searchResult) {
+        this.searchResult = searchResult;
     }
 }
