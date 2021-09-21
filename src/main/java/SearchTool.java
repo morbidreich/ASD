@@ -23,7 +23,8 @@ public class SearchTool implements KeyListener, ActionListener {
         this.airspace = airspace;
         this.mapPanel = mapPanel;
 
-        searchEngine = new SearchEngine(airspace);
+
+        searchEngine = new MyFirstSearchEngine(airspace);
     }
 
     private void setupUi() {
