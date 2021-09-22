@@ -1,15 +1,20 @@
 import javax.swing.*;
 import javax.swing.event.MenuKeyEvent;
 import javax.swing.event.MenuKeyListener;
+import javax.swing.event.PopupMenuListener;
 import java.awt.*;
 import java.awt.Point;
 import java.awt.event.*;
+import java.util.HashMap;
+import java.util.Map;
 
 //container for swing controls and event handlers
-public class SearchTool implements KeyListener, ActionListener, MouseListener {
+public class SearchTool implements KeyListener, ActionListener {
 
     private Airspace airspace;
     private MapPanel mapPanel;
+
+
     private JTextField jtfSearchText;
     private JLabel jlSearch;
     private JButton jbClear;
@@ -26,8 +31,11 @@ public class SearchTool implements KeyListener, ActionListener, MouseListener {
         this.airspace = airspace;
         this.mapPanel = mapPanel;
 
+        //TODO dependency injection someday?
+        //searchEngine = context.getBean("desiredEngine", SearchEngine.class);
+        searchEngine = new MyFirstSearchEngine();
+        //searchEngine = new FixSearchEngine();
 
-        searchEngine = new MyFirstSearchEngine(airspace);
     }
 
     private void setupUi() {
@@ -36,7 +44,8 @@ public class SearchTool implements KeyListener, ActionListener, MouseListener {
         jbClear = new JButton("Clear results");
 
         jPopupMenu = new JPopupMenu();
-        jPopupMenu.addMouseListener(this);
+        //jPopupMenu.addKeyListener(new PopupKeyListener());
+        jPopupMenu.addMenuKeyListener(new PopupMenuKeyListener());
 
         jtfSearchText.add(jPopupMenu);
         jtfSearchText.setComponentPopupMenu(jPopupMenu);
@@ -75,20 +84,18 @@ public class SearchTool implements KeyListener, ActionListener, MouseListener {
         // user selected element(s) to display
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             // if user selected item from jPopup by mouse or key_down/up, then display only that element
-            if (jPopupMenu.hasFocus()) {
-                System.out.println("handling jPopup selection");
+
+            if (searchResult != null) {
+                // TODO CLONE SEARCHRESULT
+                mapPanel.setSearchResult(searchResult);
             }
-            // if user pressed enter when in JTextField, then display all matching results
-            else if (jtfSearchText.hasFocus()) {
-                if (searchResult != null) {
-                    // TODO CLONE SEARCHRESULT
-                    mapPanel.setSearchResult(searchResult);
-                }
-                System.out.println(searchResult);
-                jtfSearchText.setText("");
-                jPopupMenu.setVisible(false);
-                //mapPanel.repaint();
-            }
+            System.out.println(searchResult);
+
+            //cleanup after displaying search results
+            jtfSearchText.setText("");
+            jPopupMenu.setVisible(false);
+            //mapPanel.repaint();
+
         }
         // clear searchPhrase and JTextField
         else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -102,12 +109,14 @@ public class SearchTool implements KeyListener, ActionListener, MouseListener {
         }
         // select previous item on jPopup result list
         else if (e.getKeyCode() == KeyEvent.VK_UP) {
+            jPopupMenu.grabFocus();
 
         }
         // update searchPhrase, perform search, display result in popup
         else {
             // TODO - optimize by not performing search if keypressed other than a-z 0-9
             // but remember to handle editing, ie display result when backspace or delete pressed
+            jtfSearchText.setText(jtfSearchText.getText().toUpperCase());
             searchPhrase = jtfSearchText.getText();
 
             //diagnostics
@@ -134,37 +143,21 @@ public class SearchTool implements KeyListener, ActionListener, MouseListener {
         jPopupMenu.removeAll();
 
         //populate popupMenu with latest search results
-        for (Fix fix :searchResult.getFixList()) {
-            JMenuItem item = new JMenuItem(fix.getName());
-            jPopupMenu.add(item);
+        for (Fix f : searchResult.getFixList())
+            jPopupMenu.add(f.getName());
 
-        }
-        for (Polygon p :searchResult.getPolygonList()) {
-            jPopupMenu.add(p.getName());
-        }
-        for (Procedure pr :searchResult.getProcedureList()) {
-            jPopupMenu.add(pr.getName());
-        }
+        //for now no searching for entities other than fixes
+//        for (Polygon p : searchResult.getPolygonList())
+//            jPopupMenu.add(p.getName());
+//
+//        for (Procedure pr : searchResult.getProcedureList())
+//            jPopupMenu.add(pr.getName());
 
+        // add click listener to each JMenuItem on popup
+        // click selects corresponding airspace element to be displayed
         for (Component mi : jPopupMenu.getComponents()) {
-            mi.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {}
-                @Override
-                public void mousePressed(MouseEvent e) {}
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    JMenuItem mi = (JMenuItem) e.getSource();
-                    mapPanel.setSearchResult(searchEngine.doSearch(airspace, mi.getText()));
-                    jtfSearchText.setText("");
-                }
-                @Override
-                public void mouseEntered(MouseEvent e) {}
-                @Override
-                public void mouseExited(MouseEvent e) {}
-            });
+            mi.addMouseListener(new PopupMenuListener());
         }
-
         //position popup below textField
         jPopupMenu.setLocation(tf.getLocation());
         jPopupMenu.show(tf, 0, tf.getHeight());
@@ -184,31 +177,65 @@ public class SearchTool implements KeyListener, ActionListener, MouseListener {
 
             System.out.println(searchResult);
         }
-
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
+    class PopupMenuListener implements MouseListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
 
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            JMenuItem mi = (JMenuItem) e.getSource();
+
+            // perform new search to return only clicked element
+            mapPanel.setSearchResult(searchEngine.doSearch(airspace, mi.getText()));
+            System.out.println("drawing " + mi.getText());
+            // textField cleanup
+            jtfSearchText.setText("");
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+        }
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
+    class PopupMenuKeyListener implements MenuKeyListener {
 
+        @Override
+        public void menuKeyTyped(MenuKeyEvent e) {
+
+        }
+
+        @Override
+        public void menuKeyPressed(MenuKeyEvent e) {
+
+        }
+
+        @Override
+        public void menuKeyReleased(MenuKeyEvent e) {
+            MenuElement[] table = e.getMenuSelectionManager().getSelectedPath();
+
+
+            JMenuItem mi = (JMenuItem) table[1];
+            System.out.println(mi.getText());
+
+            SearchResult sr = searchEngine.doSearch(airspace, mi.getText());
+            System.out.println("Search result from ENTER KEYPRESS");
+            System.out.println(sr);
+
+
+            mapPanel.setSearchResult(sr);
+        }
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
 }
