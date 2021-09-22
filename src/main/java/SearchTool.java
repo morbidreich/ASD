@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.event.MenuKeyEvent;
+import javax.swing.event.MenuKeyListener;
 import java.awt.*;
 import java.awt.Point;
 import java.awt.event.*;
@@ -83,7 +85,9 @@ public class SearchTool implements KeyListener, ActionListener, MouseListener {
                     mapPanel.setSearchResult(searchResult);
                 }
                 System.out.println(searchResult);
-                mapPanel.repaint();
+                jtfSearchText.setText("");
+                jPopupMenu.setVisible(false);
+                //mapPanel.repaint();
             }
         }
         // clear searchPhrase and JTextField
@@ -133,6 +137,7 @@ public class SearchTool implements KeyListener, ActionListener, MouseListener {
         for (Fix fix :searchResult.getFixList()) {
             JMenuItem item = new JMenuItem(fix.getName());
             jPopupMenu.add(item);
+
         }
         for (Polygon p :searchResult.getPolygonList()) {
             jPopupMenu.add(p.getName());
@@ -141,9 +146,30 @@ public class SearchTool implements KeyListener, ActionListener, MouseListener {
             jPopupMenu.add(pr.getName());
         }
 
+        for (Component mi : jPopupMenu.getComponents()) {
+            mi.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {}
+                @Override
+                public void mousePressed(MouseEvent e) {}
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    JMenuItem mi = (JMenuItem) e.getSource();
+                    mapPanel.setSearchResult(searchEngine.doSearch(airspace, mi.getText()));
+                    jtfSearchText.setText("");
+                }
+                @Override
+                public void mouseEntered(MouseEvent e) {}
+                @Override
+                public void mouseExited(MouseEvent e) {}
+            });
+        }
+
         //position popup below textField
         jPopupMenu.setLocation(tf.getLocation());
         jPopupMenu.show(tf, 0, tf.getHeight());
+
+
     }
 
     @Override
@@ -184,28 +210,5 @@ public class SearchTool implements KeyListener, ActionListener, MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
-    }
-
-    private class JMenuItemKeyListener implements KeyListener {
-
-        @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                JMenuItem mi = (JMenuItem) e.getSource();
-
-                System.out.println("Handling event for: " + mi.getText());
-
-            }
-        }
     }
 }
