@@ -32,16 +32,16 @@ create table polygon (
     -- foreign key (polygon_type_id) references polygon_type(id)
     );
 
-insert into polygon (polygon_name, polygon_type_id) values ('CTR', 0);
-insert into polygon (polygon_name, polygon_type_id) values ('TMA_A', 1);
-insert into polygon (polygon_name, polygon_type_id) values ('TMA_B', 1);
-insert into polygon (polygon_name, polygon_type_id) values ('TMA_C', 1);
-insert into polygon (polygon_name, polygon_type_id) values ('TMA_D', 1);
-insert into polygon (polygon_name, polygon_type_id) values ('TMA_GD', 1);
-insert into polygon (polygon_name, polygon_type_id) values ('TSA_02A', 10);
-insert into polygon (polygon_name, polygon_type_id) values ('TSA_02B', 10);
-insert into polygon (polygon_name, polygon_type_id) values ('TSA_02C', 10);
-insert into polygon (polygon_name, polygon_type_id) values ('TSA_02D', 10);
-insert into polygon (polygon_name, polygon_type_id) values ('TSA_02E', 10);
-insert into polygon (polygon_name, polygon_type_id) values ('TSA_02F', 10);
+insert into polygon (polygon_name, polygon_type_id) values ('EPSYCTR', 0);
+insert into polygon (polygon_name, polygon_type_id) values ('EPSYTMA_A', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPSYTMA_B', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPSYTMA_C', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPSYTMA_D', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPGDTMA_TOP', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('TSA02A', 10);
+insert into polygon (polygon_name, polygon_type_id) values ('TSA02B', 10);
+insert into polygon (polygon_name, polygon_type_id) values ('TSA02C', 10);
+insert into polygon (polygon_name, polygon_type_id) values ('TSA02D', 10);
+insert into polygon (polygon_name, polygon_type_id) values ('TSA02E', 10);
+insert into polygon (polygon_name, polygon_type_id) values ('TSA02F', 10);
 insert into polygon (polygon_name, polygon_type_id) values ('BORDER', 9);
