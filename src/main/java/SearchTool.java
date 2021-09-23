@@ -1,12 +1,8 @@
 import javax.swing.*;
 import javax.swing.event.MenuKeyEvent;
 import javax.swing.event.MenuKeyListener;
-import javax.swing.event.PopupMenuListener;
 import java.awt.*;
-import java.awt.Point;
 import java.awt.event.*;
-import java.util.HashMap;
-import java.util.Map;
 
 //container for swing controls and event handlers
 public class SearchTool implements KeyListener, ActionListener {
@@ -46,7 +42,7 @@ public class SearchTool implements KeyListener, ActionListener {
         jPopupMenu = new JPopupMenu();
         //jPopupMenu.addKeyListener(new PopupKeyListener());
         jPopupMenu.addMenuKeyListener(new PopupMenuKeyListener());
-
+//
         jtfSearchText.add(jPopupMenu);
         jtfSearchText.setComponentPopupMenu(jPopupMenu);
 
@@ -79,6 +75,7 @@ public class SearchTool implements KeyListener, ActionListener {
 
     }
 
+    //Event raised
     @Override
     public void keyReleased(KeyEvent e) {
         // user selected element(s) to display
@@ -124,7 +121,7 @@ public class SearchTool implements KeyListener, ActionListener {
             System.out.println("current searchPhrase: " + searchPhrase);
 
             //call search engine for result with each consecutive keypress
-            searchResult = searchEngine.doSearch(airspace, searchPhrase);
+            searchResult = searchEngine.looseSearch(airspace, searchPhrase);
 
             //show popupmenu and populate it with search results
             showPopupMenu(e, searchResult);
@@ -146,12 +143,11 @@ public class SearchTool implements KeyListener, ActionListener {
         for (Fix f : searchResult.getFixList())
             jPopupMenu.add(f.getName());
 
-        //for now no searching for entities other than fixes
-//        for (Polygon p : searchResult.getPolygonList())
-//            jPopupMenu.add(p.getName());
-//
-//        for (Procedure pr : searchResult.getProcedureList())
-//            jPopupMenu.add(pr.getName());
+        for (Polygon p : searchResult.getPolygonList())
+            jPopupMenu.add(p.getName());
+
+        for (Procedure pr : searchResult.getProcedureList())
+            jPopupMenu.add(pr.getName());
 
         // add click listener to each JMenuItem on popup
         // click selects corresponding airspace element to be displayed
@@ -194,10 +190,10 @@ public class SearchTool implements KeyListener, ActionListener {
             JMenuItem mi = (JMenuItem) e.getSource();
 
             // perform new search to return only clicked element
-            mapPanel.setSearchResult(searchEngine.doSearch(airspace, mi.getText()));
+            mapPanel.setSearchResult(searchEngine.exactSearch(airspace, mi.getText()));
             System.out.println("drawing " + mi.getText());
             // textField cleanup
-            jtfSearchText.setText("");
+            jtfSearchText.setText(mi.getText());
         }
 
         @Override
@@ -223,18 +219,25 @@ public class SearchTool implements KeyListener, ActionListener {
 
         @Override
         public void menuKeyReleased(MenuKeyEvent e) {
-            MenuElement[] table = e.getMenuSelectionManager().getSelectedPath();
 
 
-            JMenuItem mi = (JMenuItem) table[1];
-            System.out.println(mi.getText());
-
-            SearchResult sr = searchEngine.doSearch(airspace, mi.getText());
-            System.out.println("Search result from ENTER KEYPRESS");
-            System.out.println(sr);
+            if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                MenuElement[] table = e.getMenuSelectionManager().getSelectedPath();
 
 
-            mapPanel.setSearchResult(sr);
+                JMenuItem mi = (JMenuItem) table[1];
+                System.out.println(mi.getText());
+
+                searchResult = searchEngine.exactSearch(airspace, mi.getText());
+                System.out.println("Search result from ENTER KEYPRESS");
+                System.out.println(searchResult);
+
+
+                mapPanel.setSearchResult(searchResult);
+                jtfSearchText.setText(mi.getText());
+                jPopupMenu.setVisible(false);
+            }
+
         }
     }
 

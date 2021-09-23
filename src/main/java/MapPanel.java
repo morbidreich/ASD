@@ -184,6 +184,7 @@ class MapPanel extends JPanel {
     }
 
     private void drawSearchResults(Graphics2D g, int h) {
+
         drawFixes(searchResult.getFixList(), g, h);
         drawPolygons(searchResult.getPolygonList(), g, h);
         drawProcedures(searchResult.getProcedureList(), g, h);
