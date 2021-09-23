@@ -11,8 +11,6 @@ public class SearchTool implements KeyListener, ActionListener {
     private Airspace airspace;
     private MapPanel mapPanel;
 
-
-
     private JTextField jtfSearchText;
     private JLabel jlSearch;
     private JButton jbClear;
@@ -29,25 +27,22 @@ public class SearchTool implements KeyListener, ActionListener {
         this.airspace = airspace;
         this.mapPanel = mapPanel;
 
-
         //TODO dependency injection someday?
         //searchEngine = context.getBean("desiredEngine", SearchEngine.class);
         searchEngine = new MyFirstSearchEngine();
         //searchEngine = new FixSearchEngine();
-
     }
 
+    // set up SearchTool structure
     private void setupUi() {
         jtfSearchText = new JTextField();
         jlSearch = new JLabel("Search: ");
         jbClear = new JButton("Clear results");
 
-
         jPopupMenu = new JPopupMenu();
-        //jPopupMenu.addKeyListener(new PopupKeyListener());
         jPopupMenu.addMenuKeyListener(new PopupMenuKeyListener());
 //
-        jtfSearchText.add(jPopupMenu);
+        //jtfSearchText.add(jPopupMenu);
         jtfSearchText.setComponentPopupMenu(jPopupMenu);
 
         jtfSearchText.addKeyListener(this);
@@ -70,36 +65,28 @@ public class SearchTool implements KeyListener, ActionListener {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) {}
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e) {}
 
-    }
-
-
-    //Event raised
+    //main event handler for key-driven textBox events
     @Override
     public void keyReleased(KeyEvent e) {
         // user selected element(s) to display
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
             // if user selected item from jPopup by mouse or key_down/up, then display only that element
-
             if (searchResult != null) {
-                // TODO CLONE SEARCHRESULT
                 mapPanel.setSearchResult(searchResult);
             }
-            System.out.println(searchResult);
+            //diagnostics
+            //System.out.println(searchResult);
 
             //cleanup after displaying search results
             jtfSearchText.setText("");
             jPopupMenu.setVisible(false);
-            //mapPanel.repaint();
-
         }
-        // clear searchPhrase and JTextField
+        // clear searchPhrase JTextField, send empty SearchResult object to mapPanel
         else if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
             // reset tool
             searchPhrase = "";
@@ -108,7 +95,7 @@ public class SearchTool implements KeyListener, ActionListener {
             mapPanel.setSearchResult(new SearchResult());
         }
 
-        // select next item on jPopup result list
+        // pass focus to jPopupMenu and handle arrow navigation
         else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             jPopupMenu.grabFocus();
         }
@@ -119,14 +106,10 @@ public class SearchTool implements KeyListener, ActionListener {
         }
         // update searchPhrase, perform search, display result in popup
         else {
-            // TODO - optimize by not performing search if keypressed other than a-z 0-9
+            // TODO - optimize by not performing search if keypressed other than aA-zZ or 0-9
             // but remember to handle editing, ie display result when backspace or delete pressed
             jtfSearchText.setText(jtfSearchText.getText().toUpperCase());
             searchPhrase = jtfSearchText.getText();
-
-            //diagnostics
-            System.out.println(e.getKeyChar() + " pressed");
-            System.out.println("current searchPhrase: " + searchPhrase);
 
             //call search engine for result with each consecutive keypress
             searchResult = searchEngine.looseSearch(airspace, searchPhrase);
@@ -135,9 +118,6 @@ public class SearchTool implements KeyListener, ActionListener {
             generatePopupMenu(searchResult);
             //showing popup steals focus so bring it back to textfield to allow further typing
             jtfSearchText.requestFocus();
-
-            //diagnostics
-            System.out.println(searchResult);
         }
     }
 

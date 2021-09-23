@@ -16,6 +16,12 @@ public class FixSymbolDrawer {
             g.drawLine(x, y + dim1, x, y + dim2);
             g.drawLine(x, y - dim1, x, y - dim2);
         }
+        else if (fix.getFixType() == FixType.SEARCH_RESULT) {
+            int dim1 = 6;
+            g.drawOval(x-dim1, y-dim1, dim1 * 2, dim1 * 2);
+            g.drawLine(x - dim1, y, x + dim1, y);
+            g.drawLine(x, y+dim1, x, y-dim1);
+        }
         //each other type's symbol is triangle
         else {
             g.drawLine(x, y - 4, x + 5, y + 3);

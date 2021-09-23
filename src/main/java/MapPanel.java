@@ -80,8 +80,8 @@ class MapPanel extends JPanel {
 
         Graphics2D g = (Graphics2D) g_;
 
-//        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-//                RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
         int w = getWidth();
         int h = getHeight();
