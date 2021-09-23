@@ -458,5 +458,6 @@ class MapPanel extends JPanel {
 
     public void setSearchResult(SearchResult searchResult) {
         this.searchResult = searchResult;
+        repaint();
     }
 }
