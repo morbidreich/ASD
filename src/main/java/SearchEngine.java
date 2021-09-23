@@ -1,6 +1,6 @@
 public interface SearchEngine {
     /**
-     * Queries airspace for elements which name CONTAIN searchPhrase
+     * Queries airspace object for elements which name CONTAIN searchPhrase
      * @param airspace  airspace object
      * @param searchPhrase search phrase typed by user
      * @return SearchResult containing query result
@@ -8,7 +8,7 @@ public interface SearchEngine {
     SearchResult looseSearch(Airspace airspace, String searchPhrase);
 
     /**
-     * Queries airspace for elements which name is EQUAL to searchPhrase
+     * Queries airspace object for elements which name is EQUAL to searchPhrase
      * @param airspace  airspace object
      * @param searchPhrase search phrase typed by user
      * @return SearchResult containing query result

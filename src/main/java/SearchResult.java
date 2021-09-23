@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Container for search result returned by SearchEngine
+ */
 public class SearchResult {
     private List<Fix> fixList;
     private List<Polygon> polygonList;

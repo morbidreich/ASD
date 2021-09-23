@@ -132,7 +132,7 @@ public class SearchTool implements KeyListener, ActionListener {
             searchResult = searchEngine.looseSearch(airspace, searchPhrase);
 
             //show popupmenu and populate it with search results
-            showPopupMenu(e, searchResult);
+            generatePopupMenu(searchResult);
             //showing popup steals focus so bring it back to textfield to allow further typing
             jtfSearchText.requestFocus();
 
@@ -141,9 +141,11 @@ public class SearchTool implements KeyListener, ActionListener {
         }
     }
 
-    private void showPopupMenu(KeyEvent e, SearchResult searchResult) {
-        //get event source to get position
-        JTextField tf = (JTextField) e.getSource();
+    /**
+     * prepare JPopupMenu displaying list of searchResult
+     * @param searchResult
+     */
+    private void generatePopupMenu(SearchResult searchResult) {
         //clear popupMenu
         jPopupMenu.removeAll();
 
@@ -157,96 +159,99 @@ public class SearchTool implements KeyListener, ActionListener {
         for (Procedure pr : searchResult.getProcedureList())
             jPopupMenu.add(pr.getName());
 
-        // add click listener to each JMenuItem on popup
+        // add click listener to each JMenuItem added to jPopupList
         // click selects corresponding airspace element to be displayed
         for (Component mi : jPopupMenu.getComponents()) {
             mi.addMouseListener(new PopupMenuListener());
         }
         //position popup below textField
-        jPopupMenu.setLocation(tf.getLocation());
-        jPopupMenu.show(tf, 0, tf.getHeight());
+        jPopupMenu.setLocation(jtfSearchText.getLocation());
+        jPopupMenu.show(jtfSearchText, 0, jtfSearchText.getHeight());
 
 
     }
 
+    /**
+     * action listener for JButton jbClear.
+     * @param e
+     */
     @Override
-    // clear search result, remove result from mapPanel, repaint map panel
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(jbClear)) {
+
+            // clear search textField
             jtfSearchText.setText("");
-            searchResult = new SearchResult();
 
-            mapPanel.setSearchResult(searchResult);
-            mapPanel.repaint();
+            // send empty searchResult to mapPanel
+            mapPanel.setSearchResult(new SearchResult());
 
-            System.out.println(searchResult);
         }
     }
 
+    /**
+     * Mouse Listener for jPopupMenu
+     */
     class PopupMenuListener implements MouseListener {
-        @Override
-        public void mouseClicked(MouseEvent e) {
+        @Override // not used
+        public void mouseClicked(MouseEvent e) {}
 
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-        }
+        @Override // not used
+        public void mousePressed(MouseEvent e) {}
 
         @Override
         public void mouseReleased(MouseEvent e) {
+            // get clicked JMenuItem
             JMenuItem mi = (JMenuItem) e.getSource();
-
-            // perform new search to return only clicked element
+            // perform new exactSearch to return only clicked element, mi.getText() as searchPhrase
             mapPanel.setSearchResult(searchEngine.exactSearch(airspace, mi.getText()));
-            System.out.println("drawing " + mi.getText());
             // textField cleanup
             jtfSearchText.setText(mi.getText());
+            //dont have to hide jPopupMenu manually, already handled by mouseReleased
         }
 
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
+        @Override // not used
+        public void mouseEntered(MouseEvent e) {}
 
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
+        @Override //not used
+        public void mouseExited(MouseEvent e) {}
     }
 
+    /**
+     * MenuKey Listener for jPopupMenu
+     */
     class PopupMenuKeyListener implements MenuKeyListener {
 
         @Override
-        public void menuKeyTyped(MenuKeyEvent e) {
-
-        }
+        public void menuKeyTyped(MenuKeyEvent e) {}
 
         @Override
-        public void menuKeyPressed(MenuKeyEvent e) {
+        public void menuKeyPressed(MenuKeyEvent e) {}
 
-        }
-
+        // listen to MenyKeyReleased event performed on jPopupMenu
+        // if key was ENTER then perform exactSearch for airspace element
+        // matching selected MenuItem name
         @Override
         public void menuKeyReleased(MenuKeyEvent e) {
-
-
             if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                // store selected path in table. Selected path for my menu structure always
+                // return 2 elements array where [0]: JPopupMenu, [1]: JMenuItem
                 MenuElement[] table = e.getMenuSelectionManager().getSelectedPath();
 
-
+                // cast JmenuItem from table[1]
                 JMenuItem mi = (JMenuItem) table[1];
-                System.out.println(mi.getText());
 
+                // perform exactSearch using JMenuItem .getText() as searchPhrase
                 searchResult = searchEngine.exactSearch(airspace, mi.getText());
-                System.out.println("Search result from ENTER KEYPRESS");
+                //diagnostics
                 System.out.println(searchResult);
 
-
+                //send search result to mapPanel
                 mapPanel.setSearchResult(searchResult);
+
+                //cleanup
                 jtfSearchText.setText(mi.getText());
                 jPopupMenu.setVisible(false);
             }
-
         }
     }
-
 }

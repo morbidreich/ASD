@@ -26,6 +26,12 @@ public class MyFirstSearchEngine implements SearchEngine {
         //searchResult.getFixList().add(airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null));
     }
 
+    /**
+     * Searches @param airspace object for items which name exactly matches @param searchPhrase
+     * @param airspace  airspace object
+     * @param searchPhrase search phrase typed by user
+     * @return
+     */
     @Override
     public SearchResult exactSearch(Airspace airspace, String searchPhrase) {
         SearchResult searchResult = new SearchResult();
@@ -47,16 +53,20 @@ public class MyFirstSearchEngine implements SearchEngine {
         // TODO replace that with .stream().filter() as soon as you learn lambdas xD
         //airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null);
         List<Fix> out = new ArrayList<>();
+        // check for all fixes
         for (Fix fix : airspace.getFixList()) {
-
+            // if searchType == EXACT then search using .equals(searchPhrase)
             if (searchType == SearchType.EXACT) {
                 if (fix.getName().equals(searchPhrase)) {
-                    // by default all fixes ale invisible
+                    // clone object to modify some of it's properties
+                    // without affecting original Fix
                     Fix f = (Fix) fix.clone();
+                    // by default all fixes ale invisible
                     f.setVisible(true);
                     f.setFixType(FixType.SEARCH_RESULT);
                     out.add(f);
                 }
+                // if searchType == LOOSE then search using .contains(searchPhrase)
             } else if (searchType == SearchType.LOOSE) {
                 if (fix.getName().contains(searchPhrase)) {
                     // by default all fixes ale invisible
@@ -98,6 +108,7 @@ public class MyFirstSearchEngine implements SearchEngine {
         // TODO replace that with .stream().filter() as soon as you learn lambdas xD
         //airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null);
         List<Procedure> out = new ArrayList<>();
+
         for (Procedure procedure : airspace.getProcedureList()) {
             if (searchType == SearchType.LOOSE) {
                 if (procedure.getName().contains(searchPhrase)) {
