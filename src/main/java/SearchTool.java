@@ -104,6 +104,8 @@ public class SearchTool implements KeyListener, ActionListener {
             // reset tool
             searchPhrase = "";
             jtfSearchText.setText(searchPhrase);
+            jPopupMenu.setVisible(false);
+            mapPanel.setSearchResult(new SearchResult());
         }
 
         // select next item on jPopup result list
