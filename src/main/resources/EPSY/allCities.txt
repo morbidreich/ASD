@@ -1,5 +1,3 @@
-Miejscowość             Długość        Szerokość
--------------------------------------------------
 Adamów (siedleckie)     22°15'E        51°45'N
 Adamów (zamojskie)      23°10'E        50°36'N
 Adamówka                22°42'E        50°16'N

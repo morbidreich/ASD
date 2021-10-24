@@ -2,7 +2,7 @@
 create table fix (
     id int not null auto_increment,
     coordinates varchar(30) not null,
-    fix_name varchar(15) not null,
+    fix_name varchar(30) not null,
     fix_type_id int not null,
     primary key (id)-- ,
     -- foreign key (fix_type_id) references fix_type(id)
