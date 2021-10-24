@@ -1,3 +1,6 @@
+import io.github.morbidreich.BasePoint;
+import io.github.morbidreich.CoordinateConverter;
+import io.github.morbidreich.Coordinates;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

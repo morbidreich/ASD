@@ -23,8 +23,8 @@ CREATE TABLE TEST(id int primary key, name varchar(30)) [90002-200]
 	at org.h2.command.CommandContainer.query(CommandContainer.java:285)
 	at org.h2.command.Command.executeQuery(Command.java:195)
 	at org.h2.jdbc.JdbcStatement.executeQuery(JdbcStatement.java:85)
-	at App.connectToDatabase(App.java:46)
-	at App.main(App.java:33)
+	at io.github.morbidreich.App.connectToDatabase(io.github.morbidreich.App.java:46)
+	at io.github.morbidreich.App.main(io.github.morbidreich.App.java:33)
 2021-08-18 20:23:13 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: Metoda jest dozwolona tylko w kwerendzie
 Method is only allowed for a query. Use execute or executeUpdate instead of executeQuery; SQL statement:
@@ -38,8 +38,8 @@ CREATE TABLE TEST(id int primary key, name varchar(30)) [90002-200]
 	at org.h2.command.CommandContainer.query(CommandContainer.java:285)
 	at org.h2.command.Command.executeQuery(Command.java:195)
 	at org.h2.jdbc.JdbcStatement.executeQuery(JdbcStatement.java:85)
-	at App.connectToDatabase(App.java:46)
-	at App.main(App.java:33)
+	at io.github.morbidreich.App.connectToDatabase(io.github.morbidreich.App.java:46)
+	at io.github.morbidreich.App.main(io.github.morbidreich.App.java:33)
 2021-08-18 20:25:10 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: Metoda jest dozwolona tylko w kwerendzie
 Method is only allowed for a query. Use execute or executeUpdate instead of executeQuery; SQL statement:
@@ -53,8 +53,8 @@ CREATE TABLE TEST(id int primary key, name varchar(30)) [90002-200]
 	at org.h2.command.CommandContainer.query(CommandContainer.java:285)
 	at org.h2.command.Command.executeQuery(Command.java:195)
 	at org.h2.jdbc.JdbcStatement.executeQuery(JdbcStatement.java:85)
-	at App.connectToDatabase(App.java:46)
-	at App.main(App.java:33)
+	at io.github.morbidreich.App.connectToDatabase(io.github.morbidreich.App.java:46)
+	at io.github.morbidreich.App.main(io.github.morbidreich.App.java:33)
 2021-08-18 20:25:44 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Kolumna "BARTEK" nie istnieje
 Column "BARTEK" not found; SQL statement:
@@ -72,8 +72,8 @@ insert into test values (1, Bartek) [42122-200]
 	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235)
 	at org.h2.jdbc.JdbcStatement.executeUpdateInternal(JdbcStatement.java:164)
 	at org.h2.jdbc.JdbcStatement.executeUpdate(JdbcStatement.java:126)
-	at App.connectToDatabase(App.java:47)
-	at App.main(App.java:33)
+	at io.github.morbidreich.App.connectToDatabase(io.github.morbidreich.App.java:47)
+	at io.github.morbidreich.App.main(io.github.morbidreich.App.java:33)
 2021-08-18 21:19:04 jdbc[4]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Błąd składniowy w wyrażeniu SQL "INSERT INTO TEST VALUES (1, 'bartek', 'kujda')
 INSERT[*] INTO TEST VALUES (1, 'aleksandra', 'silna')
@@ -111,8 +111,8 @@ General error: "java.lang.IllegalStateException: The file is locked: nio:C:/User
 	at org.h2.Driver.connect(Driver.java:69)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:677)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:228)
-	at App.connectToDatabase(App.java:39)
-	at App.main(App.java:33)
+	at io.github.morbidreich.App.connectToDatabase(io.github.morbidreich.App.java:39)
+	at io.github.morbidreich.App.main(io.github.morbidreich.App.java:33)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Błąd ogólny: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/User/IdeaProjects/ASD/test.mv.db [1.4.200/7]"
 General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/User/IdeaProjects/ASD/test.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
@@ -150,8 +150,8 @@ General error: "java.lang.IllegalStateException: The file is locked: nio:C:/User
 	at org.h2.Driver.connect(Driver.java:69)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:677)
 	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:228)
-	at App.connectToDatabase(App.java:39)
-	at App.main(App.java:33)
+	at io.github.morbidreich.App.connectToDatabase(io.github.morbidreich.App.java:39)
+	at io.github.morbidreich.App.main(io.github.morbidreich.App.java:33)
 Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Błąd ogólny: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/User/IdeaProjects/ASD/test.mv.db [1.4.200/7]"
 General error: "java.lang.IllegalStateException: The file is locked: nio:C:/Users/User/IdeaProjects/ASD/test.mv.db [1.4.200/7]" [50000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
