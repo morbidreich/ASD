@@ -10,6 +10,10 @@ import java.util.Scanner;
 // class to parse town list I got from http://astronomia.zagan.pl/art/wspolrzedne.html
 // and prepare flyway migrations file
 
+// WATCH OUT!
+// source file has coordinates swapped compared to my convention - see line below:
+// Augustów                22°58'E        53°51'N
+
 // fix_type value for Towns is 9
 
 public class CityQueryCreator {
@@ -33,8 +37,8 @@ public class CityQueryCreator {
 
                 String line = myReader.nextLine();
                 cityName = "'" + line.substring(0,24).trim() + "'";
-                lat = line.substring(24,30) + "'00\"N ";
-                lon = line.substring(39,45) + "'00\"E', ";
+                lat = line.substring(39,45) + "'00\"N ";
+                lon = "0" + line.substring(24,30) + "'00\"E', ";
 
                 if (true) {
 

@@ -49,6 +49,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private JSlider sliderTsa;
     private JSlider sliderBorder;
     private JSlider sliderAerodromes;
+    private JSlider sliderTowns;
 
     public Menu(MapPanel mapPanel, Airspace airspace) {
         this.mapPanel = mapPanel;
@@ -96,6 +97,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         sliderTsa = createJSlider("TSA", PolygonType.TSA, mapPanel);
         sliderBorder = createJSlider("Border", PolygonType.BORDER, mapPanel);
         sliderAerodromes = createJSlider("Aerodromes", FixType.AERODROME, mapPanel);
+        sliderTowns = createJSlider("Towns", FixType.TOWN, mapPanel);
 
 
         cbTma = new JCheckBoxMenuItem("TMA");
@@ -123,6 +125,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         cbBorder = new JCheckBoxMenuItem("Border");
         cbBorder.addMouseListener(this);
         cbTowns = new JCheckBoxMenuItem("Towns");
+        cbTowns.addMouseListener(this);
         cbRivers = new JCheckBoxMenuItem("Rivers");
         cbRoads = new JCheckBoxMenuItem("Roads");
 
@@ -156,6 +159,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         menuElements.add(cbAerodromes);
         menuElements.add(sliderAerodromes);
         menuElements.add(cbTowns);
+        menuElements.add(sliderTowns);
         menuElements.add(cbRivers);
         menuElements.add(cbRoads);
 
@@ -182,7 +186,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
 
         cbRoads.setEnabled(false);
         cbRivers.setEnabled(false);
-        cbTowns.setEnabled(false);
+        //cbTowns.setEnabled(false);
         cbPDR.setEnabled(false);
         //cbTSA.setEnabled(false);
         cbTRA.setEnabled(false);
@@ -256,8 +260,10 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         } else if (e.getSource().equals(cbBorder)) {
             togglePolygonVisibility(cbBorder, PolygonType.BORDER);
         } else if (
-                e.getSource().equals(cbTmaFixes) || e.getSource().equals(cbVfrFixes) ||
-                        e.getSource().equals(cbAerodromes)) {
+                    e.getSource().equals(cbTmaFixes) ||
+                    e.getSource().equals(cbVfrFixes) ||
+                    e.getSource().equals(cbAerodromes) ||
+                    e.getSource().equals(cbTowns)) {
             toggleFixVisibility((JCheckBoxMenuItem) e.getSource());
         }
         mapPanel.repaint();
@@ -275,6 +281,10 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
             }
             case "Aerodromes": {
                 setFixVisible(FixType.AERODROME, source);
+                break;
+            }
+            case "Towns": {
+                setFixVisible(FixType.TOWN, source);
                 break;
             }
         }
