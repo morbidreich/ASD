@@ -22,6 +22,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private final JCheckBoxMenuItem cbTma;
     private final JCheckBoxMenuItem cbCtr;
     private final JCheckBoxMenuItem cbTmaFixes;
+    private final JCheckBoxMenuItem cbAccFixes;
     private final JCheckBoxMenuItem cbVfrFixes;
     private final JCheckBoxMenuItem cbSid01;
     private final JCheckBoxMenuItem cbSid19;
@@ -41,6 +42,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private JSlider sliderTma;
     private JSlider sliderCtr;
     private JSlider sliderTmaEntryFix;
+    private JSlider sliderAccFix;
     private JSlider sliderVfrFix;
     private JSlider sliderSid01;
     private JSlider sliderSid19;
@@ -89,6 +91,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         sliderCtr = createJSlider("CTR", PolygonType.CTR, mapPanel);
         sliderTma = createJSlider("TMA", PolygonType.TMA, mapPanel);
         sliderTmaEntryFix = createJSlider("TMA entry fixes", FixType.ENTRY, mapPanel);
+        sliderAccFix = createJSlider("Acc fixes", FixType.ACC_FIX, mapPanel);
         sliderVfrFix = createJSlider("VFR fixes", FixType.VFR, mapPanel);
         sliderSid01 = createJSlider("SID 01", FixType.SID01, mapPanel);
         sliderSid19 = createJSlider("SID 19", FixType.SID19, mapPanel);
@@ -106,6 +109,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         cbCtr.addMouseListener(this);
         cbTmaFixes = new JCheckBoxMenuItem("TMA entry fixes");
         cbTmaFixes.addMouseListener(this);
+        cbAccFixes = new JCheckBoxMenuItem("ACC fixes");
+        cbAccFixes.addMouseListener(this);
         cbVfrFixes = new JCheckBoxMenuItem("VFR fixes");
         cbVfrFixes.addMouseListener(this);
         cbSid01 = new JCheckBoxMenuItem("SID 01");
@@ -137,6 +142,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         menuElements.addSeparator();
         menuElements.add(cbTmaFixes);
         menuElements.add(sliderTmaEntryFix);
+        menuElements.add(cbAccFixes);
+        menuElements.add(sliderAccFix);
         menuElements.add(cbVfrFixes);
         menuElements.add(sliderVfrFix);
         menuElements.addSeparator();
@@ -261,6 +268,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
             togglePolygonVisibility(cbBorder, PolygonType.BORDER);
         } else if (
                     e.getSource().equals(cbTmaFixes) ||
+                    e.getSource().equals(cbAccFixes) ||
                     e.getSource().equals(cbVfrFixes) ||
                     e.getSource().equals(cbAerodromes) ||
                     e.getSource().equals(cbTowns)) {
@@ -273,6 +281,10 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         switch (source.getText()) {
             case "TMA entry fixes": {
                 setFixVisible(FixType.ENTRY, source);
+                break;
+            }
+            case "ACC fixes": {
+                setFixVisible(FixType.ACC_FIX, source);
                 break;
             }
             case "VFR fixes": {

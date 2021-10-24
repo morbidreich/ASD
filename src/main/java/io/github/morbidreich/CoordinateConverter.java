@@ -40,7 +40,7 @@ public class CoordinateConverter {
         return "'" + getSfromD(lat, CoordType.N) + " " + getSfromD(lon, CoordType.E) + "'";
     }
 
-    private static String getSfromD(double coord, CoordType coordType) {
+    public static String getSfromD(double coord, CoordType coordType) {
         double degree = Math.floor(coord);
         double minuteRest = ((coord - degree) * 60);
         double minute = Math.floor(minuteRest);
@@ -60,7 +60,7 @@ public class CoordinateConverter {
 
     }
 
-    private enum CoordType {
+    public enum CoordType {
         E,
         N
     }

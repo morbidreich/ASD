@@ -12,5 +12,6 @@ enum FixType {
     AERODROME,
     TOWN,
     SEARCH_RESULT,
-    UNDEFINED
+    UNDEFINED,
+    ACC_FIX
 }
