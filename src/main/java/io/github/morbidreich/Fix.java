@@ -88,6 +88,6 @@ public class Fix extends BasePoint implements Cloneable {
 
     @Override
     public String toString() {
-        return "io.github.morbidreich.Fix: [id=" + getId() + ", name=" + name + ", lat/lon=" + getLatitude() + "/" + getLongitude() + ", fixType=" + fixType + "]";
+        return "Fix: [id=" + getId() + ", name=" + name + ", lat/lon=" + getLatitude() + "/" + getLongitude() + ", fixType=" + fixType + "]";
     }
 }

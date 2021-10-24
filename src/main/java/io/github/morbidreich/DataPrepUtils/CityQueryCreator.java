@@ -36,7 +36,7 @@ public class CityQueryCreator {
                 // 0                       24             39 -  start index of substring
 
                 String line = myReader.nextLine();
-                cityName = "'" + line.substring(0,24).trim() + "'";
+                cityName = "'" + line.substring(0,24).trim().toUpperCase() + "'";
                 lat = line.substring(39,45) + "'00\"N ";
                 lon = "0" + line.substring(24,30) + "'00\"E', ";
 

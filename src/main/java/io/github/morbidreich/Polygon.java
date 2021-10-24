@@ -96,6 +96,6 @@ public class Polygon implements Cloneable{
 
     @Override
     public String toString() {
-        return "io.github.morbidreich.Polygon: [id=" + id + ", name=" + name + ", type=" + polygonType + "]";
+        return "Polygon: [id=" + id + ", name=" + name + ", type=" + polygonType + "]";
     }
 }

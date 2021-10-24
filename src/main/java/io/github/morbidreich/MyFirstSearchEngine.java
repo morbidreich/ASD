@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MyFirstSearchEngine implements SearchEngine {
-    private final int minSearchPhraseLength = 2;
+    private final int MIN_SEARCH_PHRASE_LENGTH = 2;
 
     /**
      * Search @airspace for every element containing @searchPhrase as name. Returns
@@ -18,7 +18,7 @@ public class MyFirstSearchEngine implements SearchEngine {
         SearchResult searchResult = new SearchResult();
         searchPhrase = searchPhrase.toUpperCase(Locale.ROOT);
 
-        if (searchPhrase.length() >= minSearchPhraseLength) {
+        if (searchPhrase.length() >= MIN_SEARCH_PHRASE_LENGTH) {
             searchResult.setFixList(searchFix(airspace, searchPhrase, SearchType.LOOSE));
             searchResult.setPolygonList(searchPolygon(airspace, searchPhrase, SearchType.LOOSE));
             searchResult.setProcedureList(searchProcedure(airspace, searchPhrase, SearchType.LOOSE));
@@ -39,7 +39,7 @@ public class MyFirstSearchEngine implements SearchEngine {
         SearchResult searchResult = new SearchResult();
         searchPhrase = searchPhrase.toUpperCase(Locale.ROOT);
 
-        if (searchPhrase.length() >= minSearchPhraseLength) {
+        if (searchPhrase.length() >= MIN_SEARCH_PHRASE_LENGTH) {
             searchResult.setFixList(searchFix(airspace, searchPhrase, SearchType.EXACT));
             searchResult.setPolygonList(searchPolygon(airspace, searchPhrase, SearchType.EXACT));
             searchResult.setProcedureList(searchProcedure(airspace, searchPhrase, SearchType.EXACT));

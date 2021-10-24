@@ -50,7 +50,7 @@ public class SearchResult {
 
     @Override
     public String toString() {
-        return "io.github.morbidreich.SearchResult: [Fixes: " +
+        return "SearchResult: [Fixes: " +
                 fixList.size() + ", polygons: " +
                 polygonList.size() + ", procedures: " +
                 procedureList.size() + "]\n" +

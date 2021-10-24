@@ -115,6 +115,7 @@ public class SearchTool implements KeyListener, ActionListener {
 
             //call search engine for result with each consecutive keypress
             searchResult = searchEngine.looseSearch(airspace, searchPhrase);
+            System.out.println(searchResult);
 
             //show popupmenu and populate it with search results
             generatePopupMenu(searchResult);
@@ -209,7 +210,7 @@ public class SearchTool implements KeyListener, ActionListener {
         @Override
         public void menuKeyPressed(MenuKeyEvent e) {}
 
-        // listen to MenyKeyReleased event performed on jPopupMenu
+        // listen to MenuKeyReleased event performed on jPopupMenu
         // if key was ENTER then perform exactSearch for airspace element
         // matching selected MenuItem name
         @Override

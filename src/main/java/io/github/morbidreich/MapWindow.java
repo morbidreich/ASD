@@ -17,7 +17,7 @@ public class MapWindow extends JFrame {
      */
     public MapWindow(Airspace airspace) {
 
-        super("EPSY io.github.morbidreich.Airspace Display - NOT FOR OPERATIONAL USE!");
+        super("EPSY Airspace Display - NOT FOR OPERATIONAL USE!");
 
         map = new MapPanel();
         map.addAirspace(airspace);

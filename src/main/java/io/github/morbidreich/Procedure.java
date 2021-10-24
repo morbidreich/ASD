@@ -138,6 +138,6 @@ public class Procedure implements Cloneable {
 
     @Override
     public String toString() {
-        return "io.github.morbidreich.Procedure: [id=" + id + ", name=" + name + ", runway=" + runway + ", type=" + procedureType + "]";
+        return "Procedure: [id=" + id + ", name=" + name + ", runway=" + runway + ", type=" + procedureType + "]";
     }
 }
