@@ -1,6 +1,6 @@
 package io.github.morbidreich;
 
-enum FixType {
+public enum FixType {
     ENTRY,
     SID01,
     SID19,

@@ -1,6 +1,6 @@
 package io.github.morbidreich;
 
-enum Runway {
+public enum Runway {
     RUNWAY_01,
     RUNWAY_19
 }

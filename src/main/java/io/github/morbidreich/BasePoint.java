@@ -1,5 +1,8 @@
 package io.github.morbidreich;
 
+import io.github.morbidreich.CoordinateConverter;
+import io.github.morbidreich.Coordinates;
+
 import javax.persistence.*;
 
 import static java.lang.Math.*;
@@ -101,7 +104,7 @@ public class BasePoint implements Cloneable {
      *
      * @return the easting
      */
-    double getEasting() {
+    public double getEasting() {
         if (easting == -1)
             calculateNorthingEasting(getLatitude(), getLongitude());
         return easting;
@@ -116,7 +119,7 @@ public class BasePoint implements Cloneable {
      *
      * @return the northing
      */
-    double getNorthing() {
+    public double getNorthing() {
         if (northing == -1)
             calculateNorthingEasting(getLatitude(), getLongitude());
         return northing;
