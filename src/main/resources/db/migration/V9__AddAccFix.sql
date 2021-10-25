@@ -361,11 +361,6 @@ insert into fix (coordinates, fix_name, fix_type_id) values ('53°41''03"N 019°
 insert into fix (coordinates, fix_name, fix_type_id) values ('53°33''51"N 019°25''32"E', 'VEKAV', 12);
 insert into fix (coordinates, fix_name, fix_type_id) values ('55°41''50"N 017°47''08"E', 'VADRU', 12);
 insert into fix (coordinates, fix_name, fix_type_id) values ('55°35''03"N 017°57''32"E', 'IVGOR', 12);
-insert into fix (coordinates, fix_name, fix_type_id) values ('53°51''29"N 021°10''01"E', 'ARDUT', 12);
-insert into fix (coordinates, fix_name, fix_type_id) values ('53°33''46"N 019°58''50"E', 'IBINO', 12);
-insert into fix (coordinates, fix_name, fix_type_id) values ('53°49''31"N 021°16''59"E', 'LUSUL', 12);
-insert into fix (coordinates, fix_name, fix_type_id) values ('53°38''40"N 020°02''30"E', 'NIVON', 12);
-insert into fix (coordinates, fix_name, fix_type_id) values ('53°15''38"N 020°49''59"E', 'UDROV', 12);
 insert into fix (coordinates, fix_name, fix_type_id) values ('50°56''42"N 021°58''19"E', 'ARGIX', 12);
 insert into fix (coordinates, fix_name, fix_type_id) values ('50°50''28"N 022°04''10"E', 'GAVDU', 12);
 insert into fix (coordinates, fix_name, fix_type_id) values ('50°49''31"N 022°12''42"E', 'LIBGA', 12);

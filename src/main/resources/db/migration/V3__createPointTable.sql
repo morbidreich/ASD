@@ -96,6 +96,11 @@ insert into point (coordinates, polygon_id) values ('53°40''45"N 020°41''20"E'
 
 insert into point (coordinates, polygon_id) values ('55°08''07"N 016°15''01"E', 6);
 insert into point (coordinates, polygon_id) values ('55°17''24"N 018°24''03"E', 6);
+
+
+insert into point (coordinates, polygon_id) values ('54°38''16"N 019°21''20"E', 6); -- IPLIT
+insert into point (coordinates, polygon_id) values ('54°26''52"N 019°39''15"E', 6); -- GOMED
+
 insert into point (coordinates, polygon_id) values ('54°25''18"N 020°00''00"E', 6);
 insert into point (coordinates, polygon_id) values ('53°33''51"N 020°18''20"E', 6);
 insert into point (coordinates, polygon_id) values ('53°26''21"N 019°24''33"E', 6);
