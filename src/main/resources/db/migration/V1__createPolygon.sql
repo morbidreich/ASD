@@ -38,10 +38,18 @@ insert into polygon (polygon_name, polygon_type_id) values ('EPSYTMA_B', 1);
 insert into polygon (polygon_name, polygon_type_id) values ('EPSYTMA_C', 1);
 insert into polygon (polygon_name, polygon_type_id) values ('EPSYTMA_D', 1);
 insert into polygon (polygon_name, polygon_type_id) values ('EPGDTMA_TOP', 1);
+
 insert into polygon (polygon_name, polygon_type_id) values ('TSA02A', 10);
 insert into polygon (polygon_name, polygon_type_id) values ('TSA02B', 10);
 insert into polygon (polygon_name, polygon_type_id) values ('TSA02C', 10);
 insert into polygon (polygon_name, polygon_type_id) values ('TSA02D', 10);
 insert into polygon (polygon_name, polygon_type_id) values ('TSA02E', 10);
 insert into polygon (polygon_name, polygon_type_id) values ('TSA02F', 10);
+
 insert into polygon (polygon_name, polygon_type_id) values ('BORDER', 9);
+
+insert into polygon (polygon_name, polygon_type_id) values ('TSA01A', 10);
+insert into polygon (polygon_name, polygon_type_id) values ('TSA01B', 10);
+insert into polygon (polygon_name, polygon_type_id) values ('TSA01C', 10);
+
+
