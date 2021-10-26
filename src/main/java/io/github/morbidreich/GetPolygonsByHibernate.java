@@ -20,7 +20,7 @@ public class GetPolygonsByHibernate {
             // get point
             int id = 1;
             Polygon poly = session.get(Polygon.class, id);
-            List<Polygon> polyList = session.createQuery("from io.github.morbidreich.Polygon").getResultList();
+            List<Polygon> polyList = session.createQuery("from io.github.morbidreich.Polygon", Polygon.class).getResultList();
             System.out.println(polyList + "\n\n");
 
             //sout northing/easting

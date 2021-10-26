@@ -14,7 +14,7 @@ public class HibernateDataReader implements AirspaceReader {
         try {
             session.beginTransaction();
 
-            List<Polygon> polygonList = session.createQuery("from Polygon").getResultList();
+            List<Polygon> polygonList = session.createQuery("from Polygon", Polygon.class).getResultList();
             airspace.setPolygonList(polygonList);
 
             // not sure why, but i get error message when executing two queries without closing session
@@ -26,9 +26,9 @@ public class HibernateDataReader implements AirspaceReader {
             session = HibernateUtils.factory.getCurrentSession();
             session.beginTransaction();
 
-            airspace.setFixList(session.createQuery("from Fix").getResultList());
+            airspace.setFixList(session.createQuery("from Fix", Fix.class).getResultList());
 
-            airspace.setProcedureList(session.createQuery("from Procedure").getResultList());
+            airspace.setProcedureList(session.createQuery("from Procedure", Procedure.class).getResultList());
             session.getTransaction().commit();
         }
         catch (Exception e) {

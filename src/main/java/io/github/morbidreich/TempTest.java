@@ -20,8 +20,8 @@ public class TempTest {
             //get session
             session.beginTransaction();
 
-            List<Polygon> polygons = session.createQuery("from io.github.morbidreich.Polygon").getResultList();
-            List<Point> points = session.createQuery("from io.github.morbidreich.Point").getResultList();
+            List<Polygon> polygons = session.createQuery("from io.github.morbidreich.Polygon", Polygon.class).getResultList();
+            List<Point> points = session.createQuery("from io.github.morbidreich.Point", Point.class).getResultList();
 
             session.getTransaction().commit();
             session.close();
@@ -29,7 +29,7 @@ public class TempTest {
             session = factory.getCurrentSession();
             session.beginTransaction();
 
-            List<Fix> fixes = session.createQuery("from io.github.morbidreich.Fix").getResultList();
+            List<Fix> fixes = session.createQuery("from io.github.morbidreich.Fix", Fix.class).getResultList();
             for (Fix f : fixes)
                 System.out.println(f);
 
