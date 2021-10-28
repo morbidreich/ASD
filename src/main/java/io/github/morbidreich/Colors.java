@@ -12,6 +12,7 @@ public class Colors {
     public Color RBL_COLOR = new Color(158, 195, 255, 220);
     public Color VFR_COLOR = new Color(255, 250, 0, 122);
     public Color FIX_COLOR = new Color(200, 200, 200, 122);
+    public Color ACC_FIX_COLOR = new Color(255, 255,122, 122);
     public Color AERODROME_COLOR = new Color(200, 200, 200, 122);
     public Color BORDER_COLOR = new Color(0, 255, 0, 122);
     public Color RIVER_COLOR = new Color(0, 0, 255, 122);
@@ -135,6 +136,7 @@ public class Colors {
             case VOR:
             case AERODROME:
                 return AERODROME_COLOR;
+            case ACC_FIX: return ACC_FIX_COLOR;
             case VFR: return VFR_COLOR;
             case TOWN: return TOWN_COLOR;
             case SEARCH_RESULT: return SEARCH_RESULT_COLOR;
@@ -179,6 +181,9 @@ public class Colors {
             case AERODROME -> {
                 AERODROME_COLOR = color;
                 break;
+            }
+            case ACC_FIX -> {
+                ACC_FIX_COLOR = color;
             }
             case TOWN -> {
                 TOWN_COLOR = color;
