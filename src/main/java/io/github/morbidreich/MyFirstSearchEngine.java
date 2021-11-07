@@ -18,7 +18,7 @@ public class MyFirstSearchEngine implements SearchEngine {
      */
     public SearchResult looseSearch(Airspace airspace, String searchPhrase) {
         SearchResult searchResult = new SearchResult();
-        searchPhrase = searchPhrase.toUpperCase(Locale.ROOT);
+        searchPhrase = searchPhrase.toUpperCase();
 
         if (searchPhrase.length() >= MIN_SEARCH_PHRASE_LENGTH) {
             searchResult.setFixList(searchFix(airspace, searchPhrase, SearchType.LOOSE));
@@ -40,7 +40,7 @@ public class MyFirstSearchEngine implements SearchEngine {
     @Override
     public SearchResult exactSearch(Airspace airspace, String searchPhrase) {
         SearchResult searchResult = new SearchResult();
-        searchPhrase = searchPhrase.toUpperCase(Locale.ROOT);
+        searchPhrase = searchPhrase.toUpperCase();
 
         if (searchPhrase.length() >= MIN_SEARCH_PHRASE_LENGTH) {
             searchResult.setFixList(searchFix(airspace, searchPhrase, SearchType.EXACT));
@@ -55,112 +55,44 @@ public class MyFirstSearchEngine implements SearchEngine {
     // but that will mess with my hibernate annotations and sql data structure, so i'll leave this like it is for now.
     // will handle that later
     private List<Fix> searchFix(Airspace airspace, String searchPhrase, Enum searchType) {
-        // TODO replace that with .stream().filter() as soon as you learn lambdas xD
-        if (searchType == SearchType.EXACT) {
-            return airspace.getFixList().stream()
-                    .filter((f) -> f.getName().equals(searchPhrase))
-                    .map(f -> (Fix) f.clone())
-                    .peek(f -> f.setVisible(true))
-                    .peek(f -> f.setFixType(FixType.SEARCH_RESULT))
-                    .collect(Collectors.toList());
-        } else { //searchType == SearchType.LOOSE
-            return airspace.getFixList().stream()
-                    .filter(f -> f.getName().contains(searchPhrase))
-                    .map(f -> (Fix) f.clone())
-                    .peek(f -> f.setVisible(true))
-                    .peek(f -> f.setFixType(FixType.SEARCH_RESULT))
-                    .collect(Collectors.toList());
-        }
-        //airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null);
-//        List<Fix> out = new ArrayList<>();
-//        // check for all fixes
-//        for (Fix fix : airspace.getFixList()) {
-//            // if searchType == EXACT then search using .equals(searchPhrase)
-//            if (searchType == SearchType.EXACT) {
-//                if (fix.getName().equals(searchPhrase)) {
-//                    // clone object to modify some of it's properties
-//                    // without affecting original io.github.morbidreich.Fix
-//                    Fix f = (Fix) fix.clone();
-//                    // by default all fixes ale invisible
-//                    f.setVisible(true);
-//                    f.setFixType(FixType.SEARCH_RESULT);
-//                    out.add(f);
-//                }
-//                // if searchType == LOOSE then search using .contains(searchPhrase)
-//            } else if (searchType == SearchType.LOOSE) {
-//                if (fix.getName().contains(searchPhrase)) {
-//                    // by default all fixes ale invisible
-//                    Fix f = (Fix) fix.clone();
-//                    f.setVisible(true);
-//                    f.setFixType(FixType.SEARCH_RESULT);
-//                    out.add(f);
-//                }
-//            }
-//        }
-//        return out;
+        return airspace.getFixList().stream()
+                .filter((f) -> {
+                    if (searchType == SearchType.EXACT) return f.getName().equals(searchPhrase);
+                    else return f.getName().contains(searchPhrase);
+                })
+                .map(f->(Fix) f.clone())
+                .peek(f -> f.setVisible(true))
+                .peek(f -> f.setFixType(FixType.SEARCH_RESULT))
+                .collect(Collectors.toList());
     }
 
     private List<Polygon> searchPolygon(Airspace airspace, String searchPhrase, Enum searchType) {
-        // TODO replace that with .stream().filter() as soon as you learn lambdas xD
-        //airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null);
-        List<Polygon> out = new ArrayList<>();
-        for (Polygon polygon : airspace.getPolygonList()) {
-            if (searchType == SearchType.LOOSE) {
-                if (polygon.getName().contains(searchPhrase)) {
-                    // by default all polygons ale invisible
-                    Polygon p = (Polygon) polygon.clone();
-                    p.setVisible(true);
-                    p.setPolygonType(PolygonType.SEARCH_RESULT);
-                    out.add(p);
-                }
-            } else {
-                if (polygon.getName().equals(searchPhrase)) {
-                    // by default all polygons ale invisible
-                    Polygon p = (Polygon) polygon.clone();
-                    p.setVisible(true);
-                    p.setPolygonType(PolygonType.SEARCH_RESULT);
-                    out.add(p);
-                }
-            }
-        }
-        return out;
+        return airspace.getPolygonList().stream()
+                .filter(p -> {
+                    if (searchType == SearchType.EXACT) return p.getName().equals(searchPhrase);
+                    else return p.getName().contains(searchPhrase);
+                })
+                .map(p -> (Polygon) p.clone())
+                .peek(p -> {p.setVisible(true); p.setPolygonType(PolygonType.SEARCH_RESULT);})
+                .collect(Collectors.toList());
     }
 
     private List<Procedure> searchProcedure(Airspace airspace, String searchPhrase, Enum searchType) {
-        // TODO replace that with .stream().filter() as soon as you learn lambdas xD
-        //airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null);
-        List<Procedure> out = new ArrayList<>();
+        return airspace.getProcedureList().stream()
+                .filter(p -> {
+                    if (searchType == SearchType.EXACT) return p.getName().equals(searchPhrase);
+                    else return p.getName().contains(searchPhrase);
+                })
+                .map(p -> (Procedure) p.clone())
+                .map(this::updateProcedureFixes)
+                .peek(p->p.setVisibility(true))
+                .collect(Collectors.toList());
+    }
 
-        for (Procedure procedure : airspace.getProcedureList()) {
-            if (searchType == SearchType.LOOSE) {
-                if (procedure.getName().contains(searchPhrase)) {
-                    // by default all procedures ale invisible
-                    Procedure p = (Procedure) procedure.clone();
-                    p.setVisibility(true);
-                    for (Fix f : p.getFixList()) {
-                        f.setVisible(true);
-                        f.setFixType(FixType.SEARCH_RESULT);
-                    }
-                    p.setProcedureType(ProcedureType.SEARCH_RESULT);
-
-                    out.add(p);
-                }
-            } else if (searchType == SearchType.EXACT) {
-                if (procedure.getName().equals(searchPhrase)) {
-                    // by default all procedures ale invisible
-                    Procedure p = (Procedure) procedure.clone();
-                    p.setVisibility(true);
-                    for (Fix f : p.getFixList()) {
-                        f.setVisible(true);
-                        f.setFixType(FixType.SEARCH_RESULT);
-                    }
-                    p.setProcedureType(ProcedureType.SEARCH_RESULT);
-
-                    out.add(p);
-                }
-            }
-        }
-        return out;
+    private Procedure updateProcedureFixes(Procedure p) {
+        for (Fix f : p.getFixList())
+            f.setFixType(FixType.SEARCH_RESULT);
+        return p;
     }
 
     /**
@@ -171,6 +103,4 @@ public class MyFirstSearchEngine implements SearchEngine {
         LOOSE,
         EXACT
     }
-
-    ;
 }
