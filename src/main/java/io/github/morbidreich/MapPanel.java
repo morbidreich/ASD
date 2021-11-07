@@ -16,13 +16,14 @@ import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 
 @SuppressWarnings("serial")
 class MapPanel extends JPanel {
-    private final List<Polygon> polygons = new ArrayList<Polygon>();
-    private final List<Fix> fixes = new ArrayList<Fix>();
+    private List<Polygon> polygons = new ArrayList<Polygon>();
+    private List<Fix> fixes = new ArrayList<Fix>();
     private final List<Procedure> procedures = new ArrayList<>();
     private final List<RBL> rbls = new ArrayList<RBL>();
     private Colors colors = new Colors();
@@ -54,10 +55,25 @@ class MapPanel extends JPanel {
     }
 
     public void setDefaultElementsVisibility() {
-        for (Polygon p : polygons)
-            if (p.getPolygonType() == PolygonType.CTR ||
-                p.getPolygonType() == PolygonType.TMA)
-                p.setVisible(true);
+//        for (Polygon p : polygons)
+//            if (p.getPolygonType() == PolygonType.CTR ||
+//                p.getPolygonType() == PolygonType.TMA)
+//                p.setVisible(true);
+
+        polygons = polygons.stream()
+                .peek(p -> {
+                    if (p.getPolygonType() == PolygonType.CTR ||
+                            p.getPolygonType() == PolygonType.TMA ||
+                            p.getPolygonType() == PolygonType.BORDER)
+                        p.setVisible(true);
+                })
+                .collect(Collectors.toList());
+
+        fixes = fixes.stream().peek(f -> {
+                    if (f.getFixType() == FixType.ENTRY)
+                        f.setVisible(true);
+                })
+                .collect(Collectors.toList());
     }
 
     private void setDefaultViewPoint() {
