@@ -3,6 +3,7 @@ package io.github.morbidreich;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class MyFirstSearchEngine implements SearchEngine {
     private final int MIN_SEARCH_PHRASE_LENGTH = 2;
@@ -10,6 +11,7 @@ public class MyFirstSearchEngine implements SearchEngine {
     /**
      * Search @airspace for every element containing @searchPhrase as name. Returns
      * empty @io.github.morbidreich.SearchResult unless searchPhrase is longer than 2 characters.
+     *
      * @param airspace
      * @param searchPhrase
      * @return
@@ -30,7 +32,8 @@ public class MyFirstSearchEngine implements SearchEngine {
 
     /**
      * Searches @param airspace object for items which name exactly matches @param searchPhrase
-     * @param airspace  airspace object
+     *
+     * @param airspace     airspace object
      * @param searchPhrase search phrase typed by user
      * @return
      */
@@ -53,34 +56,50 @@ public class MyFirstSearchEngine implements SearchEngine {
     // will handle that later
     private List<Fix> searchFix(Airspace airspace, String searchPhrase, Enum searchType) {
         // TODO replace that with .stream().filter() as soon as you learn lambdas xD
-        //airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null);
-        List<Fix> out = new ArrayList<>();
-        // check for all fixes
-        for (Fix fix : airspace.getFixList()) {
-            // if searchType == EXACT then search using .equals(searchPhrase)
-            if (searchType == SearchType.EXACT) {
-                if (fix.getName().equals(searchPhrase)) {
-                    // clone object to modify some of it's properties
-                    // without affecting original io.github.morbidreich.Fix
-                    Fix f = (Fix) fix.clone();
-                    // by default all fixes ale invisible
-                    f.setVisible(true);
-                    f.setFixType(FixType.SEARCH_RESULT);
-                    out.add(f);
-                }
-                // if searchType == LOOSE then search using .contains(searchPhrase)
-            } else if (searchType == SearchType.LOOSE) {
-                if (fix.getName().contains(searchPhrase)) {
-                    // by default all fixes ale invisible
-                    Fix f = (Fix) fix.clone();
-                    f.setVisible(true);
-                    f.setFixType(FixType.SEARCH_RESULT);
-                    out.add(f);
-                }
-            }
+        if (searchType == SearchType.EXACT) {
+            return airspace.getFixList().stream()
+                    .filter((f) -> f.getName().equals(searchPhrase))
+                    .map(f -> (Fix) f.clone())
+                    .peek(f -> f.setVisible(true))
+                    .peek(f -> f.setFixType(FixType.SEARCH_RESULT))
+                    .collect(Collectors.toList());
+        } else { //searchType == SearchType.LOOSE
+            return airspace.getFixList().stream()
+                    .filter(f -> f.getName().contains(searchPhrase))
+                    .map(f -> (Fix) f.clone())
+                    .peek(f -> f.setVisible(true))
+                    .peek(f -> f.setFixType(FixType.SEARCH_RESULT))
+                    .collect(Collectors.toList());
         }
-        return out;
+        //airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null);
+//        List<Fix> out = new ArrayList<>();
+//        // check for all fixes
+//        for (Fix fix : airspace.getFixList()) {
+//            // if searchType == EXACT then search using .equals(searchPhrase)
+//            if (searchType == SearchType.EXACT) {
+//                if (fix.getName().equals(searchPhrase)) {
+//                    // clone object to modify some of it's properties
+//                    // without affecting original io.github.morbidreich.Fix
+//                    Fix f = (Fix) fix.clone();
+//                    // by default all fixes ale invisible
+//                    f.setVisible(true);
+//                    f.setFixType(FixType.SEARCH_RESULT);
+//                    out.add(f);
+//                }
+//                // if searchType == LOOSE then search using .contains(searchPhrase)
+//            } else if (searchType == SearchType.LOOSE) {
+//                if (fix.getName().contains(searchPhrase)) {
+//                    // by default all fixes ale invisible
+//                    Fix f = (Fix) fix.clone();
+//                    f.setVisible(true);
+//                    f.setFixType(FixType.SEARCH_RESULT);
+//                    out.add(f);
+//                }
+//            }
+//        }
+//        return out;
     }
+
     private List<Polygon> searchPolygon(Airspace airspace, String searchPhrase, Enum searchType) {
         // TODO replace that with .stream().filter() as soon as you learn lambdas xD
         //airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null);
@@ -106,6 +125,7 @@ public class MyFirstSearchEngine implements SearchEngine {
         }
         return out;
     }
+
     private List<Procedure> searchProcedure(Airspace airspace, String searchPhrase, Enum searchType) {
         // TODO replace that with .stream().filter() as soon as you learn lambdas xD
         //airspace.getFixList().stream().filter(p -> p.getName().equals(searchPhrase)).findAny().orElse(null);
@@ -125,7 +145,7 @@ public class MyFirstSearchEngine implements SearchEngine {
 
                     out.add(p);
                 }
-            } else if (searchType == SearchType.EXACT){
+            } else if (searchType == SearchType.EXACT) {
                 if (procedure.getName().equals(searchPhrase)) {
                     // by default all procedures ale invisible
                     Procedure p = (Procedure) procedure.clone();
@@ -150,5 +170,7 @@ public class MyFirstSearchEngine implements SearchEngine {
     private enum SearchType {
         LOOSE,
         EXACT
-    };
+    }
+
+    ;
 }
