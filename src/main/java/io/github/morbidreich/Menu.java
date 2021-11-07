@@ -200,6 +200,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
 
         cbTma.setSelected(true);
         cbCtr.setSelected(true);
+        cbTmaFixes.setSelected(true);
+        cbBorder.setSelected(true);
 
     }
 
