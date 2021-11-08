@@ -102,7 +102,7 @@ class MapPanel extends JPanel {
 
         if (polygons.size() == 0) return;
         if (this.scale == -1) scale();
-
+        Long startTime = System.nanoTime();
         drawPolygons(polygons, g, h);
         drawProcedures(procedures, g, h);
         drawFixes(fixes, g, h);
@@ -110,6 +110,9 @@ class MapPanel extends JPanel {
         drawScale(g);
         //last in order to display results on top
         drawSearchResults(g, h);
+        Long endTime = System.nanoTime();
+
+        System.out.println("Task time: " + (endTime - startTime)/1000);
     }
 
     private void drawScale(Graphics2D g) {

@@ -215,7 +215,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         slider.setValue(0);
         slider.setMinimum(-100);
         slider.setPreferredSize(new Dimension(60, 20));
-        slider.setMinimumSize(new Dimension(60,25));
+        slider.setMinimumSize(new Dimension(60, 25));
 
         BrightnessSlider bs = new BrightnessSlider(pt, mapPanel);
         slider.addChangeListener(bs);
@@ -232,7 +232,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         slider.setValue(0);
         slider.setMinimum(-100);
         slider.setPreferredSize(new Dimension(60, 20));
-        slider.setMinimumSize(new Dimension(60,25));
+        slider.setMinimumSize(new Dimension(60, 25));
 
         BrightnessSlider bs = new BrightnessSlider(ft, mapPanel);
         slider.addChangeListener(bs);
@@ -269,11 +269,11 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         } else if (e.getSource().equals(cbBorder)) {
             togglePolygonVisibility(cbBorder, PolygonType.BORDER);
         } else if (
-                    e.getSource().equals(cbTmaFixes) ||
-                    e.getSource().equals(cbAccFixes) ||
-                    e.getSource().equals(cbVfrFixes) ||
-                    e.getSource().equals(cbAerodromes) ||
-                    e.getSource().equals(cbTowns)) {
+                e.getSource().equals(cbTmaFixes) ||
+                        e.getSource().equals(cbAccFixes) ||
+                        e.getSource().equals(cbVfrFixes) ||
+                        e.getSource().equals(cbAerodromes) ||
+                        e.getSource().equals(cbTowns)) {
             toggleFixVisibility((JCheckBoxMenuItem) e.getSource());
         }
         mapPanel.repaint();
@@ -305,21 +305,19 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     }
 
     private void setFixVisible(FixType fixType, JCheckBoxMenuItem source) {
-        for (Fix fix : airspace.getFixList()) {
-            if (fix.getFixType() == fixType)
-                fix.setVisible(source.isSelected());
-        }
+        airspace.getFixList().stream()
+                .filter(f -> f.getFixType() == fixType)
+                .forEach(f -> f.setVisible(true));
     }
 
     private void toggleProcedureVisibility(JCheckBoxMenuItem source) {
 
         switch (source.getText()) {
             case "SID 01": {
-                for (Procedure p : airspace.getProcedureList()) {
-                    if (p.getRunway() == Runway.RUNWAY_01 &&
-                            p.getProcedureType() == ProcedureType.SID)
-                        p.setVisibility(source.isSelected());
-                }
+
+                airspace.getProcedureList().stream()
+                        .filter(p -> p.getRunway() == Runway.RUNWAY_01 && p.getProcedureType() == ProcedureType.SID)
+                        .forEach(p -> p.setVisibility(source.isSelected()));
                 break;
             }
             case "SID 19": {
