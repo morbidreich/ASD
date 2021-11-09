@@ -19,23 +19,23 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private final JMenu menuClose;
     private final JMenuBar menuBar;
     private final JMenuItem miSettings;
-    private final JCheckBoxMenuItem cbTma;
-    private final JCheckBoxMenuItem cbCtr;
-    private final JCheckBoxMenuItem cbTmaFixes;
-    private final JCheckBoxMenuItem cbAccFixes;
-    private final JCheckBoxMenuItem cbVfrFixes;
-    private final JCheckBoxMenuItem cbSid01;
-    private final JCheckBoxMenuItem cbSid19;
-    private final JCheckBoxMenuItem cbStar01;
-    private final JCheckBoxMenuItem cbStar19;
-    private final JCheckBoxMenuItem cbPDR;
-    private final JCheckBoxMenuItem cbTSA;
-    private final JCheckBoxMenuItem cbTRA;
-    private final JCheckBoxMenuItem cbAerodromes;
-    private final JCheckBoxMenuItem cbBorder;
-    private final JCheckBoxMenuItem cbTowns;
-    private final JCheckBoxMenuItem cbRivers;
-    private final JCheckBoxMenuItem cbRoads;
+    private final asdCheckBox cbTma;
+    private final asdCheckBox cbCtr;
+    private final asdCheckBox cbTmaFixes;
+    private final asdCheckBox cbAccFixes;
+    private final asdCheckBox cbVfrFixes;
+    private final asdCheckBox cbSid01;
+    private final asdCheckBox cbSid19;
+    private final asdCheckBox cbStar01;
+    private final asdCheckBox cbStar19;
+    private final asdCheckBox cbPDR;
+    private final asdCheckBox cbTSA;
+    private final asdCheckBox cbTRA;
+    private final asdCheckBox cbAerodromes;
+    private final asdCheckBox cbBorder;
+    private final asdCheckBox cbTowns;
+    private final asdCheckBox cbRivers;
+    private final asdCheckBox cbRoads;
     private final JMenuItem miAbout;
 
 
@@ -103,36 +103,36 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         sliderTowns = createJSlider("Towns", FixType.TOWN, mapPanel);
 
 
-        cbTma = new JCheckBoxMenuItem("TMA");
+        cbTma = new asdCheckBox("TMA", sliderTma);
         cbTma.addMouseListener(this);
-        cbCtr = new JCheckBoxMenuItem("CTR");
+        cbCtr = new asdCheckBox("CTR", sliderCtr);
         cbCtr.addMouseListener(this);
-        cbTmaFixes = new JCheckBoxMenuItem("TMA entry fixes");
+        cbTmaFixes = new asdCheckBox("TMA entry fixes", sliderTmaEntryFix);
         cbTmaFixes.addMouseListener(this);
-        cbAccFixes = new JCheckBoxMenuItem("ACC fixes");
+        cbAccFixes = new asdCheckBox("ACC fixes", sliderAccFix);
         cbAccFixes.addMouseListener(this);
-        cbVfrFixes = new JCheckBoxMenuItem("VFR fixes");
+        cbVfrFixes = new asdCheckBox("VFR fixes", sliderVfrFix);
         cbVfrFixes.addMouseListener(this);
-        cbSid01 = new JCheckBoxMenuItem("SID 01");
+        cbSid01 = new asdCheckBox("SID 01", sliderSid01);
         cbSid01.addMouseListener(this);
-        cbSid19 = new JCheckBoxMenuItem("SID 19");
+        cbSid19 = new asdCheckBox("SID 19", sliderSid19);
         cbSid19.addMouseListener(this);
-        cbStar01 = new JCheckBoxMenuItem("STAR 01");
+        cbStar01 = new asdCheckBox("STAR 01", sliderStar01);
         cbStar01.addMouseListener(this);
-        cbStar19 = new JCheckBoxMenuItem("STAR 19");
+        cbStar19 = new asdCheckBox("STAR 19", sliderStar19);
         cbStar19.addMouseListener(this);
-        cbPDR = new JCheckBoxMenuItem("P/D/R");
-        cbTSA = new JCheckBoxMenuItem("TSA");
+        cbPDR = new asdCheckBox("P/D/R", null);
+        cbTSA = new asdCheckBox("TSA", sliderTsa);
         cbTSA.addMouseListener(this);
-        cbTRA = new JCheckBoxMenuItem("TRA");
-        cbAerodromes = new JCheckBoxMenuItem("Aerodromes");
+        cbTRA = new asdCheckBox("TRA", null);
+        cbAerodromes = new asdCheckBox("Aerodromes", sliderAerodromes);
         cbAerodromes.addMouseListener(this);
-        cbBorder = new JCheckBoxMenuItem("Border");
+        cbBorder = new asdCheckBox("Border", sliderBorder);
         cbBorder.addMouseListener(this);
-        cbTowns = new JCheckBoxMenuItem("Towns");
+        cbTowns = new asdCheckBox("Towns", sliderTowns);
         cbTowns.addMouseListener(this);
-        cbRivers = new JCheckBoxMenuItem("Rivers");
-        cbRoads = new JCheckBoxMenuItem("Roads");
+        cbRivers = new asdCheckBox("Rivers", null);
+        cbRoads = new asdCheckBox("Roads", null);
 
         menuElements.add(cbTma);
         menuElements.add(sliderTma);
@@ -386,13 +386,16 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         }
 
         if (e.getSource().equals(cbTma)) {
-
-            HandleTma(e);
+            if(SwingUtilities.isMiddleMouseButton(e)) {
+                JSlider slider = cbTma.getSlider();
+                slider.setVisible(!slider.isVisible());
+                cbTma.setSelected(!cbTma.isSelected());
+                togglePolygonVisibility(cbTma, PolygonType.TMA);
+            }
         }
 
         if (e.getSource().equals(cbCtr)) {
 
-            System.out.println("Ctr CLICKED");
             if (SwingUtilities.isMiddleMouseButton(e)) {
                 sliderCtr.setVisible(!sliderCtr.isVisible());
 
