@@ -1,6 +1,6 @@
 package io.github.morbidreich;
 
-import io.github.morbidreich.surveilance.TestingWithOpensky;
+import io.github.morbidreich.surveilance.DataAcquisition;
 
 import java.awt.*;
 
@@ -42,7 +42,7 @@ public class MapWindow extends JFrame {
     }
 
     private void startFeedingTracks() {
-        TestingWithOpensky testing = new TestingWithOpensky(map);
+        DataAcquisition testing = new DataAcquisition(map);
         Thread t = new Thread(testing);
         t.setDaemon(true);
         t.start();

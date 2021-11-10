@@ -46,7 +46,7 @@ public class RBL {
         //default 0 is pointing eastward so i rotate it counterclockwise by substracting 90 degrees
         double angle = Math.toDegrees(Math.atan2(a, b)) - 90;
         //apply magnetic variation, around +5deg
-        angle -= ApplicationSettings.MAGNETIC_VARIATION;
+        angle -= AppSettings.MAGNETIC_VARIATION;
         int iAngle = (int)(angle > 0 ? angle : angle + 360);
 
         // display to the right or left of cursor to avoid overlapping

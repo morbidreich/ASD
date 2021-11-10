@@ -1,9 +1,12 @@
-package io.github.morbidreich;
+package io.github.morbidreich.drawing;
+
+import io.github.morbidreich.Fix;
+import io.github.morbidreich.FixType;
 
 import java.awt.*;
 
 public class FixSymbolDrawer {
-    static void drawFixSymbol(int x, int y, Graphics g, Fix fix) {
+    public static void drawFixSymbol(int x, int y, Graphics g, Fix fix) {
         //for vfr fixes symbol is circle
         if (fix.getFixType() == FixType.VFR) {
             g.drawOval(x, y, 5, 5);

@@ -1,6 +1,4 @@
-package io.github.morbidreich.DataPrepUtils;
-
-import io.github.morbidreich.CoordinateConverter;
+package io.github.morbidreich.dataPrepUtils;
 
 import java.io.File;
 import java.io.FileWriter;

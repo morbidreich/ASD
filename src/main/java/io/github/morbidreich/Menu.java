@@ -307,7 +307,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private void setFixVisible(FixType fixType, JCheckBoxMenuItem source) {
         airspace.getFixList().stream()
                 .filter(f -> f.getFixType() == fixType)
-                .forEach(f -> f.setVisible(true));
+                .forEach(f -> f.setVisible(!f.isVisible()));
     }
 
     private void toggleProcedureVisibility(JCheckBoxMenuItem source) {

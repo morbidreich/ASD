@@ -4,11 +4,16 @@ import io.github.morbidreich.BasePoint;
 import io.github.morbidreich.Coordinates;
 import org.opensky.model.StateVector;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Queue;
 
 public class Track extends BasePoint {
 
     private StateVector sv;
+
+    private List<TrackPosition> trackPositions;
 
     private String icao24; //transponder code;
     private String callsing;
@@ -35,6 +40,9 @@ public class Track extends BasePoint {
         this.velocity = sv.getVelocity();
         this.baroAltitude = sv.getBaroAltitude();
         this.verticalRate = sv.getVerticalRate();
+
+        trackPositions = new LinkedList<>();
+        //trackPositions.
     }
 
     public String getCallsing() {
@@ -57,5 +65,9 @@ public class Track extends BasePoint {
 
     public Double getVerticalRate() {
         return verticalRate;
+    }
+
+    public Boolean getSpi() {
+        return sv.isSpi();
     }
 }

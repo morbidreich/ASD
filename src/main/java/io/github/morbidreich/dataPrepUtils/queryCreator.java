@@ -1,4 +1,4 @@
-package io.github.morbidreich.DataPrepUtils;
+package io.github.morbidreich.dataPrepUtils;
 
 import io.github.morbidreich.CoordinateConverter;
 

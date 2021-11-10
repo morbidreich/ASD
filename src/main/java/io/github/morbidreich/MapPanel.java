@@ -3,6 +3,7 @@ package io.github.morbidreich;/*
   https://github.com/ChristopheJacquet/Minigeo
  */
 
+import io.github.morbidreich.drawing.FixSymbolDrawer;
 import io.github.morbidreich.drawing.TrackDrawer;
 import io.github.morbidreich.surveilance.Track;
 
@@ -105,20 +106,26 @@ public class MapPanel extends JPanel {
         if (polygons.size() == 0) return;
         if (this.scale == -1) scale();
 
+        Long start = System.nanoTime();
         drawPolygons(polygons, g, h);
         drawProcedures(procedures, g, h);
         drawFixes(fixes, g, h);
         drawRBLs(g, h);
         drawScale(g);
-        drawTracks(g);
-        //last in order to display results on top
+
+        //next to last in order to display results on top of other layers
         drawSearchResults(g, h);
+        Long end = System.nanoTime();
+
+        Long startTracks = System.nanoTime();
+        //and airplane tracks topmost
+        drawTracks(g);
+        Long endTracks = System.nanoTime();
+        System.out.println("Layers in " + (end-start) /1000000 + "ms, traks in " + (endTracks-startTracks)/1000000 + "ms");
     }
 
     private void drawTracks(Graphics2D g) {
-        for (Track track : tracks) {
-            TrackDrawer.drawTrack(track, g, this);
-        }
+        tracks.forEach(t -> TrackDrawer.drawTrack(t, g, this));
     }
 
     private void drawScale(Graphics2D g) {
