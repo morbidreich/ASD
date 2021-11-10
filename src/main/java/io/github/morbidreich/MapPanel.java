@@ -3,6 +3,8 @@ package io.github.morbidreich;/*
   https://github.com/ChristopheJacquet/Minigeo
  */
 
+import io.github.morbidreich.surveilance.Track;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -21,7 +23,10 @@ import java.util.stream.Collectors;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-class MapPanel extends JPanel {
+public class MapPanel extends JPanel {
+
+    private List<Track> tracks = new ArrayList<>();
+
     private List<Polygon> polygons = new ArrayList<Polygon>();
     private List<Fix> fixes = new ArrayList<Fix>();
     private final List<Procedure> procedures = new ArrayList<>();
@@ -108,11 +113,23 @@ class MapPanel extends JPanel {
         drawFixes(fixes, g, h);
         drawRBLs(g, h);
         drawScale(g);
+        drawTracks(tracks, g, h);
         //last in order to display results on top
         drawSearchResults(g, h);
         Long endTime = System.nanoTime();
 
         System.out.println("Task time: " + (endTime - startTime)/1000);
+    }
+
+    private void drawTracks(List<Track> tracks, Graphics2D g, int h) {
+        for (Track track : tracks) {
+
+                g.setColor(new Color(255,255,255));
+                int x = convertX(track.getEasting());
+                int y = convertY(track.getNorthing(), h);
+                g.drawOval(x,y,10,10);
+                g.drawString(track.getCallsing(), x + 10, y + 2);
+        }
     }
 
     private void drawScale(Graphics2D g) {
@@ -247,6 +264,10 @@ class MapPanel extends JPanel {
     public void addPolygons(List<Polygon> polygons) {
         for (Polygon poly : polygons) addPolygon(poly);
     }
+
+    public void addTrack(Track track) { this.tracks.add(track); }
+    public void addTracks(List<Track> tracks) { for (Track track : tracks) addTrack(track); }
+    public void setTracks(List<Track> tracks) { this.tracks = tracks; }
 
     public synchronized void addRBL(RBL rbl) {
         this.rbls.add(rbl);

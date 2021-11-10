@@ -1,5 +1,7 @@
 package io.github.morbidreich;
 
+import io.github.morbidreich.surveilance.TestingWithOpensky;
+
 import java.awt.*;
 
 import javax.swing.*;
@@ -35,6 +37,14 @@ public class MapWindow extends JFrame {
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        startFeedingTracks();
+    }
+
+    private void startFeedingTracks() {
+        TestingWithOpensky testing = new TestingWithOpensky(map);
+        Thread t = new Thread(testing);
+        t.start();
     }
 
 
