@@ -34,6 +34,7 @@ public class Track extends BasePoint {
         this.callsing = sv.getCallsign();
         this.velocity = sv.getVelocity();
         this.baroAltitude = sv.getBaroAltitude();
+        this.verticalRate = sv.getVerticalRate();
     }
 
     public String getCallsing() {
@@ -52,5 +53,9 @@ public class Track extends BasePoint {
 
     public Double getHeading() {
         return sv.getHeading();
+    }
+
+    public Double getVerticalRate() {
+        return verticalRate;
     }
 }

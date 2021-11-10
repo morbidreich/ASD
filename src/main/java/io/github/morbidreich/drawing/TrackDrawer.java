@@ -1,9 +1,6 @@
 package io.github.morbidreich.drawing;
 
-import io.github.morbidreich.BasePoint;
-import io.github.morbidreich.Colors;
-import io.github.morbidreich.Coordinates;
-import io.github.morbidreich.MapPanel;
+import io.github.morbidreich.*;
 import io.github.morbidreich.surveilance.Track;
 
 import java.awt.*;
@@ -23,23 +20,38 @@ public class TrackDrawer {
 
         g.drawString(track.getCallsing(), x + 20, y + 2);
         g.drawString(String.format("%.0f", track.getVelocity()), x + width + 20, y + 2);
-        g.drawString(String.format("%.0f", track.getBaroAltitude()), x + 20, y + 18);
+
+        String baroAltitude = String.format("%.0f", track.getBaroAltitude());
+        g.drawString(baroAltitude, x + 20, y + 18);
+
+        // if absolute vertical rate is present and is greater than 1.6 m/s - more than 300feets per minute
+        // then draw altitude trend arrow and vertical rate (1m/s ~ 200feets per minute)
+
+        if (track.getVerticalRate() != null && Math.abs(track.getVerticalRate()) > 1.6) {
+
+            int widthOfAltitudeString = g.getFontMetrics().stringWidth(baroAltitude);
+            g.drawLine(x + 20 + widthOfAltitudeString + 5, y+9, x + 20 + widthOfAltitudeString + 5, y+17);
+
+            if (track.getVerticalRate()>0) {
+                g.drawLine(x + 20 + widthOfAltitudeString + 5, y+9, x + 20 + widthOfAltitudeString + 7, y+12);
+                g.drawLine(x + 20 + widthOfAltitudeString + 5, y+9, x + 20 + widthOfAltitudeString + 3, y+12);
+            }
+            else {
+                g.drawLine(x + 20 + widthOfAltitudeString + 5, y+17, x + 20 + widthOfAltitudeString + 7, y+14);
+                g.drawLine(x + 20 + widthOfAltitudeString + 5, y+17, x + 20 + widthOfAltitudeString + 3, y+14);
+            }
+
+        }
 
         if (track.getHeading() != null) {
             // get track lat lon
             double xx = track.getLongitude();
             double yy = track.getLatitude();
 
-            // so far so good
-            //System.out.println("lat/lon:" + yy + " " + xx);
-
             // calculate lat lon of tip of vector
-            double heading = track.getHeading();
+            double heading = track.getHeading() - ApplicationSettings.MAGNETIC_VARIATION;
             double xxx = xx + 0.06 * Math.sin(Math.toRadians(heading));
             double yyy = yy + 0.06 * Math.cos(Math.toRadians(heading));
-
-            //
-            System.out.println("H:" + heading + " " + yy + "/" + xx + "tip:" + yyy + "/" + xxx);
 
             BasePoint tipOfVector = new BasePoint(new Coordinates(yyy, xxx));
 

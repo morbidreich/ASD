@@ -31,15 +31,12 @@ public class TestingWithOpensky implements Runnable {
                 OpenSkyApi api = new OpenSkyApi(USERNAME, PASSWORD);
                 OpenSkyStates os = null;
 
+                // get state vectors from area delimited by below coordinates, basically whole poland
                 os = api.getStates(0, null,
                         new OpenSkyApi.BoundingBox(49.8389, 55.8229, 13.9962, 23.5226));
 
                 Collection<StateVector> collection = os.getStates();
-
-                System.out.println("Collection of states size: " + collection.size());
-
                 List<StateVector> list = collection.stream().toList();
-                System.out.println("list of statevector size: " + list.size());
 
                 List<Track> tracks = new ArrayList<>();
 
