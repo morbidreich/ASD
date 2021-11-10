@@ -1,6 +1,6 @@
 package io.github.morbidreich.dataPrepUtils;
 
-import io.github.morbidreich.CoordinateConverter;
+import io.github.morbidreich.utils.CoordinateConverter;
 
 import java.io.*;
 import java.util.Scanner;

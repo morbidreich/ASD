@@ -1,7 +1,7 @@
 package io.github.morbidreich.surveilance;
 
-import io.github.morbidreich.AppSettings;
-import io.github.morbidreich.MapPanel;
+import io.github.morbidreich.utils.AppSettings;
+import io.github.morbidreich.ui.MapPanel;
 import org.opensky.api.OpenSkyApi;
 import org.opensky.model.OpenSkyStates;
 import org.opensky.model.StateVector;

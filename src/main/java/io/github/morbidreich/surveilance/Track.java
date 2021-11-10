@@ -1,13 +1,11 @@
 package io.github.morbidreich.surveilance;
 
-import io.github.morbidreich.BasePoint;
-import io.github.morbidreich.Coordinates;
+import io.github.morbidreich.airspaceElements.BasePoint;
+import io.github.morbidreich.airspaceElements.Coordinates;
 import org.opensky.model.StateVector;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Queue;
 
 public class Track extends BasePoint {
 

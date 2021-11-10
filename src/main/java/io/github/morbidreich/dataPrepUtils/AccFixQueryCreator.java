@@ -3,7 +3,7 @@ package io.github.morbidreich.dataPrepUtils;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Scanner;
-import io.github.morbidreich.CoordinateConverter;
+import io.github.morbidreich.utils.CoordinateConverter;
 
 public class AccFixQueryCreator {
 
