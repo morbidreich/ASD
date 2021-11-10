@@ -1,7 +1,5 @@
 package io.github.morbidreich.surveilance;
 
-import io.github.morbidreich.BasePoint;
-import io.github.morbidreich.Coordinates;
 import io.github.morbidreich.MapPanel;
 import org.opensky.api.OpenSkyApi;
 import org.opensky.model.OpenSkyStates;
@@ -11,14 +9,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class TestingWithOpensky implements Runnable {
 
     private MapPanel map;
-    private List<BasePoint> tracks = new ArrayList<>();
-    final String USERNAME = "Kujda";
-    final String PASSWORD = "ePDpu.jDqvV7yci";
+    private List<Track> tracks = new ArrayList<>();
+    private final String USERNAME = "Kujda";
+    private final String PASSWORD = "ePDpu.jDqvV7yci";
 
 
     public TestingWithOpensky(MapPanel mapPanel) {
@@ -29,31 +26,47 @@ public class TestingWithOpensky implements Runnable {
     public void run() {
         while (true) {
 
-            OpenSkyApi api = new OpenSkyApi(USERNAME, PASSWORD);
-            OpenSkyStates os = null;
             try {
+                OpenSkyApi api = new OpenSkyApi(USERNAME, PASSWORD);
+                OpenSkyStates os = null;
+
                 os = api.getStates(0, null,
-                        new OpenSkyApi.BoundingBox(47.8389, 55.8229, 16.9962, 23.5226));
+                        new OpenSkyApi.BoundingBox(49.8389, 55.8229, 13.9962, 23.5226));
+
+                Collection<StateVector> collection = os.getStates();
+
+                System.out.println("Collection of states size: " + collection.size());
+
+                List<StateVector> list = collection.stream().toList();
+                System.out.println("list of statevector size: " + list.size());
+
+                List<Track> tracks = new ArrayList<>();
+
+                for (StateVector sv : list) {
+                    // reject all state vectors that has latitude or longutude as null
+
+                    if (sv.getLatitude() == null && sv.getLongitude() == null) {
+                        System.out.println("rejecting SV id:" + sv.getIcao24() + ", callsign:" + sv.getCallsign());
+                        continue;
+                    }
+
+                    Track bp = new Track(sv);
+                    tracks.add(bp);
+                }
+
+                map.setTracks(tracks);
+                map.repaint();
+                System.out.println("got data from api, no of tracks=" + os.getStates().size() + ", timestamp = " + os.getTime());
+
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
 
-            Collection<StateVector> stateVectorList = os.getStates();
-            List<StateVector> list = stateVectorList.stream().collect(Collectors.toList());
-
-            List<Track> tracks = new ArrayList<>();
-
-            for (StateVector sv : list) {
-                Track bp = new Track(new Coordinates(sv.getLatitude(), sv.getLongitude()), sv.getCallsign());
-                tracks.add(bp);
-            }
-            map.setTracks(tracks);
-            map.repaint();
-            System.out.println("got data from api, timestamp = " + os.getTime());
             try {
                 Thread.sleep(4000);
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 System.out.println("Interrupted api data acces, quitting");
             }
         }

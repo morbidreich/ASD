@@ -5,11 +5,7 @@ package io.github.morbidreich;/*
 
 import io.github.morbidreich.surveilance.Track;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -107,7 +103,7 @@ public class MapPanel extends JPanel {
 
         if (polygons.size() == 0) return;
         if (this.scale == -1) scale();
-        Long startTime = System.nanoTime();
+
         drawPolygons(polygons, g, h);
         drawProcedures(procedures, g, h);
         drawFixes(fixes, g, h);
@@ -116,20 +112,33 @@ public class MapPanel extends JPanel {
         drawTracks(tracks, g, h);
         //last in order to display results on top
         drawSearchResults(g, h);
-        Long endTime = System.nanoTime();
 
-        System.out.println("Task time: " + (endTime - startTime)/1000);
+
+
     }
 
     private void drawTracks(List<Track> tracks, Graphics2D g, int h) {
-        for (Track track : tracks) {
 
-                g.setColor(new Color(255,255,255));
+        //save font for later
+//        Font f = g.getFont();
+
+        //change font locally to monotypic
+//        g.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        for (Track track : tracks) {
+                g.setColor(new Color(0,255,0));
                 int x = convertX(track.getEasting());
                 int y = convertY(track.getNorthing(), h);
-                g.drawOval(x,y,10,10);
-                g.drawString(track.getCallsing(), x + 10, y + 2);
+                g.drawOval(x,y,5,5);
+
+                //get width of callsign string to position velocity
+                int width = g.getFontMetrics().stringWidth(track.getCallsing());
+
+                g.drawString(track.getCallsing(), x + 20, y + 2);
+                g.drawString(String.format("%.0f", track.getVelocity()), x + width + 20, y + 2);
+                g.drawString(String.format("%.0f", track.getBaroAltitude()), x + 20, y + 18);
         }
+        //revert to previous font
+//        g.setFont(f);
     }
 
     private void drawScale(Graphics2D g) {
@@ -265,8 +274,6 @@ public class MapPanel extends JPanel {
         for (Polygon poly : polygons) addPolygon(poly);
     }
 
-    public void addTrack(Track track) { this.tracks.add(track); }
-    public void addTracks(List<Track> tracks) { for (Track track : tracks) addTrack(track); }
     public void setTracks(List<Track> tracks) { this.tracks = tracks; }
 
     public synchronized void addRBL(RBL rbl) {

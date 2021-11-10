@@ -14,7 +14,7 @@ public class Colors {
     public Color FIX_COLOR = new Color(200, 200, 200, 122);
     public Color ACC_FIX_COLOR = new Color(255, 255,122, 122);
     public Color AERODROME_COLOR = new Color(200, 200, 200, 122);
-    public Color BORDER_COLOR = new Color(0, 255, 0, 122);
+    public Color BORDER_COLOR = new Color(120, 120, 120, 122);
     public Color RIVER_COLOR = new Color(0, 0, 255, 122);
     public Color TOWN_COLOR = new Color(0, 80, 0, 122);
     public Color ROAD_COLOR = new Color(0, 0, 255, 122);

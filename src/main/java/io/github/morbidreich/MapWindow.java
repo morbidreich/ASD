@@ -44,6 +44,7 @@ public class MapWindow extends JFrame {
     private void startFeedingTracks() {
         TestingWithOpensky testing = new TestingWithOpensky(map);
         Thread t = new Thread(testing);
+        t.setDaemon(true);
         t.start();
     }
 
