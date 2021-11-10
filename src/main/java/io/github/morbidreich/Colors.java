@@ -25,6 +25,7 @@ public class Colors {
     public Color TRA_COLOR = new Color(150, 150, 150, 122);
     public Color AREA_COLOR = new Color(150, 150, 150, 122);
     public Color SEARCH_RESULT_COLOR = new Color(250,90,0,255);
+    public static Color TRACK_COLOR = new Color(0,255,0,255);
 
 
     public Color getColor(PolygonType pt) {

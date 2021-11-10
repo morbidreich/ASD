@@ -37,7 +37,7 @@ public class Track extends BasePoint {
     }
 
     public String getCallsing() {
-        return callsing;
+        return (callsing == null) ? "????" : callsing;
     }
 
     public Double getVelocity() {
@@ -48,5 +48,9 @@ public class Track extends BasePoint {
     public Double getBaroAltitude() {
         // returns value converted from meters to hundreds of feet
         return (sv.getBaroAltitude() == null) ? -1.0 : Math.ceil(sv.getBaroAltitude() * 0.0328083990);
+    }
+
+    public Double getHeading() {
+        return sv.getHeading();
     }
 }

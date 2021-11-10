@@ -3,6 +3,7 @@ package io.github.morbidreich;/*
   https://github.com/ChristopheJacquet/Minigeo
  */
 
+import io.github.morbidreich.drawing.TrackDrawer;
 import io.github.morbidreich.surveilance.Track;
 
 import java.awt.*;
@@ -109,36 +110,15 @@ public class MapPanel extends JPanel {
         drawFixes(fixes, g, h);
         drawRBLs(g, h);
         drawScale(g);
-        drawTracks(tracks, g, h);
+        drawTracks(g);
         //last in order to display results on top
         drawSearchResults(g, h);
-
-
-
     }
 
-    private void drawTracks(List<Track> tracks, Graphics2D g, int h) {
-
-        //save font for later
-//        Font f = g.getFont();
-
-        //change font locally to monotypic
-//        g.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+    private void drawTracks(Graphics2D g) {
         for (Track track : tracks) {
-                g.setColor(new Color(0,255,0));
-                int x = convertX(track.getEasting());
-                int y = convertY(track.getNorthing(), h);
-                g.drawOval(x,y,5,5);
-
-                //get width of callsign string to position velocity
-                int width = g.getFontMetrics().stringWidth(track.getCallsing());
-
-                g.drawString(track.getCallsing(), x + 20, y + 2);
-                g.drawString(String.format("%.0f", track.getVelocity()), x + width + 20, y + 2);
-                g.drawString(String.format("%.0f", track.getBaroAltitude()), x + 20, y + 18);
+            TrackDrawer.drawTrack(track, g, this);
         }
-        //revert to previous font
-//        g.setFont(f);
     }
 
     private void drawScale(Graphics2D g) {
@@ -318,11 +298,11 @@ public class MapPanel extends JPanel {
         return (int) (km * scale);
     }
 
-    private int convertX(double easting) {
+    public int convertX(double easting) {
         return applyScale(easting - oEasting);
     }
 
-    private int convertY(double northing, int height) {
+    public int convertY(double northing, int height) {
         return height - applyScale(northing - oNorthing);
     }
 

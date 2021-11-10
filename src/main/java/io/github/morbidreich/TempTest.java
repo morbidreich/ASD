@@ -10,16 +10,13 @@ import java.util.Map;
 
 public class TempTest {
     public static void main(String[] args) {
-       AirspaceReader ar = new HibernateDataReader();
-       Airspace airspace = ar.readAirspace();
 
-       List<Fix> fixList = airspace.getFixList();
-       Map<String, Fix> fixMap = new HashMap<>();
+        double deg = 225;
 
-        for (Fix f : fixList)
-            fixMap.put(f.getName(), f);
+        double rad = Math.toRadians(deg);
+        System.out.println(Math.sin(rad));
+        System.out.println(Math.cos(rad));
 
-        //fixMap.
 
     }
 }

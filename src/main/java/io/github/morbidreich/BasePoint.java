@@ -37,6 +37,8 @@ public class BasePoint implements Cloneable {
 
     public BasePoint(Coordinates coordinates) {
         calculateNorthingEasting(coordinates.getLatitude(), coordinates.getLongitude());
+        this.latitude = coordinates.getLatitude();
+        this.longitude = coordinates.getLongitude();
     }
 
     // We need to use a single "reference meridian" for all points, for the

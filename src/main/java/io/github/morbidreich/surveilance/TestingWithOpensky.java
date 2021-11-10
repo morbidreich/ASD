@@ -1,5 +1,6 @@
 package io.github.morbidreich.surveilance;
 
+import io.github.morbidreich.ApplicationSettings;
 import io.github.morbidreich.MapPanel;
 import org.opensky.api.OpenSkyApi;
 import org.opensky.model.OpenSkyStates;
@@ -65,7 +66,7 @@ public class TestingWithOpensky implements Runnable {
             }
 
             try {
-                Thread.sleep(4000);
+                Thread.sleep(ApplicationSettings.RADAR_REFRESH_RATE);
             } catch (InterruptedException e) {
                 System.out.println("Interrupted api data acces, quitting");
             }
