@@ -7,8 +7,8 @@ import org.opensky.api.OpenSkyApi;
 import org.opensky.model.OpenSkyStates;
 import org.opensky.model.StateVector;
 
+import java.awt.*;
 import java.io.IOException;
-import java.net.NoRouteToHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,19 +49,34 @@ public class DataAcquisition implements Runnable {
                 map.repaint();
                 //System.out.println("got data from api, no of tracks=" + os.getStates().size() + ", timestamp = " + os.getTime());
 
+                //update statusbar with no. of tracked objects
                 statusBar.updateStatusOK(tracks.size());
 
             } catch (Exception e) {
-                statusBar.updateStatusError(" Attempting to reconnect, restart advised; error message: " + e.getMessage());
+                //when connection not working clear tracks list
+                map.setTracks(new ArrayList<Track>());
+
+                statusBar.updateStatusError(" Attempting to reconnect... (Error message: " + e.getMessage() + ")");
+                alterErrorColor(statusBar);
             }
-
-
             try {
                 Thread.sleep(AppSettings.RADAR_REFRESH_RATE);
             } catch (InterruptedException e) {
                 System.out.println("Interrupted api data acces, quitting");
             }
         }
+    }
+
+    private void alterErrorColor(StatusBar statusBar) {
+    // periodically alter error font color to signal user know that we're trying to reconnect
+        Color orig = new Color(120, 120,120);
+        Color second = new Color(80, 80,80);
+
+        if (statusBar.l3.getForeground().equals(orig))
+            statusBar.l3.setForeground(second);
+        else
+            statusBar.l3.setForeground(orig);
+
     }
 
     private List<Track> ParseStateVectors(List<StateVector> list) {

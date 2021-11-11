@@ -13,7 +13,7 @@ public class StatusBar extends JPanel {
 
     private final JLabel l1;
     private final JLabel l2;
-    private final JLabel l3;
+    public final JLabel l3;
 
     public StatusBar(JFrame parent) {
         setBorder(new BevelBorder(BevelBorder.LOWERED));
@@ -21,7 +21,7 @@ public class StatusBar extends JPanel {
         setBackground(backgroundColor);
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-        l1 = new JLabel("  Connection status: ");
+        l1 = new JLabel("  ADS-B data status: ");
         l1.setForeground(textColor);
         l1.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -42,12 +42,17 @@ public class StatusBar extends JPanel {
         l2.setForeground(connectedColor);
         l2.setText(" CONNECTED ");
         l3.setText(" tracking " + trackedObjects + " object" + ((trackedObjects > 1) ? "s" : ""));
+        //update to default color in case error color altering leaves that at wrong color
+        l3.setForeground(textColor);
     }
 
     public void updateStatusError(String reconnectMessage) {
         l2.setForeground(errorColor);
         l2.setText(" NOT CONNECTED ");
         l3.setText(reconnectMessage);
+    }
 
+    public void updateStatusErrorChangeColor(Color c) {
+        l3.setForeground(c);
     }
 }
