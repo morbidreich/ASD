@@ -112,7 +112,6 @@ public class MapPanel extends JPanel {
         if (polygons.size() == 0) return;
         if (this.scale == -1) scale();
 
-        Long start = System.nanoTime();
         drawPolygons(polygons, g, h);
         drawProcedures(procedures, g, h);
         drawFixes(fixes, g, h);
@@ -121,13 +120,9 @@ public class MapPanel extends JPanel {
 
         //next to last in order to display results on top of other layers
         drawSearchResults(g, h);
-        Long end = System.nanoTime();
 
-        Long startTracks = System.nanoTime();
         //and airplane tracks topmost
         drawTracks(g);
-        Long endTracks = System.nanoTime();
-        System.out.println("Layers in " + (end-start) /1000000 + "ms, traks in " + (endTracks-startTracks)/1000000 + "ms");
     }
 
     private void drawTracks(Graphics2D g) {
@@ -226,15 +221,6 @@ public class MapPanel extends JPanel {
         }
     }
 
-    public synchronized void clear() {
-        this.fixes.clear();
-        this.polygons.clear();
-        this.rbls.clear();
-        this.searchResult.clear();
-
-        resetMinMaxEastingNorthing();
-    }
-
     public synchronized void addFix(Fix fix) {
         this.fixes.add(fix);
 
@@ -268,6 +254,7 @@ public class MapPanel extends JPanel {
     }
 
     public void setTracks(List<Track> tracks) { this.tracks = tracks; }
+    public List<Track> getTracks() { return tracks; }
 
     public synchronized void addRBL(RBL rbl) {
         this.rbls.add(rbl);

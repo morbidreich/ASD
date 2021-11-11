@@ -68,4 +68,6 @@ public class Track extends BasePoint {
     public Boolean getSpi() {
         return sv.isSpi();
     }
+
+    public Boolean isOnGround() { return sv.isOnGround(); }
 }

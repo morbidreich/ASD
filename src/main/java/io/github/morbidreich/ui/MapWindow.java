@@ -15,6 +15,10 @@ import javax.swing.border.BevelBorder;
 
 public class MapWindow extends JFrame {
     private final MapPanel map;
+    private StatusBar statusBar;
+
+    Thread dataAcquisitionThread;
+    Thread statusBarThread;
 
     /**
      * Creates a new window..
@@ -40,43 +44,21 @@ public class MapWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        addStatusBar();
+        //add status bar
+        statusBar = new StatusBar(this);
+        add(statusBar, BorderLayout.SOUTH);
 
-        startFeedingTracks();
-    }
-
-    private void addStatusBar() {
-        JPanel statusPanel = new JPanel();
-        statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
-
-        this.add(statusPanel, BorderLayout.SOUTH);
-        statusPanel.setPreferredSize(new Dimension(this.getWidth(), 32));
-        statusPanel.setBackground(new Color(50,50,50));
-        statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
-
-        JLabel statusLabel = new JLabel("  Connection status: ");
-        statusLabel.setForeground(new Color(120, 120, 120));
-        statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
-
-        JLabel statusLabel3 = new JLabel(" ONLINE ");
-        statusLabel3.setForeground(new Color(0, 120, 0));
-        statusLabel3.setHorizontalAlignment(SwingConstants.LEFT);
-
-        JLabel statusLabel2 = new JLabel("tracking 94 objects");
-        statusLabel2.setForeground(new Color(120, 120, 120));
-        statusLabel2.setHorizontalAlignment(SwingConstants.LEFT);
-
-        statusPanel.add(statusLabel);
-        statusPanel.add(statusLabel3);
-        statusPanel.add(statusLabel2);
+        //start api thread
+        startFeedingTracks(map, statusBar);
 
     }
 
-    private void startFeedingTracks() {
-        DataAcquisition dataAcquisition = new DataAcquisition(map);
-        Thread t = new Thread(dataAcquisition);
-        t.setDaemon(true);
-        t.start();
+    private void startFeedingTracks(MapPanel mapPanel, StatusBar statusBar) {
+        DataAcquisition dataAcquisition = new DataAcquisition(mapPanel, statusBar);
+
+        dataAcquisitionThread = new Thread(dataAcquisition);
+        dataAcquisitionThread.setDaemon(true);
+        dataAcquisitionThread.start();
     }
 }
 

@@ -1,5 +1,6 @@
 package io.github.morbidreich.surveilance;
 
+import io.github.morbidreich.ui.StatusBar;
 import io.github.morbidreich.utils.AppSettings;
 import io.github.morbidreich.ui.MapPanel;
 import org.opensky.api.OpenSkyApi;
@@ -7,6 +8,7 @@ import org.opensky.model.OpenSkyStates;
 import org.opensky.model.StateVector;
 
 import java.io.IOException;
+import java.net.NoRouteToHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,9 +17,11 @@ public class DataAcquisition implements Runnable {
 
     private MapPanel map;
     private List<Track> tracks = new ArrayList<>();
+    private StatusBar statusBar;
 
-    public DataAcquisition(MapPanel mapPanel) {
+    public DataAcquisition(MapPanel mapPanel, StatusBar statusBar) {
         this.map = mapPanel;
+        this.statusBar = statusBar;
     }
 
     private OpenSkyStates fetchData() throws IOException {
@@ -43,13 +47,14 @@ public class DataAcquisition implements Runnable {
 
                 map.setTracks(tracks);
                 map.repaint();
-                System.out.println("got data from api, no of tracks=" + os.getStates().size() + ", timestamp = " + os.getTime());
+                //System.out.println("got data from api, no of tracks=" + os.getStates().size() + ", timestamp = " + os.getTime());
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (NullPointerException e) {
-                e.printStackTrace();
+                statusBar.updateStatusOK(tracks.size());
+
+            } catch (Exception e) {
+                statusBar.updateStatusError(" Attempting to reconnect, restart advised; error message: " + e.getMessage());
             }
+
 
             try {
                 Thread.sleep(AppSettings.RADAR_REFRESH_RATE);
@@ -61,7 +66,8 @@ public class DataAcquisition implements Runnable {
 
     private List<Track> ParseStateVectors(List<StateVector> list) {
         return list.stream()
-                .filter(sv -> sv.getLatitude() != null && sv.getLongitude() != null)
+                .filter(sv -> sv.getLatitude() != null && sv.getLongitude() != null) // lat and lon can be null, filter them
+                .filter(sv -> !sv.isOnGround())  // filter ground stuff
                 .map(Track::new)
                 .collect(Collectors.toList());
     }
