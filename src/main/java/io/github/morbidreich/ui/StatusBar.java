@@ -41,7 +41,7 @@ public class StatusBar extends JPanel {
     public void updateStatusOK(int trackedObjects) {
         l2.setForeground(connectedColor);
         l2.setText(" CONNECTED ");
-        l3.setText("tracking " + trackedObjects + " objects");
+        l3.setText(" tracking " + trackedObjects + " object" + ((trackedObjects > 1) ? "s" : ""));
     }
 
     public void updateStatusError(String reconnectMessage) {

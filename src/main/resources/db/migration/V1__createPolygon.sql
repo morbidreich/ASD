@@ -53,3 +53,17 @@ insert into polygon (polygon_name, polygon_type_id) values ('TSA01B', 10);
 insert into polygon (polygon_name, polygon_type_id) values ('TSA01C', 10);
 
 
+insert into polygon (polygon_name, polygon_type_id) values ('EPGDCTR', 0);
+insert into polygon (polygon_name, polygon_type_id) values ('EPSCCTR', 0);
+insert into polygon (polygon_name, polygon_type_id) values ('EPBYCTR', 0);
+insert into polygon (polygon_name, polygon_type_id) values ('EPMOCTR', 0);
+insert into polygon (polygon_name, polygon_type_id) values ('EPWACTR', 0);
+insert into polygon (polygon_name, polygon_type_id) values ('EPPOCTR', 0);
+insert into polygon (polygon_name, polygon_type_id) values ('EPWRCTR', 0);
+insert into polygon (polygon_name, polygon_type_id) values ('EPKTCTR', 0);
+insert into polygon (polygon_name, polygon_type_id) values ('EPKKCTR', 0);
+insert into polygon (polygon_name, polygon_type_id) values ('EPLLCTR', 0);
+insert into polygon (polygon_name, polygon_type_id) values ('EPLBCTR', 0);
+insert into polygon (polygon_name, polygon_type_id) values ('EPRZCTR', 0);
+
+
