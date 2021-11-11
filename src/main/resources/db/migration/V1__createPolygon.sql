@@ -66,4 +66,21 @@ insert into polygon (polygon_name, polygon_type_id) values ('EPLLCTR', 0);
 insert into polygon (polygon_name, polygon_type_id) values ('EPLBCTR', 0);
 insert into polygon (polygon_name, polygon_type_id) values ('EPRZCTR', 0);
 
+insert into polygon (polygon_name, polygon_type_id) values ('EPWATMA_A', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPWATMA_B', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPWATMA_C', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPWATMA_D', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPWATMA_E', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPWATMA_F', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPWATMA_G', 1);
+
+insert into polygon (polygon_name, polygon_type_id) values ('EPLBTMA_A', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPLBTMA_B', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPLBTMA_C', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPLBTMA_D', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPLBTMA_E', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPLBTMA_F', 1);
+
+
+
 

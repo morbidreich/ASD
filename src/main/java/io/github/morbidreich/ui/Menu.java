@@ -66,6 +66,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
 
         menuBar = new JMenuBar();
 
+
         menuOptions = new JMenu("Options");
         menuElements = new JMenu("Select elements");
 
@@ -206,8 +207,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         cbCtr.setSelected(true);
         cbTmaFixes.setSelected(true);
         cbBorder.setSelected(true);
-
     }
+
 
     //convenience method for creating JSlider items
     private JSlider createJSlider(String name, PolygonType pt, MapPanel mapPanel) {

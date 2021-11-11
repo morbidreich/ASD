@@ -55,6 +55,7 @@ public class DataAcquisition implements Runnable {
             } catch (Exception e) {
                 //when connection not working clear tracks list
                 map.setTracks(new ArrayList<Track>());
+                map.repaint();
 
                 statusBar.updateStatusError(" Attempting to reconnect... (Error message: " + e.getMessage() + ")");
                 alterErrorColor(statusBar);
