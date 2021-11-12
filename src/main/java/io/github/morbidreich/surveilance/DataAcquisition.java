@@ -24,6 +24,7 @@ public class DataAcquisition implements Runnable {
     public DataAcquisition(MapPanel mapPanel, StatusBar statusBar) {
         this.map = mapPanel;
         this.statusBar = statusBar;
+        trackUpdater = new TrackUpdater();
     }
 
     private OpenSkyStates fetchData() throws IOException {
@@ -46,10 +47,10 @@ public class DataAcquisition implements Runnable {
                 List<StateVector> list = os.getStates().stream().toList();
                 List<Track> tracks = ParseStateVectors(list);
 
-                
+                trackUpdater.update(os);
 
 
-                map.setTracks(tracks);
+                map.setTracks(trackUpdater.getTrackList());
                 map.repaint();
                 //System.out.println("got data from api, no of tracks=" + os.getStates().size() + ", timestamp = " + os.getTime());
 

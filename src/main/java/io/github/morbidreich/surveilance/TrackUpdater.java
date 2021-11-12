@@ -3,9 +3,7 @@ package io.github.morbidreich.surveilance;
 import org.opensky.model.OpenSkyStates;
 import org.opensky.model.StateVector;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // updates track data with incoming reports
 // mainly to keep track of sereral previous position reports
@@ -40,5 +38,14 @@ public class TrackUpdater {
     private Track updateTrackHistory(Track track, StateVector sv) {
         track.update(sv);
         return track;
+    }
+
+    public List<Track> getTrackList() {
+        Iterator i = trackMap.values().iterator();
+        List<Track> list = new ArrayList<>();
+        while (i.hasNext()) {
+            list.add((Track)i.next());
+        }
+        return list;
     }
 }

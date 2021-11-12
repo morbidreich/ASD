@@ -3,6 +3,7 @@ package io.github.morbidreich.ui.drawing;
 import io.github.morbidreich.airspaceElements.BasePoint;
 import io.github.morbidreich.airspaceElements.Coordinates;
 import io.github.morbidreich.surveilance.Track;
+import io.github.morbidreich.surveilance.TrackPosition;
 import io.github.morbidreich.ui.MapPanel;
 import io.github.morbidreich.utils.AppSettings;
 import io.github.morbidreich.utils.Colors;
@@ -21,6 +22,15 @@ public class TrackDrawer {
         drawLabel(track, g, x, y);
         drawAltitudeTrendArrow(track, g, x, y, track.getBaroAltitude());
         drawVelocityVector(track, g, mapPanel, x, y);
+
+        //draw historical plots
+        g.setColor(new Color(250,200, 205));
+        for (TrackPosition tp : track.getTrackHistory()) {
+            int xx = mapPanel.convertX(tp.getPosition().getEasting());
+            int yy = mapPanel.convertY(tp.getPosition().getNorthing(), mapPanel.getHeight());
+
+            g.drawOval(xx, yy, 3,3);
+        }
     }
 
     private static void drawLabel(Track track, Graphics2D g, int x, int y) {

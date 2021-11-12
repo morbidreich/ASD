@@ -13,24 +13,6 @@ public class Track extends BasePoint {
 
     private List<TrackPosition> trackHistory;
 
-    private String icao24; //transponder code;
-    private String callsing;
-    private String originCountry;
-    private Integer timePosition;
-    private Integer lastContact;
-    private Double longitude;
-    private Double latitude;
-    private Double baroAltitude;
-    private Boolean onGround;
-    private Double velocity;
-    private Double trueTrack;
-    private Double verticalRate;
-    private Integer[] sensors;
-    private Double geoAltitude;
-    private String squawk;
-    private Boolean spi;
-    private Integer positionSource;
-
     public Track(StateVector sv) {
         super(new Coordinates(sv.getLatitude(), sv.getLongitude()));
         this.sv = sv;
@@ -48,7 +30,7 @@ public class Track extends BasePoint {
     }
 
     public String getCallsing() {
-        return (sv.getCallsign() == null) ? "????" : callsing;
+        return (sv.getCallsign() == null) ? "????" : sv.getCallsign();
     }
 
     public Double getVelocity() {
@@ -74,4 +56,8 @@ public class Track extends BasePoint {
     }
 
     public Boolean isOnGround() { return sv.isOnGround(); }
+
+    public List<TrackPosition> getTrackHistory() {
+        return trackHistory;
+    }
 }
