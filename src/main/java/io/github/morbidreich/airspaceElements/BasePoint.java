@@ -130,7 +130,7 @@ public class BasePoint implements Cloneable {
         this.northing = northing;
     }
 
-    private void calculateNorthingEasting(double latitude, double longitude) {
+    public void calculateNorthingEasting(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
 

@@ -8,10 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Track extends BasePoint {
-
+    private int mostRecentTime;
     private StateVector sv;
 
-    private List<TrackPosition> trackPositions;
+    private List<TrackPosition> trackHistory;
 
     private String icao24; //transponder code;
     private String callsing;
@@ -34,17 +34,21 @@ public class Track extends BasePoint {
     public Track(StateVector sv) {
         super(new Coordinates(sv.getLatitude(), sv.getLongitude()));
         this.sv = sv;
-        this.callsing = sv.getCallsign();
-        this.velocity = sv.getVelocity();
-        this.baroAltitude = sv.getBaroAltitude();
-        this.verticalRate = sv.getVerticalRate();
 
-        trackPositions = new LinkedList<>();
-        //trackPositions.
+        trackHistory = new LinkedList<>();
+    }
+
+    public void update(StateVector sv) {
+        //update main coordinates
+        calculateNorthingEasting(sv.getLatitude(), sv.getLongitude());
+        //add to track history
+        trackHistory.add(new TrackPosition(sv.getLatitude(), sv.getLongitude()));
+        //update state vector
+        this.sv = sv;
     }
 
     public String getCallsing() {
-        return (callsing == null) ? "????" : callsing;
+        return (sv.getCallsign() == null) ? "????" : callsing;
     }
 
     public Double getVelocity() {
@@ -62,7 +66,7 @@ public class Track extends BasePoint {
     }
 
     public Double getVerticalRate() {
-        return verticalRate;
+        return sv.getVerticalRate();
     }
 
     public Boolean getSpi() {

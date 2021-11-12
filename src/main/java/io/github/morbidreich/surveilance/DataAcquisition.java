@@ -11,6 +11,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DataAcquisition implements Runnable {
@@ -18,6 +19,7 @@ public class DataAcquisition implements Runnable {
     private MapPanel map;
     private List<Track> tracks = new ArrayList<>();
     private StatusBar statusBar;
+    private TrackUpdater trackUpdater;
 
     public DataAcquisition(MapPanel mapPanel, StatusBar statusBar) {
         this.map = mapPanel;
@@ -43,6 +45,8 @@ public class DataAcquisition implements Runnable {
                 OpenSkyStates os = fetchData();
                 List<StateVector> list = os.getStates().stream().toList();
                 List<Track> tracks = ParseStateVectors(list);
+
+                
 
 
                 map.setTracks(tracks);
@@ -86,5 +90,10 @@ public class DataAcquisition implements Runnable {
                 .filter(sv -> !sv.isOnGround())  // filter ground stuff
                 .map(Track::new)
                 .collect(Collectors.toList());
+    }
+
+    private void collectData(List<StateVector> list) {
+        Map<String, Track> trackMap;
+
     }
 }
