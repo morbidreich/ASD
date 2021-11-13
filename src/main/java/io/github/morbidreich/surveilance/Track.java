@@ -8,10 +8,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Track extends BasePoint {
-    private int mostRecentTime;
+    private boolean isDropping = false;
     private StateVector sv;
 
     private final List<TrackPosition> trackHistory;
+
+    public boolean isDropping() {
+        return isDropping;
+    }
+
+    public void setDropping(boolean dropping) {
+        isDropping = dropping;
+    }
 
     public Track(StateVector sv) {
         super(new Coordinates(sv.getLatitude(), sv.getLongitude()));

@@ -10,7 +10,11 @@ public class AppSettings {
     public static final String USERNAME = "Kujda";
     public static final String PASSWORD = "ePDpu.jDqvV7yci";
 
+    //time diff between actual time and last report time for which track will be deleted
     public static final int EXPIRATION_TIME = 60;
+
+    //time diff between actual time and last report time for which track is considered as 'dropping'
+    public static final int DROP_WARNING_THRESHOLD_TIME = 15;
 
     // set of coordinates representing more or less polish teritory
     // will fetch data for these bound

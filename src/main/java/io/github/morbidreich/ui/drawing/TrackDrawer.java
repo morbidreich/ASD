@@ -1,11 +1,13 @@
 package io.github.morbidreich.ui.drawing;
 
+import io.github.morbidreich.App;
 import io.github.morbidreich.airspaceElements.BasePoint;
 import io.github.morbidreich.airspaceElements.Coordinates;
 import io.github.morbidreich.surveilance.Track;
 import io.github.morbidreich.surveilance.TrackPosition;
 import io.github.morbidreich.ui.MapPanel;
 import io.github.morbidreich.utils.AppSettings;
+import io.github.morbidreich.utils.Calculations;
 import io.github.morbidreich.utils.Colors;
 
 import java.awt.*;
@@ -19,7 +21,7 @@ public class TrackDrawer {
         if ((track.getLatitude() > AppSettings.SHOW_MIN_LAT || track.getLatitude() < AppSettings.SHOW_MAX_LAT) &&
                 (track.getLongitude() > AppSettings.SHOW_MIN_LON || track.getLongitude() < AppSettings.SHOW_MAX_LON)) {
 
-            // convert geo coordinates to screen coords
+            // convert geographic coordinates to screen coords
             int x = mapPanel.convertX(track.getEasting());
             int y = mapPanel.convertY(track.getNorthing(), mapPanel.getHeight());
 
@@ -97,8 +99,8 @@ public class TrackDrawer {
             //api returns true heading, convert to magnetic
             double heading = track.getHeading() - AppSettings.MAGNETIC_VARIATION;
             // calculate lat lon of tip of vector
-            double xxx = xx + 0.06 * Math.sin(Math.toRadians(heading));
-            double yyy = yy + 0.06 * Math.cos(Math.toRadians(heading));
+            double xxx = xx + 0.15 * Math.sin(Math.toRadians(heading));
+            double yyy = yy + 0.1 * Math.cos(Math.toRadians(heading));
 
             BasePoint tipOfVector = new BasePoint(new Coordinates(yyy, xxx));
 
@@ -115,6 +117,8 @@ public class TrackDrawer {
         // if spi (squawk ident) detected then draw track in blue
         if (track.getSpi() != null && track.getSpi())
             g.setColor(Colors.TRACK_COLOR_SPI);
+        else if (track.isDropping())
+            g.setColor(Colors.TRACK_COLOR_DROPING);
         else // use standard green color
             g.setColor(Colors.TRACK_COLOR);
     }

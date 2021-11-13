@@ -63,6 +63,7 @@ public class DataAcquisition implements Runnable {
                 map.repaint();
 
                 statusBar.updateStatusError(" Attempting to reconnect... (Error message: " + e.getMessage() + ")");
+                e.printStackTrace();
                 alterErrorColor(statusBar);
             }
             try {

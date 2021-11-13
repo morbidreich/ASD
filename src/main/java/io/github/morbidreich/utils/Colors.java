@@ -30,6 +30,7 @@ public class Colors {
     public Color SEARCH_RESULT_COLOR = new Color(250,90,0,255);
     public static Color TRACK_COLOR = new Color(0,255,0,255);
     public static Color TRACK_COLOR_SPI = new Color(0,190,255);
+    public static Color TRACK_COLOR_DROPING = new Color(50,50,50);
 
 
     public Color getColor(PolygonType pt) {
