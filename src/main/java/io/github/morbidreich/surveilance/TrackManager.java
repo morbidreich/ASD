@@ -5,14 +5,14 @@ import org.opensky.model.StateVector;
 
 import java.util.*;
 
-// updates track data with incoming reports
-// mainly to keep track of sereral previous position reports
-// i need them to calculate speed vector and display historical positions behind blip
-public class TrackUpdater {
+/**
+ * This class stores and manages fetched track data.
+ */
+public class TrackManager {
 
     private Map<String, Track> trackMap;
 
-    public TrackUpdater() {
+    public TrackManager() {
         trackMap = new HashMap<>();
     }
 
@@ -32,7 +32,19 @@ public class TrackUpdater {
             else {
                 trackMap.put(sv.getIcao24(), new Track(sv));
             }
+            //removeExpiredTracks(time);
         }
+    }
+
+    private void removeExpiredTracks(int time) {
+        Iterator<Map.Entry<String, Track>> i = trackMap.entrySet().iterator();
+
+        while(i.hasNext()) {
+            Map.Entry<String, Track> next = i.next();
+            if ((time - next.getValue().getLastPositionUpdate()) > 20)
+                trackMap.remove(next.getKey());
+        }
+
     }
 
     private Track updateTrackHistory(Track track, StateVector sv) {
@@ -41,11 +53,16 @@ public class TrackUpdater {
     }
 
     public List<Track> getTrackList() {
+
         Iterator i = trackMap.values().iterator();
         List<Track> list = new ArrayList<>();
         while (i.hasNext()) {
             list.add((Track)i.next());
         }
         return list;
+    }
+
+    public int getSize() {
+        return trackMap.size();
     }
 }

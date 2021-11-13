@@ -9,27 +9,40 @@ import io.github.morbidreich.utils.AppSettings;
 import io.github.morbidreich.utils.Colors;
 
 import java.awt.*;
+import java.util.List;
 
 public class TrackDrawer {
 
     public static void drawTrack(Track track, Graphics2D g, MapPanel mapPanel) {
-        // convert geo coordinates to screen coords
-        int x = mapPanel.convertX(track.getEasting());
-        int y = mapPanel.convertY(track.getNorthing(), mapPanel.getHeight());
 
-        setTrackColor(track, g);
-        drawEcho(g, x, y);
-        drawLabel(track, g, x, y);
-        drawAltitudeTrendArrow(track, g, x, y, track.getBaroAltitude());
-        drawVelocityVector(track, g, mapPanel, x, y);
+        //only draw tracks that are inside SHOW_BOX as defined in AppSettings
+        if ((track.getLatitude() > AppSettings.SHOW_MIN_LAT || track.getLatitude() < AppSettings.SHOW_MAX_LAT) &&
+                (track.getLongitude() > AppSettings.SHOW_MIN_LON || track.getLongitude() < AppSettings.SHOW_MAX_LON)) {
 
-        //draw historical plots
-        g.setColor(new Color(250,200, 205));
-        for (TrackPosition tp : track.getTrackHistory()) {
-            int xx = mapPanel.convertX(tp.getPosition().getEasting());
-            int yy = mapPanel.convertY(tp.getPosition().getNorthing(), mapPanel.getHeight());
+            // convert geo coordinates to screen coords
+            int x = mapPanel.convertX(track.getEasting());
+            int y = mapPanel.convertY(track.getNorthing(), mapPanel.getHeight());
 
-            g.drawOval(xx, yy, 3,3);
+            setTrackColor(track, g);
+            drawEcho(g, x, y);
+            drawLabel(track, g, x, y);
+            drawAltitudeTrendArrow(track, g, x, y, track.getBaroAltitude());
+            drawVelocityVector(track, g, mapPanel, x, y);
+            drawHistoricPlots(track, g, mapPanel, AppSettings.HistoryLength.MEDIUM);
+        }
+    }
+
+    private static void drawHistoricPlots(Track track, Graphics2D g, MapPanel mapPanel, AppSettings.HistoryLength his_len) {
+        List<TrackPosition> recentHistory = track.getRecentTrackHistory(his_len.getLength());
+        int colorStep = 255 / (recentHistory.size() + 1);
+        // im using classic loop to use i as size/color driver
+        for (int i = recentHistory.size()-1; i > 0; i--) {
+             g.setColor(new Color(0, 30+(colorStep * i), 0));
+
+            int xx = mapPanel.convertX(recentHistory.get(i).getPosition().getEasting());
+            int yy = mapPanel.convertY(recentHistory.get(i).getPosition().getNorthing(), mapPanel.getHeight());
+
+            g.drawOval(xx-2, yy-2, 5,5);
         }
     }
 
@@ -48,7 +61,7 @@ public class TrackDrawer {
 
     private static void drawEcho(Graphics2D g, int x, int y) {
         // draw echo
-        g.drawOval(x, y, 6, 6);
+        g.drawOval(x-3, y-3, 6, 6);
     }
 
     private static void drawAltitudeTrendArrow(Track track, Graphics2D g, int x, int y, Double baroAltitude) {
@@ -94,14 +107,14 @@ public class TrackDrawer {
             int tipY = mapPanel.convertY(tipOfVector.getNorthing(), mapPanel.getHeight());
 
             // draw line betwen x.y and tip of vector x.y
-            g.drawLine(x + 3, y + 3, tipX + 3, tipY + 3);
+            g.drawLine(x, y, tipX, tipY);
         }
     }
 
     private static void setTrackColor(Track track, Graphics2D g) {
         // if spi (squawk ident) detected then draw track in blue
-        if (track.getSpi() != null && track.getSpi() == true)
-            g.setColor(new Color(0, 190, 255));
+        if (track.getSpi() != null && track.getSpi())
+            g.setColor(Colors.TRACK_COLOR_SPI);
         else // use standard green color
             g.setColor(Colors.TRACK_COLOR);
     }

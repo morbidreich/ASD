@@ -55,9 +55,30 @@ public class Track extends BasePoint {
         return sv.isSpi();
     }
 
+    public Double getLastPositionUpdate() { return sv.getLastPositionUpdate(); }
+
     public Boolean isOnGround() { return sv.isOnGround(); }
 
     public List<TrackPosition> getTrackHistory() {
         return trackHistory;
+    }
+
+    // return sublist of trackHistory for drawing historical plots
+    // if history shorter that requested then return all we have
+    // else return requested number of fields from end of array - newest
+
+    /**
+     * Return subList of trackHistory for drawing historical plots.
+     * If history is shorter than requested length then return all we have.
+     * Otherwise return subList of requested length
+     * @param i numbers of historic trackPositions to return
+     * @return sublist of TrackHistory
+     */
+    public List<TrackPosition> getRecentTrackHistory(int i) {
+        ;
+        if (trackHistory.size() > i)
+            return trackHistory.subList(trackHistory.size() - i, trackHistory.size()-1);
+        else return trackHistory;
+
     }
 }

@@ -19,12 +19,12 @@ public class DataAcquisition implements Runnable {
     private MapPanel map;
     private List<Track> tracks = new ArrayList<>();
     private StatusBar statusBar;
-    private TrackUpdater trackUpdater;
+    private TrackManager trackManager;
 
     public DataAcquisition(MapPanel mapPanel, StatusBar statusBar) {
         this.map = mapPanel;
         this.statusBar = statusBar;
-        trackUpdater = new TrackUpdater();
+        trackManager = new TrackManager();
     }
 
     private OpenSkyStates fetchData() throws IOException {
@@ -32,10 +32,10 @@ public class DataAcquisition implements Runnable {
 
         // get state vectors from area delimited by below coordinates, basically whole poland
         return api.getStates(0, null,
-                new OpenSkyApi.BoundingBox(AppSettings.MIN_LAT
-                        , AppSettings.MAX_LAT
-                        , AppSettings.MIN_LON
-                        , AppSettings.MAX_LON));
+                new OpenSkyApi.BoundingBox(AppSettings.FETCH_MIN_LAT
+                        , AppSettings.FETCH_MAX_LAT
+                        , AppSettings.FETCH_MIN_LON
+                        , AppSettings.FETCH_MAX_LON));
     }
 
     @Override
@@ -44,18 +44,18 @@ public class DataAcquisition implements Runnable {
 
             try {
                 OpenSkyStates os = fetchData();
-                List<StateVector> list = os.getStates().stream().toList();
-                List<Track> tracks = ParseStateVectors(list);
+                //List<StateVector> list = os.getStates().stream().toList();
+                //List<Track> tracks = ParseStateVectors(list);
 
-                trackUpdater.update(os);
+                trackManager.update(os);
 
 
-                map.setTracks(trackUpdater.getTrackList());
+                map.setTracks(trackManager.getTrackList());
                 map.repaint();
                 //System.out.println("got data from api, no of tracks=" + os.getStates().size() + ", timestamp = " + os.getTime());
 
                 //update statusbar with no. of tracked objects
-                statusBar.updateStatusOK(tracks.size());
+                statusBar.updateStatusOK(trackManager.getSize());
 
             } catch (Exception e) {
                 //when connection not working clear tracks list

@@ -9,11 +9,47 @@ public class AppSettings {
     public static final int RADAR_REFRESH_RATE = 5000;
     public static final String USERNAME = "Kujda";
     public static final String PASSWORD = "ePDpu.jDqvV7yci";
+
     // set of coordinates representing more or less polish teritory
-    public static final double MIN_LAT = 49.8389;
-    public static final double MIN_LON = 13.9962;
-    public static final double MAX_LAT = 55.8229;
-    public static final double MAX_LON = 23.5226;
+    // will fetch data for these bound
+    public static final double FETCH_MIN_LAT = 49.0;
+    public static final double FETCH_MIN_LON = 13.0;
+    public static final double FETCH_MAX_LAT = 56.0;
+    public static final double FETCH_MAX_LON = 24.0;
 
+    //will display track data for these bounds
+    public static final double SHOW_MIN_LAT = 49.3;
+    public static final double SHOW_MIN_LON = 13.3;
+    public static final double SHOW_MAX_LAT = 55.7;
+    public static final double SHOW_MAX_LON = 23.7;
 
+    public enum VectorLength {
+        ZERO (0),
+        ONE (1),
+        THREE (3),
+        FIVE (5);
+
+        private final int length;
+
+        VectorLength(int length) {
+            this.length = length;
+        }
+
+        public int getLength() {
+            return this.length;
+        }
+    }
+
+    public enum HistoryLength {
+        SHORT (5),
+        MEDIUM (8),
+        LONG (12);
+
+        private final int length;
+
+        HistoryLength(int length) {
+            this.length = length;
+        }
+        public int getLength() {return this.length;}
+    }
 }

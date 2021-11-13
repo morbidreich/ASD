@@ -125,7 +125,7 @@ public class MapPanel extends JPanel {
         drawTracks(g);
     }
 
-    private void drawTracks(Graphics2D g) {
+    private synchronized void drawTracks(Graphics2D g) {
         tracks.forEach(t -> TrackDrawer.drawTrack(t, g, this));
     }
 
@@ -253,8 +253,8 @@ public class MapPanel extends JPanel {
         for (Polygon poly : polygons) addPolygon(poly);
     }
 
-    public void setTracks(List<Track> tracks) { this.tracks = tracks; }
-    public List<Track> getTracks() { return tracks; }
+    public synchronized void setTracks(List<Track> tracks) { this.tracks = tracks; }
+
 
     public synchronized void addRBL(RBL rbl) {
         this.rbls.add(rbl);
