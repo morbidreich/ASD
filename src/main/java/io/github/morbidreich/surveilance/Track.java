@@ -11,12 +11,11 @@ public class Track extends BasePoint {
     private int mostRecentTime;
     private StateVector sv;
 
-    private List<TrackPosition> trackHistory;
+    private final List<TrackPosition> trackHistory;
 
     public Track(StateVector sv) {
         super(new Coordinates(sv.getLatitude(), sv.getLongitude()));
         this.sv = sv;
-
         trackHistory = new LinkedList<>();
     }
 
@@ -29,6 +28,9 @@ public class Track extends BasePoint {
         this.sv = sv;
     }
 
+    public String getIcao24() { return sv.getIcao24(); }
+    public Double getLastContact() { return sv.getLastContact(); }
+    public Double getLastPositionUpdate() { return sv.getLastPositionUpdate(); }
     public String getCallsing() {
         return (sv.getCallsign() == null) ? "????" : sv.getCallsign();
     }
@@ -55,7 +57,6 @@ public class Track extends BasePoint {
         return sv.isSpi();
     }
 
-    public Double getLastPositionUpdate() { return sv.getLastPositionUpdate(); }
 
     public Boolean isOnGround() { return sv.isOnGround(); }
 
@@ -75,7 +76,6 @@ public class Track extends BasePoint {
      * @return sublist of TrackHistory
      */
     public List<TrackPosition> getRecentTrackHistory(int i) {
-        ;
         if (trackHistory.size() > i)
             return trackHistory.subList(trackHistory.size() - i, trackHistory.size()-1);
         else return trackHistory;

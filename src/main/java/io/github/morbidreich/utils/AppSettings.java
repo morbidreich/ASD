@@ -10,6 +10,8 @@ public class AppSettings {
     public static final String USERNAME = "Kujda";
     public static final String PASSWORD = "ePDpu.jDqvV7yci";
 
+    public static final int EXPIRATION_TIME = 60;
+
     // set of coordinates representing more or less polish teritory
     // will fetch data for these bound
     public static final double FETCH_MIN_LAT = 49.0;

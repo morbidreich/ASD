@@ -22,4 +22,11 @@ public class TrackPosition {
     public BasePoint getPosition() {
         return position;
     }
+
+    @Override
+    public String toString() {
+        return "TrackPosition{" +
+                "position=" + position +
+                '}';
+    }
 }
