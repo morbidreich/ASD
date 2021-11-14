@@ -13,5 +13,6 @@ public enum FixType {
     TOWN,
     SEARCH_RESULT,
     UNDEFINED,
-    ACC_FIX
+    ACC_FIX,
+    DME
 }

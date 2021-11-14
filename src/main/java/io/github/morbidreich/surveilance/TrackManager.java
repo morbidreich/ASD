@@ -11,7 +11,7 @@ import java.util.*;
  */
 public class TrackManager {
 
-    private Map<String, Track> trackMap;
+    private final Map<String, Track> trackMap;
 
     /**
      * create instance of TrackManager
@@ -35,9 +35,10 @@ public class TrackManager {
                 //t = updateTrackHistory(t, sv);
                 trackMap.put(sv.getIcao24(), updateTrackHistory(t, sv));
             }
-            // if that's a new track then add to collection
+            // if that's a new, not expired track, then add to collection
             else {
-                trackMap.put(sv.getIcao24(), new Track(sv));
+                if (time - sv.getLastPositionUpdate() < AppSettings.EXPIRATION_TIME)
+                    trackMap.put(sv.getIcao24(), new Track(sv));
             }
             removeExpiredTracks(time);
         }
@@ -45,36 +46,24 @@ public class TrackManager {
 
     /**
      * Loop over track map and look for inactive ones. If lastPositionUpdate is older more
-     * than 60 seconds than actual time, then delete track from collection
+     * than EXPIRATION_TIME than actual time, then delete track from collection. If pos more than
+     * DROP_WARNING_THRESHOLD and less than EXPIRATION, mark track as Dropping
      * @param actualTime actual time reported by OpenSky api
      */
     private void removeExpiredTracks(int actualTime) {
+        List<String> icao24listToDelete = new ArrayList<>();
 
-        // need to use iterator.remove() to avoid ConcurrentModificationException
-        Set<Map.Entry<String, Track>> s = trackMap.entrySet();
-        Iterator<Map.Entry<String, Track>> i = s.iterator();
-
-        while(i.hasNext()) {
-            Map.Entry<String, Track> entry = i.next();
-            Track t = entry.getValue();
-
-            System.out.println(t.getCallsing() + " delay " + (actualTime-t.getLastPositionUpdate()));
-
-            if (actualTime - t.getLastPositionUpdate() > AppSettings.DROP_WARNING_THRESHOLD_TIME)
-                t.setDropping(true);
-            else if (actualTime - t.getLastPositionUpdate() > AppSettings.EXPIRATION_TIME)
-                i.remove();
+        for (Map.Entry<String, Track> entrySet : trackMap.entrySet()) {
+            if (actualTime - entrySet.getValue().getLastPositionUpdate() > AppSettings.EXPIRATION_TIME)
+                icao24listToDelete.add(entrySet.getKey());
+            else if ((actualTime - entrySet.getValue().getLastPositionUpdate()) > AppSettings.DROP_WARNING_THRESHOLD_TIME &&
+                    (actualTime - entrySet.getValue().getLastPositionUpdate()) <= AppSettings.EXPIRATION_TIME) {
+                entrySet.getValue().setDropping(true);
+            }
         }
-//
-//
-//
-//        for (var entry: trackMap.entrySet()) {
-//            //debug log
-////            System.out.println("Evaluating " + entry.getValue().getCallsing() + "; time diff = "
-////            + (actualTime - entry.getValue().getLastPositionUpdate()));
-//            if (actualTime - entry.getValue().getLastPositionUpdate() > AppSettings.EXPIRATION_TIME)
-//                trackMap.remove(entry.getKey());
-//        }
+        // log messages:
+        icao24listToDelete.forEach(s -> System.out.println(trackMap.get(s).getCallsing() + ": remove due delay of " + (actualTime - trackMap.get(s).getLastPositionUpdate())));
+        icao24listToDelete.forEach(trackMap::remove);
     }
 
     private Track updateTrackHistory(Track track, StateVector sv) {

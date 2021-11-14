@@ -34,6 +34,9 @@ public class Track extends BasePoint {
         trackHistory.add(new TrackPosition(sv.getLatitude(), sv.getLongitude()));
         //update state vector
         this.sv = sv;
+        // if we have update then track aparrently is not dropping
+        //
+        setDropping(false);
     }
 
     public String getIcao24() { return sv.getIcao24(); }

@@ -11,7 +11,7 @@ public class AppSettings {
     public static final String PASSWORD = "ePDpu.jDqvV7yci";
 
     //time diff between actual time and last report time for which track will be deleted
-    public static final int EXPIRATION_TIME = 60;
+    public static final int EXPIRATION_TIME = 35;
 
     //time diff between actual time and last report time for which track is considered as 'dropping'
     public static final int DROP_WARNING_THRESHOLD_TIME = 15;
