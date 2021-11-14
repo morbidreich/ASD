@@ -189,7 +189,7 @@ public class MapPanel extends JPanel {
                 g.setColor(colors.getColor(fix.getFixType()));
                 int x = convertX(fix.getEasting());
                 int y = convertY(fix.getNorthing(), h);
-                FixSymbolDrawer.drawFixSymbol(x, y, g, fix);
+                FixSymbolDrawer.drawFixSymbol(x, y, g, fix.getFixType());
                 g.drawString(fix.getName(), x + 10, y + 2);
             }
         }

@@ -61,67 +61,51 @@ public class Colors {
         switch (pt) {
             case CTR -> {
                 CTR_COLOR = color;
-                break;
             }
             case TMA -> {
                 TMA_COLOR = color;
-                break;
             }
             case SID -> {
                 SID_COLOR = color;
-                break;
             }
             case STAR -> {
                 STAR_COLOR = color;
-                break;
             }
             case VFR -> {
                 VFR_COLOR = color;
-                break;
             }
             case FIX -> {
                 FIX_COLOR = color;
-                break;
             }
             case RIVER -> {
                 RIVER_COLOR = color;
-                break;
             }
             case TOWN -> {
                 TOWN_COLOR = color;
-                break;
             }
             case ROAD -> {
                 ROAD_COLOR = color;
-                break;
             }
             case BORDER -> {
                 BORDER_COLOR = color;
-                break;
             }
             case TSA -> {
                 TSA_COLOR = color;
-                break;
             }
             case TRA -> {
                 TRA_COLOR = color;
-                break;
             }
             case AREA -> {
                 AREA_COLOR = color;
-                break;
             }
             case P -> {
                 P_COLOR = color;
-                break;
             }
             case R -> {
                 R_COLOR = color;
-                break;
             }
             case D -> {
                 D_COLOR = color;
-                break;
             }
             case UNDEFINED -> {
             }
@@ -140,6 +124,7 @@ public class Colors {
                 return STAR_COLOR;
             case ENTRY:
             case VOR:
+            case DME:
             case AERODROME:
                 return AERODROME_COLOR;
             case ACC_FIX: return ACC_FIX_COLOR;
@@ -152,52 +137,13 @@ public class Colors {
     }
     public void setColor(FixType fixType, Color color) {
         switch (fixType) {
-            case ENTRY -> {
-                AERODROME_COLOR = color;
-                break;
-            }
-            case SID01 -> {
-                SID_COLOR = color;
-                break;
-            }
-            case SID19 -> {
-                SID_COLOR = color;
-                break;
-            }
-            case DER -> {
-                SID_COLOR = color;
-                break;
-            }
-            case STAR01 -> {
-                STAR_COLOR = color;
-                break;
-            }
-            case STAR19 -> {
-                STAR_COLOR = color;
-                break;
-            }
-            case VFR -> {
-                VFR_COLOR = color;
-                break;
-            }
-            case VOR -> {
-                AERODROME_COLOR = color;
-                break;
-            }
-            case AERODROME -> {
-                AERODROME_COLOR = color;
-                break;
-            }
-            case ACC_FIX -> {
-                ACC_FIX_COLOR = color;
-            }
-            case TOWN -> {
-                TOWN_COLOR = color;
-                break;
-            }
-            case UNDEFINED -> {
-                break;
-            }
+            case SID01, SID19, DER -> SID_COLOR = color;
+            case STAR01, STAR19 -> STAR_COLOR = color;
+            case VFR -> VFR_COLOR = color;
+            case ENTRY, VOR, AERODROME -> AERODROME_COLOR = color;
+            case ACC_FIX -> ACC_FIX_COLOR = color;
+            case TOWN -> TOWN_COLOR = color;
+            case UNDEFINED -> {}
         }
     }
 }

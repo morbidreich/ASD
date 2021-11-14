@@ -28,6 +28,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private final asdCheckBox cbTmaFixes;
     private final asdCheckBox cbAccFixes;
     private final asdCheckBox cbVfrFixes;
+    private final asdCheckBox cbVorDme;
     private final asdCheckBox cbSid01;
     private final asdCheckBox cbSid19;
     private final asdCheckBox cbStar01;
@@ -48,6 +49,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private JSlider sliderTmaEntryFix;
     private JSlider sliderAccFix;
     private JSlider sliderVfrFix;
+    private JSlider sliderVorDme;
     private JSlider sliderSid01;
     private JSlider sliderSid19;
     private JSlider sliderStar01;
@@ -98,6 +100,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         sliderTmaEntryFix = createJSlider("TMA entry fixes", FixType.ENTRY, mapPanel);
         sliderAccFix = createJSlider("Acc fixes", FixType.ACC_FIX, mapPanel);
         sliderVfrFix = createJSlider("VFR fixes", FixType.VFR, mapPanel);
+        sliderVorDme = createJSlider("VOR/DME", FixType.VOR, mapPanel);
         sliderSid01 = createJSlider("SID 01", FixType.SID01, mapPanel);
         sliderSid19 = createJSlider("SID 19", FixType.SID19, mapPanel);
         sliderStar01 = createJSlider("STAR 01", FixType.STAR01, mapPanel);
@@ -118,6 +121,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         cbAccFixes.addMouseListener(this);
         cbVfrFixes = new asdCheckBox("VFR fixes", sliderVfrFix);
         cbVfrFixes.addMouseListener(this);
+        cbVorDme = new asdCheckBox("VOR/DME", sliderVorDme);
+        cbVorDme.addMouseListener(this);
         cbSid01 = new asdCheckBox("SID 01", sliderSid01);
         cbSid01.addMouseListener(this);
         cbSid19 = new asdCheckBox("SID 19", sliderSid19);
@@ -151,6 +156,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         menuElements.add(sliderAccFix);
         menuElements.add(cbVfrFixes);
         menuElements.add(sliderVfrFix);
+        menuElements.add(cbVorDme);
+        menuElements.add(sliderVorDme);
         menuElements.addSeparator();
         menuElements.add(cbSid01);
         menuElements.add(sliderSid01);
@@ -278,7 +285,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
                         e.getSource().equals(cbAccFixes) ||
                         e.getSource().equals(cbVfrFixes) ||
                         e.getSource().equals(cbAerodromes) ||
-                        e.getSource().equals(cbTowns)) {
+                        e.getSource().equals(cbTowns) ||
+                        e.getSource().equals(cbVorDme)) {
             toggleFixVisibility((JCheckBoxMenuItem) e.getSource());
         }
         mapPanel.repaint();
@@ -286,25 +294,24 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
 
     private void toggleFixVisibility(JCheckBoxMenuItem source) {
         switch (source.getText()) {
-            case "TMA entry fixes": {
+            case "TMA entry fixes" -> {
                 setFixVisible(FixType.ENTRY, source);
-                break;
             }
-            case "ACC fixes": {
+            case "ACC fixes" -> {
                 setFixVisible(FixType.ACC_FIX, source);
-                break;
             }
-            case "VFR fixes": {
+            case "VFR fixes" -> {
                 setFixVisible(FixType.VFR, source);
-                break;
             }
-            case "Aerodromes": {
+            case "VOR/DME" -> {
+                setFixVisible(FixType.VOR, source);
+                setFixVisible(FixType.DME, source);
+            }
+            case "Aerodromes" -> {
                 setFixVisible(FixType.AERODROME, source);
-                break;
             }
-            case "Towns": {
+            case "Towns" -> {
                 setFixVisible(FixType.TOWN, source);
-                break;
             }
         }
     }
@@ -391,7 +398,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         }
 
         if (e.getSource().equals(cbTma)) {
-            if(SwingUtilities.isMiddleMouseButton(e)) {
+            if (SwingUtilities.isMiddleMouseButton(e)) {
                 JSlider slider = cbTma.getSlider();
                 slider.setVisible(!slider.isVisible());
                 cbTma.setSelected(!cbTma.isSelected());
