@@ -46,8 +46,8 @@ insert into fix (coordinates, fix_name, fix_type_id) values ('53°49''01"N 020°
 insert into fix (coordinates, fix_name, fix_type_id) values ('53°44''23"N 020°52''25"E', 'SY801', 5);
 insert into fix (coordinates, fix_name, fix_type_id) values ('53°41''38"N 021°03''29"E', 'SY802', 5);
 
-insert into fix (coordinates, fix_name, fix_type_id) values ('53°32''40"N 020°49''13"E', 'BRAVO',  6);
-insert into fix (coordinates, fix_name, fix_type_id) values ('53°28''26"N 020°58''03"E', 'ECHO',   6);
-insert into fix (coordinates, fix_name, fix_type_id) values ('53°30''07"N 020°53''55"E', 'WHISKEY',6);
-insert into fix (coordinates, fix_name, fix_type_id) values ('53°25''13"N 021°07''05"E', 'ZULU',   6);
+insert into fix (coordinates, fix_name, fix_type_id) values ('53°32''40"N 020°49''13"E', 'B',  6);
+insert into fix (coordinates, fix_name, fix_type_id) values ('53°28''26"N 020°58''03"E', 'E',   6);
+insert into fix (coordinates, fix_name, fix_type_id) values ('53°30''07"N 020°53''55"E', 'W',6);
+insert into fix (coordinates, fix_name, fix_type_id) values ('53°25''13"N 021°07''05"E', 'Z',   6);
 

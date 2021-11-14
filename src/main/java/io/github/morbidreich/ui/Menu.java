@@ -43,6 +43,18 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private final asdCheckBox cbRoads;
     private final JMenuItem miAbout;
 
+    
+    private JCheckBoxMenuItem enableAdsb;
+
+    private JRadioButtonMenuItem vector1min;
+    private JRadioButtonMenuItem vector3min;
+    private JRadioButtonMenuItem vector5min;
+    private JRadioButtonMenuItem vector8min;
+
+    private JRadioButtonMenuItem historyShort;
+    private JRadioButtonMenuItem historyMedium;
+    private JRadioButtonMenuItem historyLong;
+
 
     private JSlider sliderTma;
     private JSlider sliderCtr;

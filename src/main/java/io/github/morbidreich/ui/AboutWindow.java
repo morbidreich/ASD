@@ -1,6 +1,7 @@
 package io.github.morbidreich.ui;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 
 public class AboutWindow extends JFrame {
@@ -12,11 +13,15 @@ public class AboutWindow extends JFrame {
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setPreferredSize(new Dimension(300, 300));
 
-        label = new JLabel("This is some important informations This is some important informations This is some important informations This is some important informations This is some important informations This is some important informations v This is some important informations This is some important informations This is some important informations This is some important informationsThis is some important informationsvv ");
+        setLayout(new BorderLayout());
+
+
+
+        //label = new JLabel("This is some important informations This is some important informations This is some important informations This is some important informations This is some important informations This is some important informations v This is some important informations This is some important informations This is some important informations This is some important informationsThis is some important informationsvv ");
 
         AboutPanel myPanel = new AboutPanel();
 
-        myPanel.add(label);
+        //myPanel.add(label);
         add(myPanel);
 
         pack();
@@ -29,8 +34,10 @@ public class AboutWindow extends JFrame {
 
         public AboutPanel() {
             super();
-            label = new JLabel("it is working");
-            add(label);
+            //label = new JLabel("it is working");
+            //add(label);
+            JTextArea jta = new JTextArea(" lorem ipsum ajosdakjsd ahsdhasd asd ansd nasd as da sd  a sd  asdasdasdasd  asd asd asd   ad asd a sd ad   ");
+            add(jta);
         }
     }
 
