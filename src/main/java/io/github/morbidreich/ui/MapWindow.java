@@ -3,6 +3,7 @@ package io.github.morbidreich.ui;
 import io.github.morbidreich.airspaceElements.Airspace;
 import io.github.morbidreich.surveilance.DataAcquisition;
 import io.github.morbidreich.ui.statusbar.StatusBar;
+import io.github.morbidreich.utils.SettingsManager;
 
 import java.awt.*;
 
@@ -24,8 +25,9 @@ public class MapWindow extends JFrame {
      * Creates a new window..
      */
     public MapWindow(Airspace airspace) {
-
-        super("Airspace Display - NOT FOR OPERATIONAL USE!");
+        //super("Airspace Display - NOT FOR OPERATIONAL USE!");
+        String version = SettingsManager.getInstance().get("version");
+        super.setTitle("Airspace Display " + version + " - NOT FOR OPERATIONAL USE!");
 
         map = new MapPanel();
         map.addAirspace(airspace);

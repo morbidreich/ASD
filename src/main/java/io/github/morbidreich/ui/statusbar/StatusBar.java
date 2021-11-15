@@ -28,9 +28,7 @@ public class StatusBar extends JPanel {
     private JToggleButton vect8min;
 
     private ButtonGroup bg;
-
-
-
+    
     public StatusBar(JFrame parent, MapPanel mapPanel) {
 
         this.mapPanel = mapPanel;

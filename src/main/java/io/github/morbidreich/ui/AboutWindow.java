@@ -1,5 +1,7 @@
 package io.github.morbidreich.ui;
 
+import io.github.morbidreich.utils.SettingsManager;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -26,12 +28,11 @@ public class AboutWindow extends JFrame {
     class AboutPanel extends JPanel {
 
         JLabel label;
-        JTextArea htmlTextArea;
 
         public AboutPanel() {
-            //setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+            String version = SettingsManager.getInstance().get("version");
             String infoText = "<html>\n" +
-                    "<h1 align=center>Airspace Display v1.0</h1>\n" +
+                    "<h1 align=center>Airspace Display " + version + "</h1>\n" +
                     "<p>Pomocnicza aplikacja do wizualizacji ruchu lotniczego, elementów przestrzeni powietrznej, " +
                     "procedur, miast, lotnisk etc, stworzona z myślą o wypełnieniu luki spowodowanej brakiem P21 w EPSY<br>" +
                     "<ul>\n" +
