@@ -93,16 +93,28 @@ public class TrackDrawer {
         //if heading present then draw velocity vector
         if (track.getHeading() != null) {
             // get track lat lon
-            double xx = track.getLongitude();
-            double yy = track.getLatitude();
+            double trackLongitude = track.getLongitude();
+            double trackLatitude = track.getLatitude();
 
             //api returns true heading, convert to magnetic
             double heading = track.getHeading() - AppSettings.MAGNETIC_VARIATION;
             // calculate lat lon of tip of vector
-            double xxx = xx + 0.15 * Math.sin(Math.toRadians(heading));
-            double yyy = yy + 0.1 * Math.cos(Math.toRadians(heading));
 
-            BasePoint tipOfVector = new BasePoint(new Coordinates(yyy, xxx));
+            // first calculate length of 1 degree of longitude at given latitude as described here:
+            // https://en.wikipedia.org/wiki/Longitude chapter 'Length of a degree of longitude'
+            double oneDegreAtLatitude = (Math.PI / 180) * 6371000 * Math.cos(Math.toRadians(track.getLatitude()));
+
+            // then apply it to same formula as used in yyy calculation
+            double tipOfVectorLongitude = trackLongitude + track.getVelocity() * (1852.0/(60*oneDegreAtLatitude)) * Math.sin(Math.toRadians(heading));
+
+            // along y axis - easier math
+            // distance travelled in 1 min = (speed[kt]/60), to get that in meters multiply by 1852
+            // 1 degree of latitude = 111 196m, so in 1 min we do (dist travelled[m]) / 111 196 m = degrees travelled
+            // along vertical axis. Multiply that via cos(heading) and we have tipY coordinate
+
+            double tipOfVectorLatitude = trackLatitude + track.getVelocity() * (1852.0/(60*111196)) * Math.cos(Math.toRadians(heading));
+
+            BasePoint tipOfVector = new BasePoint(new Coordinates(tipOfVectorLatitude, tipOfVectorLongitude));
 
             // convert lat lon of vectors tip to x y
             int tipX = mapPanel.convertX(tipOfVector.getEasting());

@@ -46,6 +46,10 @@ public class Track extends BasePoint {
         return (sv.getCallsign() == null) ? "????" : sv.getCallsign();
     }
 
+    /**
+     * Get track speed in knots
+     * @return track speed in knots
+     */
     public Double getVelocity() {
         // returns value converted from meters/s to knots
         return (sv.getVelocity() == null ) ? -1.0 : Math.ceil(sv.getVelocity() * 1.9438);
@@ -90,6 +94,7 @@ public class Track extends BasePoint {
         if (trackHistory.size() > i)
             return trackHistory.subList(trackHistory.size() - i, trackHistory.size()-1);
         else return trackHistory;
-
     }
+
+
 }
