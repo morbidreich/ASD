@@ -40,21 +40,20 @@ public class StatusBar extends JPanel {
         setBackground(backgroundColor);
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-        JPanel leftPanel = new JPanel();
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         leftPanel.setBackground(backgroundColor);
-        leftPanel.setAlignmentX(LEFT_ALIGNMENT);
 
         l1 = new JLabel("  ADS-B data status: ");
         l1.setForeground(textColor);
-        l1.setHorizontalAlignment(SwingConstants.LEFT);
+        l1.setAlignmentX(LEFT_ALIGNMENT);
 
         l2 = new JLabel(" INITIALIZING ");
         l2.setForeground(textColor);
-        l2.setHorizontalAlignment(SwingConstants.LEFT);
+        l2.setAlignmentX(LEFT_ALIGNMENT);
 
         l3 = new JLabel("...");
         l3.setForeground(textColor);
-        l3.setHorizontalAlignment(SwingConstants.LEFT);
+        l3.setAlignmentX(LEFT_ALIGNMENT);
 
         leftPanel.add(l1);
         leftPanel.add(l2);
