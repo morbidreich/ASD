@@ -81,6 +81,39 @@ insert into polygon (polygon_name, polygon_type_id) values ('EPLBTMA_D', 1);
 insert into polygon (polygon_name, polygon_type_id) values ('EPLBTMA_E', 1);
 insert into polygon (polygon_name, polygon_type_id) values ('EPLBTMA_F', 1);
 
+insert into polygon (polygon_name, polygon_type_id) values ('EPBYTMA_A', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPBYTMA_B', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPBYTMA_C', 1);
+
+insert into polygon (polygon_name, polygon_type_id) values ('EPKKTMA_TOP', 1);
+
+insert into polygon (polygon_name, polygon_type_id) values ('EPLLTMA_A', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPLLTMA_B', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPLLTMA_C', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPLLTMA_D', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPLLTMA_E', 1);
+
+insert into polygon (polygon_name, polygon_type_id) values ('EPPOTMA_NORTH', 1);
+insert into polygon (polygon_name, polygon_type_id) values ('EPPOTMA_SOUTH', 1);
+
+insert into polygon (polygon_name, polygon_type_id) values ('EPRATMA_TOP', 1);
+
+insert into polygon (polygon_name, polygon_type_id) values ('EPRZTMA_TOP', 1);
+
+insert into polygon (polygon_name, polygon_type_id) values ('EPSCTMA_TOP', 1);
+
+insert into polygon (polygon_name, polygon_type_id) values ('EPZGTMA', 1);
+
+
+
+
+
+
+
+
+
+
+
 
 
 

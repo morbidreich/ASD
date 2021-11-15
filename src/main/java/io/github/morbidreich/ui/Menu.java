@@ -82,7 +82,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
 
 
         menuOptions = new JMenu("Options");
-        menuElements = new JMenu("Select elements");
+        menuElements = new JMenu("Displayed elements");
 
         menuClearRbls = new JMenu("Clear RBLs");
         menuClearRbls.addMouseListener(this);

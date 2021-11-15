@@ -59,6 +59,10 @@ public class TrackDrawer {
         //draw altitude
         String baroAltitude = String.format("%.0f", track.getBaroAltitude());
         g.drawString(baroAltitude, x + 20, y + 18);
+
+        //if track is dropping display info
+        if(track.isDropping())
+            g.drawString("DROP", x + 20, y - 14);
     }
 
     private static void drawEcho(Graphics2D g, int x, int y) {

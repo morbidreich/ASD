@@ -33,7 +33,7 @@ public class AboutWindow extends JFrame {
             String infoText = "<html>\n" +
                     "<h1 align=center>Airspace Display v1.0</h1>\n" +
                     "<p>Pomocnicza aplikacja do wizualizacji ruchu lotniczego, elementów przestrzeni powietrznej, " +
-                    "procedur, miast, lotnisk etc, stworzona z myślą o wypełnieniu dziury spowodowanej brakiem P21 w EPSY<br>" +
+                    "procedur, miast, lotnisk etc, stworzona z myślą o wypełnieniu luki spowodowanej brakiem P21 w EPSY<br>" +
                     "<ul>\n" +
                     "<li>Dane ADS-B pochodzą z <b>www.opensky-network.org</b>" +
                     "<li>Dane przestrzeni - <b>AIRAC 2111</b>" +
