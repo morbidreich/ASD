@@ -2,6 +2,7 @@ package io.github.morbidreich.surveilance;
 
 import io.github.morbidreich.airspaceElements.BasePoint;
 import io.github.morbidreich.airspaceElements.Coordinates;
+import io.github.morbidreich.utils.Calculations;
 import org.opensky.model.StateVector;
 
 import java.util.LinkedList;
@@ -77,6 +78,26 @@ public class Track extends BasePoint {
 
     public List<TrackPosition> getTrackHistory() {
         return trackHistory;
+    }
+
+    /**
+     * return bearing of a track
+     * @return bearing
+     */
+    public Double getBearing() {
+        // i can calculate bearing only if i have at least two historic positions stored in trackHistory
+        // maybe in future try average bearing using more than two points from history
+        // if less than two historic positions are present then return heading from state vector
+        if (trackHistory.size()>1) {
+            TrackPosition t1 = trackHistory.get(trackHistory.size()-1);
+            TrackPosition t2 = trackHistory.get(trackHistory.size()-2);
+
+            return Calculations.bearing(
+                    t2.getPosition().getLatitude(), t2.getPosition().getLongitude(),
+                    t1.getPosition().getLatitude(), t1.getPosition().getLongitude());
+        }
+        // can be null
+        else return sv.getHeading();
     }
 
     // return sublist of trackHistory for drawing historical plots

@@ -38,13 +38,13 @@ public class TrackDrawer {
         List<TrackPosition> recentHistory = track.getRecentTrackHistory(his_len.getLength());
         int colorStep = 255 / (recentHistory.size() + 1);
         // im using classic loop to use i as size/color driver
-        for (int i = recentHistory.size()-1; i > 0; i--) {
-             g.setColor(new Color(0, 30+(colorStep * i), 0));
+        for (int i = recentHistory.size() - 1; i > 0; i--) {
+            g.setColor(new Color(0, 30 + (colorStep * i), 0));
 
             int xx = mapPanel.convertX(recentHistory.get(i).getPosition().getEasting());
             int yy = mapPanel.convertY(recentHistory.get(i).getPosition().getNorthing(), mapPanel.getHeight());
 
-            g.drawOval(xx-2, yy-2, 5,5);
+            g.drawOval(xx - 2, yy - 2, 5, 5);
         }
     }
 
@@ -63,7 +63,7 @@ public class TrackDrawer {
 
     private static void drawEcho(Graphics2D g, int x, int y) {
         // draw echo
-        g.drawOval(x-3, y-3, 6, 6);
+        g.drawOval(x - 3, y - 3, 6, 6);
     }
 
     private static void drawAltitudeTrendArrow(Track track, Graphics2D g, int x, int y, Double baroAltitude) {
@@ -91,28 +91,30 @@ public class TrackDrawer {
 
     private static void drawVelocityVector(Track track, Graphics2D g, MapPanel mapPanel, int x, int y) {
         //if heading present then draw velocity vector
+        //this check is needed because of getBearing method, need to make sure that
+        //heading is not null to avoid exception
         if (track.getHeading() != null) {
             // get track lat lon
             double trackLongitude = track.getLongitude();
             double trackLatitude = track.getLatitude();
 
-            //api returns true heading, convert to magnetic
-            double heading = track.getHeading() - AppSettings.MAGNETIC_VARIATION;
+
+            double bearing = track.getBearing();
             // calculate lat lon of tip of vector
 
             // first calculate length of 1 degree of longitude at given latitude as described here:
             // https://en.wikipedia.org/wiki/Longitude chapter 'Length of a degree of longitude'
-            double oneDegreAtLatitude = (Math.PI / 180) * 6371000 * Math.cos(Math.toRadians(track.getLatitude()));
+            double oneDegreAtLatitude = (Math.PI / 180) * 6371000 * Math.cos(Math.toRadians(trackLatitude));
 
             // then apply it to same formula as used in yyy calculation
-            double tipOfVectorLongitude = trackLongitude + track.getVelocity() * (1852.0/(60*oneDegreAtLatitude)) * Math.sin(Math.toRadians(heading));
+            double tipOfVectorLongitude = trackLongitude + track.getVelocity() * (1852.0 / (60 * oneDegreAtLatitude)) * Math.sin(Math.toRadians(bearing));
 
             // along y axis - easier math
             // distance travelled in 1 min = (speed[kt]/60), to get that in meters multiply by 1852
             // 1 degree of latitude = 111 196m, so in 1 min we do (dist travelled[m]) / 111 196 m = degrees travelled
             // along vertical axis. Multiply that via cos(heading) and we have tipY coordinate
 
-            double tipOfVectorLatitude = trackLatitude + track.getVelocity() * (1852.0/(60*111196)) * Math.cos(Math.toRadians(heading));
+            double tipOfVectorLatitude = trackLatitude + track.getVelocity() * (1852.0 / (60 * 111196)) * Math.cos(Math.toRadians(bearing));
 
             BasePoint tipOfVector = new BasePoint(new Coordinates(tipOfVectorLatitude, tipOfVectorLongitude));
 
