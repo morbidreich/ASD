@@ -3,6 +3,7 @@ package io.github.morbidreich.ui;
 import io.github.morbidreich.airspaceElements.*;
 import io.github.morbidreich.airspaceElements.Polygon;
 import io.github.morbidreich.ui.search.SearchTool;
+import io.github.morbidreich.utils.SettingsManager;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -81,11 +82,13 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         menuBar = new JMenuBar();
 
 
-        menuOptions = new JMenu("Options");
         menuElements = new JMenu("Displayed elements");
-
+        
         menuClearRbls = new JMenu("Clear RBLs");
         menuClearRbls.addMouseListener(this);
+        
+        menuOptions = new JMenu("Options");
+
         menuClose = new JMenu("Close");
         menuClose.addMenuListener(this);
         menuClose.addMouseListener(this);
@@ -105,6 +108,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
 
         menuOptions.add(miSettings);
         menuOptions.add(miAbout);
+
 
 
         sliderCtr = createJSlider("CTR", PolygonType.CTR, mapPanel);
@@ -193,6 +197,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         menuElements.add(sliderTowns);
         menuElements.add(cbRivers);
         menuElements.add(cbRoads);
+
+
 
         //add action listener to every submenu of menuElements
         for (int i = 0; i < menuElements.getMenuComponentCount(); i++) {

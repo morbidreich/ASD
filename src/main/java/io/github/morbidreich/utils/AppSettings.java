@@ -29,33 +29,5 @@ public class AppSettings {
     public static final double SHOW_MAX_LAT = 55.7;
     public static final double SHOW_MAX_LON = 23.7;
 
-    public enum VectorLength {
-        ZERO (0),
-        ONE (1),
-        THREE (3),
-        FIVE (5);
 
-        private final int length;
-
-        VectorLength(int length) {
-            this.length = length;
-        }
-
-        public int getLength() {
-            return this.length;
-        }
-    }
-
-    public enum HistoryLength {
-        SHORT (5),
-        MEDIUM (8),
-        LONG (12);
-
-        private final int length;
-
-        HistoryLength(int length) {
-            this.length = length;
-        }
-        public int getLength() {return this.length;}
-    }
 }

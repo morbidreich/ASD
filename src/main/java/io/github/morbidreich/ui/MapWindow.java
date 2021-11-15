@@ -2,11 +2,11 @@ package io.github.morbidreich.ui;
 
 import io.github.morbidreich.airspaceElements.Airspace;
 import io.github.morbidreich.surveilance.DataAcquisition;
+import io.github.morbidreich.ui.statusbar.StatusBar;
 
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 
 /**
  *  code by Cristopher Jacquet with my my slight modifications
@@ -31,6 +31,8 @@ public class MapWindow extends JFrame {
         map.addAirspace(airspace);
         map.setDefaultElementsVisibility();
 
+
+
         Menu menu = new Menu(map, airspace);
         setJMenuBar(menu.getMenuBar());
 
@@ -45,7 +47,7 @@ public class MapWindow extends JFrame {
         setLocationRelativeTo(null);
 
         //add status bar
-        statusBar = new StatusBar(this);
+        statusBar = new StatusBar(this, map);
         add(statusBar, BorderLayout.SOUTH);
 
         //start api thread

@@ -1,18 +1,14 @@
 package io.github.morbidreich.surveilance;
 
-import io.github.morbidreich.ui.StatusBar;
+import io.github.morbidreich.ui.statusbar.StatusBar;
 import io.github.morbidreich.utils.AppSettings;
 import io.github.morbidreich.ui.MapPanel;
 import org.opensky.api.OpenSkyApi;
 import org.opensky.model.OpenSkyStates;
-import org.opensky.model.StateVector;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class DataAcquisition implements Runnable {
 
@@ -77,19 +73,6 @@ public class DataAcquisition implements Runnable {
             statusBar.l3.setForeground(second);
         else
             statusBar.l3.setForeground(orig);
-
-    }
-
-    private List<Track> ParseStateVectors(List<StateVector> list) {
-        return list.stream()
-                .filter(sv -> sv.getLatitude() != null && sv.getLongitude() != null) // lat and lon can be null, filter them
-                .filter(sv -> !sv.isOnGround())  // filter ground stuff
-                .map(Track::new)
-                .collect(Collectors.toList());
-    }
-
-    private void collectData(List<StateVector> list) {
-        Map<String, Track> trackMap;
 
     }
 }

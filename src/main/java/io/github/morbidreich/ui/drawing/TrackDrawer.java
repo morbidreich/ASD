@@ -9,6 +9,7 @@ import io.github.morbidreich.ui.MapPanel;
 import io.github.morbidreich.utils.AppSettings;
 import io.github.morbidreich.utils.Calculations;
 import io.github.morbidreich.utils.Colors;
+import io.github.morbidreich.utils.SettingsManager;
 
 import java.awt.*;
 import java.util.List;
@@ -30,12 +31,12 @@ public class TrackDrawer {
             drawLabel(track, g, x, y);
             drawAltitudeTrendArrow(track, g, x, y, track.getBaroAltitude());
             drawVelocityVector(track, g, mapPanel, x, y);
-            drawHistoricPlots(track, g, mapPanel, AppSettings.HistoryLength.MEDIUM);
+            drawHistoricPlots(track, g, mapPanel);
         }
     }
 
-    private static void drawHistoricPlots(Track track, Graphics2D g, MapPanel mapPanel, AppSettings.HistoryLength his_len) {
-        List<TrackPosition> recentHistory = track.getRecentTrackHistory(his_len.getLength());
+    private static void drawHistoricPlots(Track track, Graphics2D g, MapPanel mapPanel) {
+        List<TrackPosition> recentHistory = track.getRecentTrackHistory(8);
         int colorStep = 255 / (recentHistory.size() + 1);
         // im using classic loop to use i as size/color driver
         for (int i = recentHistory.size() - 1; i > 0; i--) {
@@ -102,6 +103,9 @@ public class TrackDrawer {
             double trackLongitude = track.getLongitude();
             double trackLatitude = track.getLatitude();
 
+            //read user selected vector length
+            double vectorLength = Double.parseDouble(SettingsManager.getInstance().get("vector.length"));
+
 
             double bearing = track.getBearing();
             // calculate lat lon of tip of vector
@@ -111,14 +115,14 @@ public class TrackDrawer {
             double oneDegreAtLatitude = (Math.PI / 180) * 6371000 * Math.cos(Math.toRadians(trackLatitude));
 
             // then apply it to same formula as used in yyy calculation
-            double tipOfVectorLongitude = trackLongitude + track.getVelocity() * (1852.0 / (60 * oneDegreAtLatitude)) * Math.sin(Math.toRadians(bearing));
+            double tipOfVectorLongitude = trackLongitude + vectorLength * track.getVelocity() * (1852.0 / (60 * oneDegreAtLatitude)) * Math.sin(Math.toRadians(bearing));
 
             // along y axis - easier math
             // distance travelled in 1 min = (speed[kt]/60), to get that in meters multiply by 1852
             // 1 degree of latitude = 111 196m, so in 1 min we do (dist travelled[m]) / 111 196 m = degrees travelled
             // along vertical axis. Multiply that via cos(heading) and we have tipY coordinate
 
-            double tipOfVectorLatitude = trackLatitude + track.getVelocity() * (1852.0 / (60 * 111196)) * Math.cos(Math.toRadians(bearing));
+            double tipOfVectorLatitude = trackLatitude + vectorLength * track.getVelocity() * (1852.0 / (60 * 111196)) * Math.cos(Math.toRadians(bearing));
 
             BasePoint tipOfVector = new BasePoint(new Coordinates(tipOfVectorLatitude, tipOfVectorLongitude));
 
