@@ -253,7 +253,10 @@ public class MapPanel extends JPanel {
         for (Polygon poly : polygons) addPolygon(poly);
     }
 
-    public synchronized void setTracks(List<Track> tracks) { this.tracks = tracks; }
+    public synchronized void setTracks(List<Track> tracks) {
+        this.tracks = tracks;
+        repaint();
+    }
 
 
     public synchronized void addRBL(RBL rbl) {

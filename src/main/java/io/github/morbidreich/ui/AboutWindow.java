@@ -4,40 +4,63 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
+/**
+ * infobox based on https://docs.oracle.com/javase/tutorial/uiswing/components/html.html
+ */
 public class AboutWindow extends JFrame {
-    JLabel label;
 
     public AboutWindow() {
 
         super("About app");
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        setPreferredSize(new Dimension(300, 300));
+        setPreferredSize(new Dimension(500, 300));
 
-        setLayout(new BorderLayout());
-
-
-
-        //label = new JLabel("This is some important informations This is some important informations This is some important informations This is some important informations This is some important informations This is some important informations v This is some important informations This is some important informations This is some important informations This is some important informationsThis is some important informationsvv ");
-
-        AboutPanel myPanel = new AboutPanel();
-
-        //myPanel.add(label);
-        add(myPanel);
-
+        AboutPanel ap = new AboutPanel();
+        add(ap);
         pack();
         setVisible(true);
+
+
     }
 
     class AboutPanel extends JPanel {
 
         JLabel label;
+        JTextArea htmlTextArea;
 
         public AboutPanel() {
-            super();
-            //label = new JLabel("it is working");
-            //add(label);
-            JTextArea jta = new JTextArea(" lorem ipsum ajosdakjsd ahsdhasd asd ansd nasd as da sd  a sd  asdasdasdasd  asd asd asd   ad asd a sd ad   ");
-            add(jta);
+            //setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
+            String infoText = "<html>\n" +
+                    "<h1 align=center>Airspace Display v1.0</h1>\n" +
+                    "<p>Pomocnicza aplikacja do wizualizacji ruchu lotniczego, elementów przestrzeni powietrznej, " +
+                    "procedur, miast, lotnisk etc, stworzona z myślą o wypełnieniu dziury spowodowanej brakiem P21 w EPSY<br>" +
+                    "<ul>\n" +
+                    "<li>Dane ADS-B pochodzą z <b>www.opensky-network.org</b>" +
+                    "<li>Dane przestrzeni - <b>AIRAC 2111</b>" +
+                    "</ul>" +
+                    "Mimo najwyższej troski o dokładność i aktualność danych, aplikacja nie jest do użytku operacyjnego, ale to każdy zapewne wie;)</p>" +
+                    "<br><br>W razie jakichkolwiek sugestii, spostrzerzeń czy błędów proszę o kontakt: <br><a href=\"mailto:bartlomiej.kujda@pansa.pl\">bartlomiej.kujda@pansa.pl</a>\n" +
+                    "</html>";
+
+
+            //htmlTextArea = new JTextArea(10,20);
+            //htmlTextArea.setText(infoText);
+
+            label = new JLabel(infoText) {
+                public Dimension getPreferredSize() {
+                    return new Dimension(450, 300);
+                }
+                public Dimension getMinimumSize() {
+                    return new Dimension(450, 300);
+                }
+                public Dimension getMaximumSize() {
+                    return new Dimension(450, 300);
+                }
+            };
+            label.setVerticalAlignment(SwingConstants.TOP);
+            label.setHorizontalAlignment(SwingConstants.LEFT);
+            add(label);
+
         }
     }
 

@@ -62,7 +62,7 @@ public class TrackManager {
             }
         }
         // log messages:
-        icao24listToDelete.forEach(s -> System.out.println(trackMap.get(s).getCallsing() + ": remove due delay of " + (actualTime - trackMap.get(s).getLastPositionUpdate())));
+        icao24listToDelete.forEach(s -> System.out.println(trackMap.get(s).getCallsing() + ": deleted, no position reports for " + (actualTime - trackMap.get(s).getLastPositionUpdate()) + "s"));
         icao24listToDelete.forEach(trackMap::remove);
     }
 

@@ -16,10 +16,9 @@ import java.util.stream.Collectors;
 
 public class DataAcquisition implements Runnable {
 
-    private MapPanel map;
-    private List<Track> tracks = new ArrayList<>();
-    private StatusBar statusBar;
-    private TrackManager trackManager;
+    private final MapPanel map;
+    private final StatusBar statusBar;
+    private final TrackManager trackManager;
 
     public DataAcquisition(MapPanel mapPanel, StatusBar statusBar) {
         this.map = mapPanel;
@@ -44,23 +43,18 @@ public class DataAcquisition implements Runnable {
 
             try {
                 OpenSkyStates os = fetchData();
-                //List<StateVector> list = os.getStates().stream().toList();
-                //List<Track> tracks = ParseStateVectors(list);
 
                 trackManager.update(os);
 
-
                 map.setTracks(trackManager.getTrackList());
-                map.repaint();
-                //System.out.println("got data from api, no of tracks=" + os.getStates().size() + ", timestamp = " + os.getTime());
 
                 //update statusbar with no. of tracked objects
                 statusBar.updateStatusOK(trackManager.getSize());
 
             } catch (Exception e) {
                 //when connection not working clear tracks list
-                map.setTracks(new ArrayList<Track>());
-                map.repaint();
+                map.setTracks(new ArrayList<>());
+                //map.repaint();
 
                 statusBar.updateStatusError(" Attempting to reconnect... (Error message: " + e.getMessage() + ")");
                 e.printStackTrace();
