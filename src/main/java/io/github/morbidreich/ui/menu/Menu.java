@@ -244,7 +244,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         rbHistoryMedium = new JRadioButtonMenuItem("Medium");
         rbHistoryShort = new JRadioButtonMenuItem("Short");
 
-        rbPlotBrightnessHigh = new JRadioButtonMenuItem("Hign");
+        rbPlotBrightnessHigh = new JRadioButtonMenuItem("High");
         rbPlotBrightnessMedium = new JRadioButtonMenuItem("Medium");
         rbPlotBrightnessLow = new JRadioButtonMenuItem("Low");
 

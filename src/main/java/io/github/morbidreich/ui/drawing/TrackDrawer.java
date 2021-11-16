@@ -45,9 +45,12 @@ public class TrackDrawer {
             case "Long" -> lenght = 15;
             default -> lenght = 3;
         }
+        //get current color used to draw track - dependant on user settings
+        //might be brighter or dimmer
+        int baseGreen = g.getColor().getGreen();
 
         List<TrackPosition> recentHistory = track.getRecentTrackHistory(lenght);
-        int colorStep = 255 / (recentHistory.size() + 1);
+        int colorStep = baseGreen / (recentHistory.size() + 1);
         // im using classic loop to use i as size/color driver
         for (int i = recentHistory.size() - 1; i > 0; i--) {
             g.setColor(new Color(0, 30 + (colorStep * i), 0));
@@ -147,11 +150,18 @@ public class TrackDrawer {
 
     private static void setTrackColor(Track track, Graphics2D g) {
         // if spi (squawk ident) detected then draw track in blue
+        String color = SettingsManager.getInstance().get("plot.brightness");
+
         if (track.getSpi() != null && track.getSpi())
             g.setColor(Colors.TRACK_COLOR_SPI);
         else if (track.isDropping())
             g.setColor(Colors.TRACK_COLOR_DROPING);
-        else // use standard green color
-            g.setColor(Colors.TRACK_COLOR);
+        else {
+            switch(color) {
+                case "High" -> g.setColor(Colors.TRACK_COLOR_HIGH);
+                case "Medium" -> g.setColor(Colors.TRACK_COLOR_MEDIUM);
+                case "Low" -> g.setColor(Colors.TRACK_COLOR_LOW);
+            }
+        }
     }
 }

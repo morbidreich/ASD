@@ -29,7 +29,9 @@ public class Colors {
     public Color AREA_COLOR = new Color(150, 150, 150, 122);
     public Color VORDME = new Color(80, 80, 80, 122);
     public Color SEARCH_RESULT_COLOR = new Color(250,90,0,255);
-    public static Color TRACK_COLOR = new Color(0,255,0,255);
+    public static Color TRACK_COLOR_HIGH = new Color(0,255,0,255);
+    public static Color TRACK_COLOR_MEDIUM = new Color(0,180,0,255);
+    public static Color TRACK_COLOR_LOW = new Color(0,100,0,255);
     public static Color TRACK_COLOR_SPI = new Color(0,190,255);
     public static Color TRACK_COLOR_DROPING = new Color(50,50,50);
 

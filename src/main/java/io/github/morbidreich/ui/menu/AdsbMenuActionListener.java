@@ -22,6 +22,7 @@ public record AdsbMenuActionListener(MapPanel mapPanel) implements ActionListene
             switch (rb.getName()) {
                 case "Brightness" -> {
                     SettingsManager.getInstance().set("plot.brightness", rb.getText());
+                    mapPanel.repaint();
                     // adjust brightness
                 }
                 case "History" -> {
