@@ -28,12 +28,40 @@ public class TrackDrawer {
 
             setTrackColor(track, g);
             drawEcho(g, x, y);
+
+            // OLD WAYS HERE
+            //drawLabel(track, g, x, y);
             drawLabel(track, g, x, y);
+
             drawAltitudeTrendArrow(track, g, x, y, track.getBaroAltitude());
             drawVelocityVector(track, g, mapPanel, x, y);
             drawHistoricPlots(track, g, mapPanel);
         }
     }
+
+    private static void drawLabel(Track track, Graphics2D g, int x, int y) {
+        track.getTrackLabel().draw(g, x, y);
+    }
+
+
+
+    //OLD IMPLEMENTATION HERE
+//    private static void drawLabel(Track track, Graphics2D g, int x, int y) {
+//        //get width of callsign string to position velocity string
+//        int width = g.getFontMetrics().stringWidth(track.getCallsing());
+//
+//        //draw callsign
+//        g.drawString(track.getCallsing(), x + 20, y + 2);
+//        g.drawString(String.format("%.0f", track.getVelocity()), x + width + 20, y + 2);
+//
+//        //draw altitude
+//        String baroAltitude = String.format("%.0f", track.getBaroAltitude());
+//        g.drawString(baroAltitude, x + 20, y + 18);
+//
+//        //if track is dropping display info
+//        if(track.isDropping())
+//            g.drawString("DROP", x + 20, y - 14);
+//    }
 
     private static void drawHistoricPlots(Track track, Graphics2D g, MapPanel mapPanel) {
 
@@ -60,23 +88,6 @@ public class TrackDrawer {
 
             g.drawOval(xx - 2, yy - 2, 5, 5);
         }
-    }
-
-    private static void drawLabel(Track track, Graphics2D g, int x, int y) {
-        //get width of callsign string to position velocity string
-        int width = g.getFontMetrics().stringWidth(track.getCallsing());
-
-        //draw callsign
-        g.drawString(track.getCallsing(), x + 20, y + 2);
-        g.drawString(String.format("%.0f", track.getVelocity()), x + width + 20, y + 2);
-
-        //draw altitude
-        String baroAltitude = String.format("%.0f", track.getBaroAltitude());
-        g.drawString(baroAltitude, x + 20, y + 18);
-
-        //if track is dropping display info
-        if(track.isDropping())
-            g.drawString("DROP", x + 20, y - 14);
     }
 
     private static void drawEcho(Graphics2D g, int x, int y) {

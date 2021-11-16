@@ -11,6 +11,7 @@ import java.util.List;
 public class Track extends BasePoint {
     private boolean isDropping = false;
     private StateVector sv;
+    private TrackLabel trackLabel;
 
     private final List<TrackPosition> trackHistory;
 
@@ -26,6 +27,7 @@ public class Track extends BasePoint {
         super(new Coordinates(sv.getLatitude(), sv.getLongitude()));
         this.sv = sv;
         trackHistory = new LinkedList<>();
+        trackLabel = new TrackLabel(this);
     }
 
     public void update(StateVector sv) {
@@ -72,6 +74,8 @@ public class Track extends BasePoint {
     public Boolean getSpi() {
         return sv.isSpi();
     }
+
+    public TrackLabel getTrackLabel() { return this.trackLabel; }
 
 
     public Boolean isOnGround() { return sv.isOnGround(); }

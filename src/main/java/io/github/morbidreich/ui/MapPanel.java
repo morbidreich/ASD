@@ -22,6 +22,7 @@ import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.swing.*;
@@ -31,7 +32,7 @@ public class MapPanel extends JPanel {
 
     private List<Track> tracks = new ArrayList<>();
 
-    private List<io.github.morbidreich.airspaceElements.Polygon> polygons = new ArrayList<Polygon>();
+    private List<Polygon> polygons = new ArrayList<Polygon>();
     private List<Fix> fixes = new ArrayList<Fix>();
     private final List<Procedure> procedures = new ArrayList<>();
     private final List<RBL> rbls = new ArrayList<RBL>();
@@ -61,6 +62,10 @@ public class MapPanel extends JPanel {
         MousePanner mousePanner = new MousePanner();
         addMouseListener(mousePanner);
         addMouseMotionListener(mousePanner);
+
+        LabelHandler labelHandler = new LabelHandler();
+        addMouseMotionListener(labelHandler);
+        addMouseListener(labelHandler);
     }
 
     public void setDefaultElementsVisibility() {
@@ -102,6 +107,10 @@ public class MapPanel extends JPanel {
 
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
+                RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+        g.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING,
+                RenderingHints.VALUE_COLOR_RENDER_SPEED);
 
         int w = getWidth();
         int h = getHeight();
@@ -373,7 +382,7 @@ public class MapPanel extends JPanel {
             oEasting = oEasting + x * (1 / oldScale - 1 / scale);
             oNorthing = oNorthing + (h - y) * (1 / oldScale - 1 / scale);
 
-            //System.out.println(rotation + " => " + scale);
+            System.out.println(rotation + " => " + scale);
             repaint();
         }
     }
@@ -462,6 +471,97 @@ public class MapPanel extends JPanel {
         public void mouseExited(MouseEvent e) {
         }
 
+    }
+
+    private class LabelHandler implements MouseMotionListener, MouseListener {
+
+        private Track track;
+
+        private int originX, originY;
+        private int deltaX, deltaY;
+        private int originalDisplacementX, originalDisplacementY;
+
+        private boolean isDragging = false;
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+
+            //System.out.println(e.getX() + " " + e.getY());
+
+//            Optional<Track> tr = tracks.stream()
+//                    .filter(t->t.getTrackLabel().isMouseOver(e))
+//                    .findFirst();
+//
+//            tr.ifPresent(t->t.getTrackLabel().draw(getGraphics(), e.getX(), e.getY()));
+
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                if (isDragging) {
+
+                    deltaX = e.getX() - originX + originalDisplacementX;
+                    deltaY = e.getY() - originY + originalDisplacementY;
+
+                    track.getTrackLabel().setDisplacementX(deltaX);
+                    track.getTrackLabel().setDisplacementY(deltaY);
+
+
+//                    Graphics g = getGraphics();
+//                    g.setColor(Color.white);
+//                    g.drawLine(originX, originY, e.getX(), e.getY());
+
+                    repaint();
+                }
+            }
+
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+
+//            tracks.stream()
+//                    .filter(track -> track.getTrackLabel().isMouseOver(e))
+//                    .forEach(track -> System.out.println("Over label of " + track.getCallsing()));
+
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (SwingUtilities.isMiddleMouseButton(e)) {
+                Optional<Track> tr = tracks.stream()
+                        .filter(t -> t.getTrackLabel().isMouseOver(e))
+                        .findFirst();
+                if (tr.isPresent()) {
+                    isDragging = true;
+                    track = tr.get();
+                    System.out.println("track is present " + track.getCallsing());
+                    originX = e.getX();
+                    originY = e.getY();
+                    originalDisplacementX = track.getTrackLabel().getDisplacementX();
+                    originalDisplacementY = track.getTrackLabel().getDisplacementY();
+                    System.out.println(track.getCallsing() + " xy is " + originX + ":" + originY);
+                }
+            }
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
     }
 
     private boolean tryDeleteRBL(MouseEvent e) {
