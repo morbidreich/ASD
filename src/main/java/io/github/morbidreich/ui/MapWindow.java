@@ -2,6 +2,7 @@ package io.github.morbidreich.ui;
 
 import io.github.morbidreich.airspaceElements.Airspace;
 import io.github.morbidreich.surveilance.DataAcquisition;
+import io.github.morbidreich.ui.menu.Menu;
 import io.github.morbidreich.ui.statusbar.StatusBar;
 import io.github.morbidreich.utils.SettingsManager;
 
@@ -35,7 +36,7 @@ public class MapWindow extends JFrame {
 
 
 
-        Menu menu = new Menu(map, airspace);
+        io.github.morbidreich.ui.menu.Menu menu = new Menu(map, airspace);
         setJMenuBar(menu.getMenuBar());
 
         setLayout(new BorderLayout());

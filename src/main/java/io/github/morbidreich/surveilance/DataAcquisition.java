@@ -59,6 +59,7 @@ public class DataAcquisition implements Runnable {
             try {
                 Thread.sleep(AppSettings.RADAR_REFRESH_RATE);
             } catch (InterruptedException e) {
+
                 System.out.println("Interrupted api data acces, quitting");
             }
         }

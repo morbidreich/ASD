@@ -36,7 +36,17 @@ public class TrackDrawer {
     }
 
     private static void drawHistoricPlots(Track track, Graphics2D g, MapPanel mapPanel) {
-        List<TrackPosition> recentHistory = track.getRecentTrackHistory(8);
+
+        String historyLength = SettingsManager.getInstance().get("plot.history");
+        int lenght;
+        switch (historyLength) {
+            case "Short" -> lenght = 5;
+            case "Medium" -> lenght = 8;
+            case "Long" -> lenght = 15;
+            default -> lenght = 3;
+        }
+
+        List<TrackPosition> recentHistory = track.getRecentTrackHistory(lenght);
         int colorStep = 255 / (recentHistory.size() + 1);
         // im using classic loop to use i as size/color driver
         for (int i = recentHistory.size() - 1; i > 0; i--) {

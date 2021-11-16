@@ -1,4 +1,4 @@
-package io.github.morbidreich.ui;
+package io.github.morbidreich.ui.menu;
 
 import javax.swing.*;
 

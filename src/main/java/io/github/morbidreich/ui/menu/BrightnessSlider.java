@@ -1,4 +1,4 @@
-package io.github.morbidreich.ui;
+package io.github.morbidreich.ui.menu;
 
 import io.github.morbidreich.airspaceElements.FixType;
 import io.github.morbidreich.airspaceElements.PolygonType;

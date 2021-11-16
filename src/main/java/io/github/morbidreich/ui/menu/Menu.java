@@ -1,7 +1,9 @@
-package io.github.morbidreich.ui;
+package io.github.morbidreich.ui.menu;
 
 import io.github.morbidreich.airspaceElements.*;
 import io.github.morbidreich.airspaceElements.Polygon;
+import io.github.morbidreich.ui.AboutWindow;
+import io.github.morbidreich.ui.MapPanel;
 import io.github.morbidreich.ui.search.SearchTool;
 import io.github.morbidreich.utils.SettingsManager;
 
@@ -44,19 +46,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private final asdCheckBox cbRoads;
     private final JMenuItem miAbout;
 
-    
-    private JCheckBoxMenuItem enableAdsb;
-
-    private JRadioButtonMenuItem vector1min;
-    private JRadioButtonMenuItem vector3min;
-    private JRadioButtonMenuItem vector5min;
-    private JRadioButtonMenuItem vector8min;
-
-    private JRadioButtonMenuItem historyShort;
-    private JRadioButtonMenuItem historyMedium;
-    private JRadioButtonMenuItem historyLong;
-
-
     private JSlider sliderTma;
     private JSlider sliderCtr;
     private JSlider sliderTmaEntryFix;
@@ -72,21 +61,30 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private JSlider sliderAerodromes;
     private JSlider sliderTowns;
 
+    private JCheckBoxMenuItem cbEnableAdsb;
+    private JLabel labelHistoryLength;
+    private JLabel labelTrackBrightness;
+    private JRadioButtonMenuItem rbHistoryLong;
+    private JRadioButtonMenuItem rbHistoryMedium;
+    private JRadioButtonMenuItem rbHistoryShort;
+
+    private JRadioButtonMenuItem rbPlotBrightnessHigh;
+    private JRadioButtonMenuItem rbPlotBrightnessMedium;
+    private JRadioButtonMenuItem rbPlotBrightnessLow;
+
     public Menu(MapPanel mapPanel, Airspace airspace) {
         this.mapPanel = mapPanel;
         this.airspace = airspace;
 
         SearchTool searchTool = new SearchTool(airspace, mapPanel);
 
-
         menuBar = new JMenuBar();
 
-
         menuElements = new JMenu("Displayed elements");
-        
+
         menuClearRbls = new JMenu("Clear RBLs");
         menuClearRbls.addMouseListener(this);
-        
+
         menuOptions = new JMenu("Options");
 
         menuClose = new JMenu("Close");
@@ -106,11 +104,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         miAbout = new JMenuItem("About...");
         miAbout.addActionListener(this);
 
-        menuOptions.add(miSettings);
-        menuOptions.add(miAbout);
-
-
-
         sliderCtr = createJSlider("CTR", PolygonType.CTR, mapPanel);
         sliderTma = createJSlider("TMA", PolygonType.TMA, mapPanel);
         sliderTmaEntryFix = createJSlider("TMA entry fixes", FixType.ENTRY, mapPanel);
@@ -125,7 +118,6 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         sliderBorder = createJSlider("Border", PolygonType.BORDER, mapPanel);
         sliderAerodromes = createJSlider("Aerodromes", FixType.AERODROME, mapPanel);
         sliderTowns = createJSlider("Towns", FixType.TOWN, mapPanel);
-
 
         cbTma = new asdCheckBox("TMA", sliderTma);
         cbTma.addMouseListener(this);
@@ -198,7 +190,7 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         menuElements.add(cbRivers);
         menuElements.add(cbRoads);
 
-
+        prepareOptionsMenu();
 
         //add action listener to every submenu of menuElements
         for (int i = 0; i < menuElements.getMenuComponentCount(); i++) {
@@ -220,8 +212,8 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
             }
         }
 
-
         cbRoads.setEnabled(false);
+        miSettings.setEnabled(false);
         cbRivers.setEnabled(false);
         //cbTowns.setEnabled(false);
         cbPDR.setEnabled(false);
@@ -232,6 +224,87 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         cbCtr.setSelected(true);
         cbTmaFixes.setSelected(true);
         cbBorder.setSelected(true);
+    }
+
+    private void prepareOptionsMenu() {
+        cbEnableAdsb = new JCheckBoxMenuItem("Enable ADS-B data");
+
+        labelHistoryLength = new JLabel("Plot history length");
+        labelHistoryLength.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        labelHistoryLength.setFont(labelHistoryLength.getFont().deriveFont(Font.ITALIC));
+
+        labelTrackBrightness = new JLabel("Track and label brightness");
+        labelTrackBrightness.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        labelTrackBrightness.setFont(labelTrackBrightness.getFont().deriveFont(Font.ITALIC));
+
+        ButtonGroup historyGroup = new ButtonGroup();
+        ButtonGroup brightnessGroup = new ButtonGroup();
+
+        rbHistoryLong = new JRadioButtonMenuItem("Long");
+        rbHistoryMedium = new JRadioButtonMenuItem("Medium");
+        rbHistoryShort = new JRadioButtonMenuItem("Short");
+
+        rbPlotBrightnessHigh = new JRadioButtonMenuItem("Hign");
+        rbPlotBrightnessMedium = new JRadioButtonMenuItem("Medium");
+        rbPlotBrightnessLow = new JRadioButtonMenuItem("Low");
+
+        cbEnableAdsb.addActionListener(new AdsbMenuActionListener(mapPanel));
+        rbHistoryLong.addActionListener(new AdsbMenuActionListener(mapPanel));
+        rbHistoryMedium.addActionListener(new AdsbMenuActionListener(mapPanel));
+        rbHistoryShort.addActionListener(new AdsbMenuActionListener(mapPanel));
+        rbPlotBrightnessHigh.addActionListener(new AdsbMenuActionListener(mapPanel));
+        rbPlotBrightnessMedium.addActionListener(new AdsbMenuActionListener(mapPanel));
+        rbPlotBrightnessLow.addActionListener(new AdsbMenuActionListener(mapPanel));
+
+        rbHistoryLong.setName("History");
+        rbHistoryMedium.setName("History");
+        rbHistoryShort.setName("History");
+        rbPlotBrightnessHigh.setName("Brightness");
+        rbPlotBrightnessMedium.setName("Brightness");
+        rbPlotBrightnessLow.setName("Brightness");
+
+        historyGroup.add(rbHistoryLong);
+        historyGroup.add(rbHistoryMedium);
+        historyGroup.add(rbHistoryShort);
+
+        brightnessGroup.add(rbPlotBrightnessHigh);
+        brightnessGroup.add(rbPlotBrightnessMedium);
+        brightnessGroup.add(rbPlotBrightnessLow);
+
+        menuOptions.add(cbEnableAdsb);
+        menuOptions.addSeparator();
+
+        menuOptions.add(labelHistoryLength);
+        menuOptions.add(rbHistoryLong);
+        menuOptions.add(rbHistoryMedium);
+        menuOptions.add(rbHistoryShort);
+        menuOptions.addSeparator();
+
+        menuOptions.add(labelTrackBrightness);
+        menuOptions.add(rbPlotBrightnessHigh);
+        menuOptions.add(rbPlotBrightnessMedium);
+        menuOptions.add(rbPlotBrightnessLow);
+        menuOptions.addSeparator();
+
+        menuOptions.add(miSettings);
+        menuOptions.add(miAbout);
+
+        String showAdsb = SettingsManager.getInstance().get("show.adsb");
+        cbEnableAdsb.setSelected(showAdsb.equals("1"));
+
+        String historyLength = SettingsManager.getInstance().get("plot.history");
+        switch (historyLength) {
+            case "Long" -> rbHistoryLong.setSelected(true);
+            case "Medium" -> rbHistoryMedium.setSelected(true);
+            case "Short" -> rbHistoryShort.setSelected(true);
+        }
+
+        String plotBrightness = SettingsManager.getInstance().get("plot.brightness");
+        switch (plotBrightness) {
+            case "High" -> rbPlotBrightnessHigh.setSelected(true);
+            case "Medium" -> rbPlotBrightnessMedium.setSelected(true);
+            case "Low" -> rbPlotBrightnessLow.setSelected(true);
+        }
     }
 
 
