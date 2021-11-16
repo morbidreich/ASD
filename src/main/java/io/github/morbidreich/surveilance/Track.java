@@ -92,6 +92,15 @@ public class Track extends BasePoint {
             TrackPosition t1 = trackHistory.get(trackHistory.size()-1);
             TrackPosition t2 = trackHistory.get(trackHistory.size()-2);
 
+            // sometimes api returns same position two times in a row. in such cases Calculations.bearing
+            // returns 0 and all displayed track vectors switch rapidly northbound for couple of seconds,
+            // until next, different position report is received. To avoid that i check if two consecutive
+            // position reports are equal (winh 2 angular seconds margin, about 60m). If they are equal
+            // i return heading provided by StateVector instead of calculating bearing
+            if (t1.equals(t2)) {
+                return sv.getHeading();
+            }
+            else
             return Calculations.bearing(
                     t2.getPosition().getLatitude(), t2.getPosition().getLongitude(),
                     t1.getPosition().getLatitude(), t1.getPosition().getLongitude());
@@ -116,6 +125,8 @@ public class Track extends BasePoint {
             return trackHistory.subList(trackHistory.size() - i, trackHistory.size()-1);
         else return trackHistory;
     }
+
+
 
 
 }
