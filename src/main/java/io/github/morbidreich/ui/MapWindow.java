@@ -19,7 +19,7 @@ public class MapWindow extends JFrame {
     private final MapPanel map;
     private StatusBar statusBar;
 
-    Thread dataAcquisitionThread;
+    public Thread dataAcquisitionThread;
     Thread statusBarThread;
 
     /**
@@ -36,7 +36,7 @@ public class MapWindow extends JFrame {
 
 
 
-        io.github.morbidreich.ui.menu.Menu menu = new Menu(map, airspace);
+        io.github.morbidreich.ui.menu.Menu menu = new Menu(map, airspace, this);
         setJMenuBar(menu.getMenuBar());
 
         setLayout(new BorderLayout());
@@ -54,16 +54,21 @@ public class MapWindow extends JFrame {
         add(statusBar, BorderLayout.SOUTH);
 
         //start api thread
-        startFeedingTracks(map, statusBar);
+        if (SettingsManager.getInstance().get("show.adsb").equals("1"))
+            startFeedingTracks(map, statusBar);
 
     }
 
-    private void startFeedingTracks(MapPanel mapPanel, StatusBar statusBar) {
+    public void startFeedingTracks(MapPanel mapPanel, StatusBar statusBar) {
         DataAcquisition dataAcquisition = new DataAcquisition(mapPanel, statusBar);
 
         dataAcquisitionThread = new Thread(dataAcquisition);
         dataAcquisitionThread.setDaemon(true);
         dataAcquisitionThread.start();
+    }
+
+    public StatusBar getStatusBar() {
+        return this.statusBar;
     }
 }
 

@@ -45,7 +45,9 @@ public class StatusBar extends JPanel {
         l1.setForeground(textColor);
         l1.setAlignmentX(LEFT_ALIGNMENT);
 
-        l2 = new JLabel(" INITIALIZING ");
+        String status = SettingsManager.getInstance().get("show.adsb");
+
+        l2 = new JLabel(status.equals("1") ? " INITIALIZING " : " DISABLED ");
         l2.setForeground(textColor);
         l2.setAlignmentX(LEFT_ALIGNMENT);
 
@@ -125,6 +127,12 @@ public class StatusBar extends JPanel {
         l2.setForeground(errorColor);
         l2.setText(" NOT CONNECTED ");
         l3.setText(reconnectMessage);
+    }
+
+    public void updateStatusOffline() {
+        l2.setForeground(textColor);
+        l2.setText(" DISABLED ");
+        l3.setText("");
     }
 
     public void updateStatusErrorChangeColor(Color c) {

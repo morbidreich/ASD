@@ -4,6 +4,7 @@ import io.github.morbidreich.airspaceElements.*;
 import io.github.morbidreich.airspaceElements.Polygon;
 import io.github.morbidreich.ui.AboutWindow;
 import io.github.morbidreich.ui.MapPanel;
+import io.github.morbidreich.ui.MapWindow;
 import io.github.morbidreich.ui.search.SearchTool;
 import io.github.morbidreich.utils.SettingsManager;
 
@@ -17,8 +18,9 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class Menu implements ActionListener, MenuListener, MouseListener, ChangeListener, KeyListener {
-    private Airspace airspace;
-    private MapPanel mapPanel;
+    private final Airspace airspace;
+    private final MapPanel mapPanel;
+    private final MapWindow mapWindow;
 
     private final JMenu menuOptions;
     private final JMenu menuElements;
@@ -72,8 +74,9 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
     private JRadioButtonMenuItem rbPlotBrightnessMedium;
     private JRadioButtonMenuItem rbPlotBrightnessLow;
 
-    public Menu(MapPanel mapPanel, Airspace airspace) {
+    public Menu(MapPanel mapPanel, Airspace airspace, MapWindow mapWindow) {
         this.mapPanel = mapPanel;
+        this.mapWindow = mapWindow;
         this.airspace = airspace;
 
         SearchTool searchTool = new SearchTool(airspace, mapPanel);
@@ -248,13 +251,13 @@ public class Menu implements ActionListener, MenuListener, MouseListener, Change
         rbPlotBrightnessMedium = new JRadioButtonMenuItem("Medium");
         rbPlotBrightnessLow = new JRadioButtonMenuItem("Low");
 
-        cbEnableAdsb.addActionListener(new AdsbMenuActionListener(mapPanel));
-        rbHistoryLong.addActionListener(new AdsbMenuActionListener(mapPanel));
-        rbHistoryMedium.addActionListener(new AdsbMenuActionListener(mapPanel));
-        rbHistoryShort.addActionListener(new AdsbMenuActionListener(mapPanel));
-        rbPlotBrightnessHigh.addActionListener(new AdsbMenuActionListener(mapPanel));
-        rbPlotBrightnessMedium.addActionListener(new AdsbMenuActionListener(mapPanel));
-        rbPlotBrightnessLow.addActionListener(new AdsbMenuActionListener(mapPanel));
+        cbEnableAdsb.addActionListener(new AdsbMenuActionListener(mapPanel, mapWindow));
+        rbHistoryLong.addActionListener(new AdsbMenuActionListener(mapPanel, mapWindow));
+        rbHistoryMedium.addActionListener(new AdsbMenuActionListener(mapPanel, mapWindow));
+        rbHistoryShort.addActionListener(new AdsbMenuActionListener(mapPanel, mapWindow));
+        rbPlotBrightnessHigh.addActionListener(new AdsbMenuActionListener(mapPanel, mapWindow));
+        rbPlotBrightnessMedium.addActionListener(new AdsbMenuActionListener(mapPanel, mapWindow));
+        rbPlotBrightnessLow.addActionListener(new AdsbMenuActionListener(mapPanel, mapWindow));
 
         rbHistoryLong.setName("History");
         rbHistoryMedium.setName("History");

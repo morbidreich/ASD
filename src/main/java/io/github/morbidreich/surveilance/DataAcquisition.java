@@ -61,6 +61,9 @@ public class DataAcquisition implements Runnable {
             } catch (InterruptedException e) {
 
                 System.out.println("Interrupted api data acces, quitting");
+                map.setTracks(new ArrayList<>());
+                statusBar.updateStatusOffline();
+                break;
             }
         }
     }
