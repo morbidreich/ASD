@@ -16,7 +16,7 @@ import java.util.List;
 
 public class TrackDrawer {
 
-    public static void drawTrack(Track track, Graphics2D g, MapPanel mapPanel) {
+    public synchronized static void drawTrack(Track track, Graphics2D g, MapPanel mapPanel) {
 
         //only draw tracks that are inside SHOW_BOX as defined in AppSettings
         if ((track.getLatitude() > AppSettings.SHOW_MIN_LAT || track.getLatitude() < AppSettings.SHOW_MAX_LAT) &&
@@ -33,7 +33,7 @@ public class TrackDrawer {
             //drawLabel(track, g, x, y);
             drawLabel(track, g, x, y);
 
-            drawAltitudeTrendArrow(track, g, x, y, track.getBaroAltitude());
+            //drawAltitudeTrendArrow(track, g, x, y, track.getBaroAltitude());
             drawVelocityVector(track, g, mapPanel, x, y);
             drawHistoricPlots(track, g, mapPanel);
         }
@@ -95,28 +95,28 @@ public class TrackDrawer {
         g.drawOval(x - 3, y - 3, 6, 6);
     }
 
-    private static void drawAltitudeTrendArrow(Track track, Graphics2D g, int x, int y, Double baroAltitude) {
-        // if absolute vertical rate is present and is greater than 1.6 m/s - more than 300feets per minute
-        // then draw altitude trend arrow and vertical rate (1m/s ~ 200feets per minute)
-        if (track.getVerticalRate() != null && Math.abs(track.getVerticalRate()) > 1.6) {
-
-            // get current alt to check it's size
-            String baroAltStr = String.format("%.0f", baroAltitude);
-            //then use that size to position trend arrow
-            int widthOfAltitudeString = g.getFontMetrics().stringWidth(baroAltStr);
-            //draw vertical line
-            g.drawLine(x + 20 + widthOfAltitudeString + 5, y + 9, x + 20 + widthOfAltitudeString + 5, y + 17);
-            // draw tip of an arrow pointing up or down, depending on vertical speed value
-            if (track.getVerticalRate() > 0) {
-                g.drawLine(x + 20 + widthOfAltitudeString + 5, y + 9, x + 20 + widthOfAltitudeString + 7, y + 12);
-                g.drawLine(x + 20 + widthOfAltitudeString + 5, y + 9, x + 20 + widthOfAltitudeString + 3, y + 12);
-            } else {
-                g.drawLine(x + 20 + widthOfAltitudeString + 5, y + 17, x + 20 + widthOfAltitudeString + 7, y + 14);
-                g.drawLine(x + 20 + widthOfAltitudeString + 5, y + 17, x + 20 + widthOfAltitudeString + 3, y + 14);
-            }
-
-        }
-    }
+//    private static void drawAltitudeTrendArrow(Track track, Graphics2D g, int x, int y, Double baroAltitude) {
+//        // if absolute vertical rate is present and is greater than 1.6 m/s - more than 300feets per minute
+//        // then draw altitude trend arrow and vertical rate (1m/s ~ 200feets per minute)
+//        if (track.getVerticalRate() != null && Math.abs(track.getVerticalRate()) > 1.6) {
+//
+//            // get current alt to check it's size
+//            String baroAltStr = String.format("%.0f", baroAltitude);
+//            //then use that size to position trend arrow
+//            int widthOfAltitudeString = g.getFontMetrics().stringWidth(baroAltStr);
+//            //draw vertical line
+//            g.drawLine(x + 20 + widthOfAltitudeString + 5, y + 9, x + 20 + widthOfAltitudeString + 5, y + 17);
+//            // draw tip of an arrow pointing up or down, depending on vertical speed value
+//            if (track.getVerticalRate() > 0) {
+//                g.drawLine(x + 20 + widthOfAltitudeString + 5, y + 9, x + 20 + widthOfAltitudeString + 7, y + 12);
+//                g.drawLine(x + 20 + widthOfAltitudeString + 5, y + 9, x + 20 + widthOfAltitudeString + 3, y + 12);
+//            } else {
+//                g.drawLine(x + 20 + widthOfAltitudeString + 5, y + 17, x + 20 + widthOfAltitudeString + 7, y + 14);
+//                g.drawLine(x + 20 + widthOfAltitudeString + 5, y + 17, x + 20 + widthOfAltitudeString + 3, y + 14);
+//            }
+//
+//        }
+//    }
 
     private static void drawVelocityVector(Track track, Graphics2D g, MapPanel mapPanel, int x, int y) {
         //if heading present then draw velocity vector

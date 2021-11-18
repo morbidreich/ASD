@@ -6,6 +6,7 @@ package io.github.morbidreich.ui;/*
 import io.github.morbidreich.airspaceElements.*;
 import io.github.morbidreich.airspaceElements.Point;
 import io.github.morbidreich.airspaceElements.Polygon;
+import io.github.morbidreich.surveilance.TrackLabel;
 import io.github.morbidreich.ui.drawing.FixSymbolDrawer;
 import io.github.morbidreich.ui.drawing.TrackDrawer;
 import io.github.morbidreich.surveilance.Track;
@@ -382,7 +383,7 @@ public class MapPanel extends JPanel {
             oEasting = oEasting + x * (1 / oldScale - 1 / scale);
             oNorthing = oNorthing + (h - y) * (1 / oldScale - 1 / scale);
 
-            System.out.println(rotation + " => " + scale);
+            //System.out.println(rotation + " => " + scale);
             repaint();
         }
     }
@@ -473,12 +474,16 @@ public class MapPanel extends JPanel {
 
     }
 
+    /**
+     * this class manages label dragging
+     */
     private class LabelHandler implements MouseMotionListener, MouseListener {
 
         private Track track;
+        private Track recentTrackMouseOver;
+        private List<Track> TracksWithMouseOver = new ArrayList<>();
 
         private int originX, originY;
-        private int deltaX, deltaY;
         private int originalDisplacementX, originalDisplacementY;
 
         private boolean isDragging = false;
@@ -486,41 +491,36 @@ public class MapPanel extends JPanel {
         @Override
         public void mouseDragged(MouseEvent e) {
 
-            //System.out.println(e.getX() + " " + e.getY());
-
-//            Optional<Track> tr = tracks.stream()
-//                    .filter(t->t.getTrackLabel().isMouseOver(e))
-//                    .findFirst();
-//
-//            tr.ifPresent(t->t.getTrackLabel().draw(getGraphics(), e.getX(), e.getY()));
-
             if (SwingUtilities.isMiddleMouseButton(e)) {
                 if (isDragging) {
 
-                    deltaX = e.getX() - originX + originalDisplacementX;
-                    deltaY = e.getY() - originY + originalDisplacementY;
+                    int deltaX = e.getX() - originX + originalDisplacementX;
+                    int deltaY = e.getY() - originY + originalDisplacementY;
 
                     track.getTrackLabel().setDisplacementX(deltaX);
                     track.getTrackLabel().setDisplacementY(deltaY);
 
-
-//                    Graphics g = getGraphics();
-//                    g.setColor(Color.white);
-//                    g.drawLine(originX, originY, e.getX(), e.getY());
-
                     repaint();
                 }
             }
-
         }
 
         @Override
         public void mouseMoved(MouseEvent e) {
+            Track tempTrack = null;
+            Optional<Track> tr = tracks.stream()
+                    .filter(t -> t.getTrackLabel().isMouseOver(e))
+                    .findFirst();
+            if (tr.isPresent()) {
+                tempTrack = tr.get();
+                tempTrack.getTrackLabel().setMouseOver(true);
 
-//            tracks.stream()
-//                    .filter(track -> track.getTrackLabel().isMouseOver(e))
-//                    .forEach(track -> System.out.println("Over label of " + track.getCallsing()));
-
+            }
+            for(Track t : tracks) {
+                if (t.getTrackLabel().isMouseOver() && !t.equals(tempTrack))
+                    t.getTrackLabel().setMouseOver(false);
+            }
+            repaint();
         }
 
         @Override
@@ -537,13 +537,15 @@ public class MapPanel extends JPanel {
                 if (tr.isPresent()) {
                     isDragging = true;
                     track = tr.get();
-                    System.out.println("track is present " + track.getCallsing());
+
                     originX = e.getX();
+
                     originY = e.getY();
                     originalDisplacementX = track.getTrackLabel().getDisplacementX();
                     originalDisplacementY = track.getTrackLabel().getDisplacementY();
-                    System.out.println(track.getCallsing() + " xy is " + originX + ":" + originY);
                 }
+                else
+                    isDragging = false;
             }
         }
 

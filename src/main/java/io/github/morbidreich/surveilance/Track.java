@@ -7,6 +7,7 @@ import org.opensky.model.StateVector;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Track extends BasePoint {
     private boolean isDropping = false;
@@ -130,7 +131,16 @@ public class Track extends BasePoint {
         else return trackHistory;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Track track = (Track) o;
+        return this.getIcao24().equals(track.getIcao24());
+    }
 
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(isDropping, sv, trackLabel, trackHistory);
+    }
 }
