@@ -6,7 +6,6 @@ package io.github.morbidreich.ui;/*
 import io.github.morbidreich.airspaceElements.*;
 import io.github.morbidreich.airspaceElements.Point;
 import io.github.morbidreich.airspaceElements.Polygon;
-import io.github.morbidreich.surveilance.TrackLabel;
 import io.github.morbidreich.ui.drawing.FixSymbolDrawer;
 import io.github.morbidreich.ui.drawing.TrackDrawer;
 import io.github.morbidreich.surveilance.Track;
@@ -60,13 +59,9 @@ public class MapPanel extends JPanel {
 
         addMouseWheelListener(new MouseWheelZoomer());
 
-        MousePanner mousePanner = new MousePanner();
-        addMouseListener(mousePanner);
-        addMouseMotionListener(mousePanner);
-
-        LabelHandler labelHandler = new LabelHandler();
-        addMouseMotionListener(labelHandler);
-        addMouseListener(labelHandler);
+        MouseHandler mouseHandler = new MouseHandler();
+        addMouseListener(mouseHandler);
+        addMouseMotionListener(mouseHandler);
     }
 
     public void setDefaultElementsVisibility() {
@@ -184,9 +179,6 @@ public class MapPanel extends JPanel {
                     g.drawLine(
                             convertX(pointList.get(i).getEasting()), convertY(pointList.get(i).getNorthing(), h),
                             convertX(pointList.get(i + 1).getEasting()), convertY(pointList.get(i + 1).getNorthing(), h));
-
-                    //updateMinMaxEastingNorthing(pointList.get(i));
-                    //updateMinMaxEastingNorthing(pointList.get(i + 1));
                 }
             }
         }
@@ -321,7 +313,6 @@ public class MapPanel extends JPanel {
 
 
     private double convertEasting(int x) {
-        double w = getWidth();
         double xd = x;
 
         return xd / scale + oEasting;
@@ -336,10 +327,6 @@ public class MapPanel extends JPanel {
 
     public Colors getColors() {
         return colors;
-    }
-
-    public void setColors(Colors colors) {
-        this.colors = colors;
     }
 
     public void addAirspace(Airspace airspace) {
@@ -388,18 +375,47 @@ public class MapPanel extends JPanel {
         }
     }
 
-    private class MousePanner implements MouseListener, MouseMotionListener {
+    private class MouseHandler implements MouseListener, MouseMotionListener {
+        // variables for handling moving map and drawing rbls
         private int dragOriginX, dragOriginY;
         private double dragOriginOEasting, dragOriginONorthing;
+
+        //variables for handling label dragging
+        private Track track;
+
+        private int originX, originY;
+        private int originalDisplacementX, originalDisplacementY;
+
+        private boolean isDragging = false;
 
         @Override
         public void mousePressed(MouseEvent e) {
 
             if (SwingUtilities.isLeftMouseButton(e)) {
-                dragOriginX = e.getX();
-                dragOriginY = e.getY();
-                dragOriginOEasting = oEasting;
-                dragOriginONorthing = oNorthing;
+
+                Optional<Track> tr = tracks.stream()
+                        .filter(t -> t.getTrackLabel().isMouseOver(e))
+                        .findFirst();
+                if (tr.isPresent()) {
+                    isDragging = true;
+                    track = tr.get();
+
+                    originX = e.getX();
+
+                    originY = e.getY();
+                    originalDisplacementX = track.getTrackLabel().getDisplacementX();
+                    originalDisplacementY = track.getTrackLabel().getDisplacementY();
+                }
+                else {
+                    isDragging = false;
+                    // handling panning
+                    dragOriginX = e.getX();
+                    dragOriginY = e.getY();
+                    dragOriginOEasting = oEasting;
+                    dragOriginONorthing = oNorthing;
+                }
+
+
             } else if (SwingUtilities.isRightMouseButton(e)) {
                 if (!drawingRBL) {
                     // detect if clicked inside io.github.morbidreich.airspaceElements.RBL label. If so then delete clicked io.github.morbidreich.airspaceElements.RBL
@@ -432,12 +448,22 @@ public class MapPanel extends JPanel {
         public void mouseDragged(MouseEvent e) {
 
             if (SwingUtilities.isLeftMouseButton(e)) {
-                int deltaX = e.getX() - dragOriginX;
-                int deltaY = e.getY() - dragOriginY;
 
-                oEasting = dragOriginOEasting - deltaX / scale;
-                oNorthing = dragOriginONorthing + deltaY / scale;
+                if (isDragging) {
 
+                    int deltaX = e.getX() - originX + originalDisplacementX;
+                    int deltaY = e.getY() - originY + originalDisplacementY;
+
+                    track.getTrackLabel().setDisplacementX(deltaX);
+                    track.getTrackLabel().setDisplacementY(deltaY);
+                }
+                else {
+                    int deltaX = e.getX() - dragOriginX;
+                    int deltaY = e.getY() - dragOriginY;
+
+                    oEasting = dragOriginOEasting - deltaX / scale;
+                    oNorthing = dragOriginONorthing + deltaY / scale;
+                }
                 repaint();
             }
         }
@@ -446,12 +472,30 @@ public class MapPanel extends JPanel {
         public void mouseMoved(MouseEvent e) {
 
             if (drawingRBL) {
+                // handle drawing RBL
                 cursorX = e.getX();
                 cursorY = e.getY();
 
                 rbls.get(rbls.size() - 1).getEndPoint().setNorthing(convertNorthing(cursorY));
                 rbls.get(rbls.size() - 1).getEndPoint().setEasting(convertEasting(cursorX));
 
+                repaint();
+            }
+            else {
+                // handle label dragging
+                Track tempTrack = null;
+                Optional<Track> tr = tracks.stream()
+                        .filter(t -> t.getTrackLabel().isMouseOver(e))
+                        .findFirst();
+                if (tr.isPresent()) {
+                    tempTrack = tr.get();
+                    tempTrack.getTrackLabel().setMouseOver(true);
+
+                }
+                for (Track t : tracks) {
+                    if (t.getTrackLabel().isMouseOver() && !t.equals(tempTrack))
+                        t.getTrackLabel().setMouseOver(false);
+                }
                 repaint();
             }
         }
@@ -472,98 +516,6 @@ public class MapPanel extends JPanel {
         public void mouseExited(MouseEvent e) {
         }
 
-    }
-
-    /**
-     * this class manages label dragging
-     */
-    private class LabelHandler implements MouseMotionListener, MouseListener {
-
-        private Track track;
-        private Track recentTrackMouseOver;
-        private List<Track> TracksWithMouseOver = new ArrayList<>();
-
-        private int originX, originY;
-        private int originalDisplacementX, originalDisplacementY;
-
-        private boolean isDragging = false;
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-
-            if (SwingUtilities.isMiddleMouseButton(e)) {
-                if (isDragging) {
-
-                    int deltaX = e.getX() - originX + originalDisplacementX;
-                    int deltaY = e.getY() - originY + originalDisplacementY;
-
-                    track.getTrackLabel().setDisplacementX(deltaX);
-                    track.getTrackLabel().setDisplacementY(deltaY);
-
-                    repaint();
-                }
-            }
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            Track tempTrack = null;
-            Optional<Track> tr = tracks.stream()
-                    .filter(t -> t.getTrackLabel().isMouseOver(e))
-                    .findFirst();
-            if (tr.isPresent()) {
-                tempTrack = tr.get();
-                tempTrack.getTrackLabel().setMouseOver(true);
-
-            }
-            for(Track t : tracks) {
-                if (t.getTrackLabel().isMouseOver() && !t.equals(tempTrack))
-                    t.getTrackLabel().setMouseOver(false);
-            }
-            repaint();
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            if (SwingUtilities.isMiddleMouseButton(e)) {
-                Optional<Track> tr = tracks.stream()
-                        .filter(t -> t.getTrackLabel().isMouseOver(e))
-                        .findFirst();
-                if (tr.isPresent()) {
-                    isDragging = true;
-                    track = tr.get();
-
-                    originX = e.getX();
-
-                    originY = e.getY();
-                    originalDisplacementX = track.getTrackLabel().getDisplacementX();
-                    originalDisplacementY = track.getTrackLabel().getDisplacementY();
-                }
-                else
-                    isDragging = false;
-            }
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
     }
 
     private boolean tryDeleteRBL(MouseEvent e) {
