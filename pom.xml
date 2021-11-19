@@ -11,7 +11,7 @@
 
     <name>AirspaceDisplay</name>
     <description>Simple tool for displaying airspace elements and structures around Olsztyn-Mazury airport.</description>
-    <url>http://www.github.com/morbidreich</url>
+    <url>http://www.github.com/morbidreich/ASD</url>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
@@ -61,6 +61,19 @@
 <!--            </resource>-->
 <!--        </resources>-->
         <plugins>
+<!--            required to run JUnit5 with maven-surefire plugin-->
+<!--            https://stackoverflow.com/questions/46360736/tests-not-running-through-maven-->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>1.0.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
             <plugin>
                 <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
@@ -95,8 +108,8 @@
                 </executions>
             </plugin>
             <plugin>
-                <!-- need that to copy resources to correct output directory -->
 
+                <!-- need that to copy resources to correct output directory -->
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>2.7</version>
                 <executions>

@@ -88,9 +88,17 @@ public class TrackLabel {
     }
 
     private void drawAltitudeTrendArrow(Track track, Graphics2D g, int xx, int yy) {
-        // if absolute vertical rate is present and is greater than 1.6 m/s - more than 300feets per minute
-        // then draw altitude trend arrow and vertical rate (1m/s ~ 200feets per minute)
-        if (track.getVerticalRate() != null && Math.abs(track.getVerticalRate()) > 1.6) {
+        // if absolute vertical rate is present and is greater than 300feets per minute
+        // then draw altitude trend arrow and vertical rate
+        if (track.getVerticalRate() != null && Math.abs(track.getVerticalRate()) > 300) {
+
+            // vertical speed is displayed on label showing only thousands and hundreds digits,
+            // so i divide vertical rate by 10;
+            double vertRate = track.getVerticalRate();
+            String vertSpeedStr = String.format("%.0f", vertRate/100);
+            //to mimic original label positive vertical rates are preceeded by + sign
+            vertSpeedStr = vertRate>0 ? "+" + vertSpeedStr : vertSpeedStr;
+            int widthOfVertSpeedStr = g.getFontMetrics().stringWidth(vertSpeedStr);
 
             // get current alt to check it's size
             String baroAltStr = String.format("%.0f", track.getBaroAltitude());
@@ -106,6 +114,9 @@ public class TrackLabel {
                 g.drawLine(xx + 20 + widthOfAltitudeString + 8, yy - 11, xx + 20 + widthOfAltitudeString + 10, yy - 14);
                 g.drawLine(xx + 20 + widthOfAltitudeString + 8, yy - 11, xx + 20 + widthOfAltitudeString + 6, yy - 14);
             }
+
+
+            g.drawString(vertSpeedStr, labelX + labelWidth - widthOfVertSpeedStr - 5, yy-10);
         }
     }
 

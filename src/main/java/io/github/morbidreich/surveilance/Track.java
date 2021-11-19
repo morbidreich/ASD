@@ -43,6 +43,10 @@ public class Track extends BasePoint {
         setDropping(false);
     }
 
+    /**
+     * return 24-bit address assigned to transmitter
+     * @return 24-bit addres
+     */
     public String getIcao24() { return sv.getIcao24(); }
     public Double getLastContact() { return sv.getLastContact(); }
     public Double getLastPositionUpdate() { return sv.getLastPositionUpdate(); }
@@ -52,13 +56,17 @@ public class Track extends BasePoint {
 
     /**
      * Get track speed in knots
-     * @return track speed in knots
+     * @return track speed [knots]
      */
     public Double getVelocity() {
         // returns value converted from meters/s to knots
         return (sv.getVelocity() == null ) ? -1.0 : Math.ceil(sv.getVelocity() * 1.9438);
     }
 
+    /**
+     * return altitude converted to hundreds of feet
+     * @return altitude [hundreds of feet]
+     */
     public Double getBaroAltitude() {
         // returns value converted from meters to hundreds of feet
         return (sv.getBaroAltitude() == null) ? -1.0 : Math.ceil(sv.getBaroAltitude() * 0.0328083990);
@@ -68,8 +76,13 @@ public class Track extends BasePoint {
         return sv.getHeading();
     }
 
+    /**
+     * return vertical speed converted from meters per second to feet per minute
+     * @return vertical speed [feet/min]
+     */
     public Double getVerticalRate() {
-        return sv.getVerticalRate();
+
+        return sv.getVerticalRate() == null ? 0 : sv.getVerticalRate() * 196.8503937;
     }
 
     public Boolean getSpi() {
