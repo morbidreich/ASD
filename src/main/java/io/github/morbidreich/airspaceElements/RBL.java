@@ -32,7 +32,8 @@ public class RBL {
         if (startPoint != null)
             return startPoint;
         else if (startTrack != null){
-           return startTrack.getLastPosition();
+            Coordinates c = new Coordinates(startTrack.getLatitude(), startTrack.getLongitude());
+            return new BasePoint(c);
         }
         else
             return null;
@@ -46,7 +47,8 @@ public class RBL {
         if (this.endPoint != null)
                 return endPoint;
         else if (endTrack != null){
-           return endTrack.getLastPosition();
+            Coordinates c = new Coordinates(endTrack.getLatitude(), endTrack.getLongitude());
+           return new BasePoint(c);
         }
         else
             return null;
@@ -61,9 +63,17 @@ public class RBL {
         this.startTrack = startTrack;
     }
 
+    public Track getStartTrack() {
+        return startTrack;
+    }
+
     public void setEndTrack(Track endTrack) {
         this.endPoint = null;
         this.endTrack = endTrack;
+    }
+
+    public Track getEndTrack() {
+        return endTrack;
     }
 
     public void drawLabel(int x1, int y1, int x2, int y2, double scale, Graphics2D g) {

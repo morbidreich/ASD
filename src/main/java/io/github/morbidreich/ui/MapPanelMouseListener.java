@@ -53,7 +53,7 @@ class MapPanelMouseListener implements MouseListener, MouseMotionListener {
                 //create new instance of rbl
                 RBL rbl = new RBL();
 
-                //i check if right clicked on empty space or on track label.
+                // i check if right clicked on empty space or on track label.
                 // if clicked on track, then set reference to that track as start point of RBL
                 // dynamic position - beginning of RBL will follow assigned tracks position
                 Optional<Track> tr = getClickedTrack(e);

@@ -56,8 +56,7 @@ public class DataAcquisition implements Runnable {
                 alterErrorColor(statusBar);
             }
             finally {
-                //when connection not working clear tracks list
-                //map.repaint();
+                map.repaint();
 
             }
             try {

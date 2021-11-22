@@ -111,6 +111,7 @@ public class MapPanel extends JPanel {
         if (polygons.size() == 0) return;
         if (this.scale == -1) scale();
 
+
         drawPolygons(polygons, g, h);
         drawProcedures(procedures, g, h);
         drawFixes(fixes, g, h);
