@@ -1,5 +1,6 @@
 package io.github.morbidreich.airspaceElements;
 
+import io.github.morbidreich.surveilance.Track;
 import io.github.morbidreich.utils.AppSettings;
 import io.github.morbidreich.utils.Calculations;
 
@@ -9,18 +10,22 @@ import java.awt.event.MouseEvent;
 public class RBL {
     private BasePoint startPoint;
     private BasePoint endPoint;
+    private Track startTrack;
+    private Track endTrack;
     private int labelX, labelY;
     private final int labelWidth = 65;
     private final int labelHeight = 35;
 
-
-    public RBL(BasePoint startPoint, BasePoint endPoint) {
-        this.startPoint = startPoint;
-        this.endPoint = endPoint;
-    }
+    public RBL() {}
 
     public BasePoint getStartPoint() {
-        return startPoint;
+        if (startPoint != null)
+            return startPoint;
+        else if (startTrack != null){
+           return startTrack.getLastPosition();
+        }
+        else
+            return null;
     }
 
     public void setStartPoint(BasePoint startPoint) {
@@ -28,11 +33,26 @@ public class RBL {
     }
 
     public BasePoint getEndPoint() {
-        return endPoint;
+        if (this.endPoint != null)
+                return endPoint;
+        else if (endTrack != null){
+           return endTrack.getLastPosition();
+        }
+        else
+            return null;
     }
 
     public void setEndPoint(BasePoint endPoint) {
         this.endPoint = endPoint;
+    }
+
+    public void setStartTrack(Track startTrack) {
+        this.startTrack = startTrack;
+    }
+
+    public void setEndTrack(Track endTrack) {
+        this.endPoint = null;
+        this.endTrack = endTrack;
     }
 
     public void drawLabel(int x1, int y1, int x2, int y2, double scale, Graphics2D g) {

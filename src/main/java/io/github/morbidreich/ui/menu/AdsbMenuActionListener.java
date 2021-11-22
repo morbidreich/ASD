@@ -10,8 +10,6 @@ import java.awt.event.ActionListener;
 
 public record AdsbMenuActionListener(MapPanel mapPanel, MapWindow mapWindow) implements ActionListener {
 
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
 

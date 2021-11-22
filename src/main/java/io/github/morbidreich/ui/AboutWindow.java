@@ -25,6 +25,11 @@ public class AboutWindow extends JFrame {
 
     }
 
+    //for quicker testing slider events
+    public static void main(String[] args) {
+        AboutWindow aw = new AboutWindow();
+    }
+
     class AboutPanel extends JPanel {
 
         JLabel label;
@@ -51,9 +56,11 @@ public class AboutWindow extends JFrame {
                 public Dimension getPreferredSize() {
                     return new Dimension(450, 300);
                 }
+
                 public Dimension getMinimumSize() {
                     return new Dimension(450, 300);
                 }
+
                 public Dimension getMaximumSize() {
                     return new Dimension(450, 300);
                 }
@@ -63,10 +70,5 @@ public class AboutWindow extends JFrame {
             add(label);
 
         }
-    }
-
-    //for quicker testing slider events
-    public static void main(String[] args) {
-        AboutWindow aw = new AboutWindow();
     }
 }

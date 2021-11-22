@@ -15,14 +15,9 @@ import io.github.morbidreich.utils.CoordinateConverter;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.swing.*;
@@ -30,23 +25,23 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class MapPanel extends JPanel {
 
-    private List<Track> tracks = new ArrayList<>();
+    protected List<Track> tracks = new ArrayList<>();
 
     private List<Polygon> polygons = new ArrayList<Polygon>();
     private List<Fix> fixes = new ArrayList<Fix>();
     private final List<Procedure> procedures = new ArrayList<>();
-    private final List<RBL> rbls = new ArrayList<RBL>();
-    private Colors colors = new Colors();
+    protected final List<RBL> rbls = new ArrayList<RBL>();
+    private final Colors colors = new Colors();
     private SearchResult searchResult = new SearchResult();
 
     private boolean drawingRBL = false;
 
-    private int cursorX, cursorY = 0;
+    protected int cursorX, cursorY = 0;
 
     private double minEasting, maxEasting, minNorthing, maxNorthing;
 
     private double oEasting, oNorthing;        // coordinates of the origin
-    private double scale = -1;
+    private double scale = -1.0;
 
     public MapPanel() {
         setMinimumSize(new Dimension(800, 600));
@@ -57,11 +52,11 @@ public class MapPanel extends JPanel {
 
         setDefaultViewPoint();
 
-        addMouseWheelListener(new MouseWheelZoomer());
+        addMouseWheelListener(new MapPanelMouseWheelListener(this));
 
-        MouseHandler mouseHandler = new MouseHandler();
-        addMouseListener(mouseHandler);
-        addMouseMotionListener(mouseHandler);
+        MapPanelMouseListener mouseListener = new MapPanelMouseListener(this);
+        addMouseListener(mouseListener);
+        addMouseMotionListener(mouseListener);
     }
 
     public void setDefaultElementsVisibility() {
@@ -149,9 +144,15 @@ public class MapPanel extends JPanel {
         }
     }
 
-    private void drawRBLs(Graphics2D g, int h) {
+    private synchronized void drawRBLs(Graphics2D g, int h) {
         g.setColor(colors.RBL_COLOR);
         for (RBL rbl : rbls) {
+
+            if (rbl.getStartPoint() == null || rbl.getEndPoint() == null) {
+                rbls.remove(rbl);
+                continue;
+            }
+
             BasePoint startPoint = rbl.getStartPoint();
             BasePoint endPoint = rbl.getEndPoint();
 
@@ -284,7 +285,7 @@ public class MapPanel extends JPanel {
         minNorthing = Double.MAX_VALUE;
         maxNorthing = Double.MIN_VALUE;
 
-        this.scale = -1;
+        this.scale = -1.0;
     }
 
     private synchronized void scale() {
@@ -312,13 +313,13 @@ public class MapPanel extends JPanel {
     }
 
 
-    private double convertEasting(int x) {
+    protected double convertEasting(int x) {
         double xd = x;
 
         return xd / scale + oEasting;
     }
 
-    private double convertNorthing(int y) {
+    protected double convertNorthing(int y) {
         double h = getHeight();
         double yd = y;
 
@@ -329,6 +330,38 @@ public class MapPanel extends JPanel {
         return colors;
     }
 
+    public double getScale() {
+        return scale;
+    }
+
+    public void setScale(double scale) {
+        this.scale = scale;
+    }
+
+    public double getoEasting() {
+        return oEasting;
+    }
+
+    public void setoEasting(double oEasting) {
+        this.oEasting = oEasting;
+    }
+
+    public double getoNorthing() {
+        return oNorthing;
+    }
+
+    public void setoNorthing(double oNorthing) {
+        this.oNorthing = oNorthing;
+    }
+
+    public boolean isDrawingRBL() {
+        return drawingRBL;
+    }
+
+    public void setDrawingRBL(boolean drawingRBL) {
+        this.drawingRBL = drawingRBL;
+    }
+
     public void addAirspace(Airspace airspace) {
         addPolygons(airspace.getPolygonList());
         addFixes(airspace.getFixList());
@@ -337,188 +370,7 @@ public class MapPanel extends JPanel {
         addPolygon(Airport.getRunwayPolygon());
     }
 
-    class MouseWheelZoomer implements MouseWheelListener {
-        private static final double zoomFactor = .05;
-
-        @Override
-        public void mouseWheelMoved(MouseWheelEvent e) {
-            double oldScale = scale;
-
-            int rotation = e.getWheelRotation();
-            if (rotation > 0) {
-                scale /= (1 + rotation * zoomFactor);
-            } else {
-                scale *= (1 - rotation * zoomFactor);
-            }
-
-            // When zooming, the easting/northing at the cursor position must
-            // remain the same, so we have to pan in addition to changing the
-            // scale. The maths for easting (same goes for northing):
-            //
-            // before: x = (easting - oEasting) * oldScale
-            // after: x = (easting - newOEasting) * scale
-            //
-            // (x remains the same, easting remains the same)
-            //
-            // hence: newOEasting = easting - (easting - oEasting) * oldScale / scale
-            // with: easting = x/scale + oEasting
-            // hence finally: newOEasting = oEasting + x * (1/oldScale - 1/scale)
-            int x = e.getX();
-            int y = e.getY();
-            int h = getHeight();
-
-            oEasting = oEasting + x * (1 / oldScale - 1 / scale);
-            oNorthing = oNorthing + (h - y) * (1 / oldScale - 1 / scale);
-
-            //System.out.println(rotation + " => " + scale);
-            repaint();
-        }
-    }
-
-    private class MouseHandler implements MouseListener, MouseMotionListener {
-        // variables for handling moving map and drawing rbls
-        private int dragOriginX, dragOriginY;
-        private double dragOriginOEasting, dragOriginONorthing;
-
-        //variables for handling label dragging
-        private Track track;
-
-        private int originX, originY;
-        private int originalDisplacementX, originalDisplacementY;
-
-        private boolean isDragging = false;
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-            if (SwingUtilities.isLeftMouseButton(e)) {
-
-                Optional<Track> tr = tracks.stream()
-                        .filter(t -> t.getTrackLabel().isMouseOver(e))
-                        .findFirst();
-                if (tr.isPresent()) {
-                    isDragging = true;
-                    track = tr.get();
-
-                    originX = e.getX();
-
-                    originY = e.getY();
-                    originalDisplacementX = track.getTrackLabel().getDisplacementX();
-                    originalDisplacementY = track.getTrackLabel().getDisplacementY();
-                }
-                else {
-                    isDragging = false;
-                    // handling panning
-                    dragOriginX = e.getX();
-                    dragOriginY = e.getY();
-                    dragOriginOEasting = oEasting;
-                    dragOriginONorthing = oNorthing;
-                }
-
-
-            } else if (SwingUtilities.isRightMouseButton(e)) {
-                if (!drawingRBL) {
-                    // detect if clicked inside io.github.morbidreich.airspaceElements.RBL label. If so then delete clicked io.github.morbidreich.airspaceElements.RBL
-                    // if not draw another io.github.morbidreich.airspaceElements.RBL
-
-                    if (tryDeleteRBL(e))
-                        return;
-
-                    RBL rbl = new RBL(new BasePoint(), new BasePoint());
-                    rbls.add(rbl);
-                    BasePoint startPoint = new BasePoint(); //convertNorthing(e.getY()), convertEasting(e.getX()));
-                    startPoint.setNorthing(convertNorthing(e.getY()));
-                    startPoint.setEasting(convertEasting(e.getX()));
-
-                    BasePoint endPoint = new BasePoint();   //convertNorthing(e.getY()), convertEasting(e.getX()));
-                    endPoint.setNorthing(convertNorthing(e.getY()));
-                    endPoint.setEasting(convertEasting(e.getX()));
-
-                    rbl.setStartPoint(startPoint);
-                    rbl.setEndPoint(endPoint);
-                    drawingRBL = true;
-                } else {
-                    drawingRBL = false;
-                }
-                repaint();
-            }
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-
-            if (SwingUtilities.isLeftMouseButton(e)) {
-
-                if (isDragging) {
-
-                    int deltaX = e.getX() - originX + originalDisplacementX;
-                    int deltaY = e.getY() - originY + originalDisplacementY;
-
-                    track.getTrackLabel().setDisplacementX(deltaX);
-                    track.getTrackLabel().setDisplacementY(deltaY);
-                }
-                else {
-                    int deltaX = e.getX() - dragOriginX;
-                    int deltaY = e.getY() - dragOriginY;
-
-                    oEasting = dragOriginOEasting - deltaX / scale;
-                    oNorthing = dragOriginONorthing + deltaY / scale;
-                }
-                repaint();
-            }
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-
-            if (drawingRBL) {
-                // handle drawing RBL
-                cursorX = e.getX();
-                cursorY = e.getY();
-
-                rbls.get(rbls.size() - 1).getEndPoint().setNorthing(convertNorthing(cursorY));
-                rbls.get(rbls.size() - 1).getEndPoint().setEasting(convertEasting(cursorX));
-
-                repaint();
-            }
-            else {
-                // handle label dragging
-                Track tempTrack = null;
-                Optional<Track> tr = tracks.stream()
-                        .filter(t -> t.getTrackLabel().isMouseOver(e))
-                        .findFirst();
-                if (tr.isPresent()) {
-                    tempTrack = tr.get();
-                    tempTrack.getTrackLabel().setMouseOver(true);
-
-                }
-                for (Track t : tracks) {
-                    if (t.getTrackLabel().isMouseOver() && !t.equals(tempTrack))
-                        t.getTrackLabel().setMouseOver(false);
-                }
-                repaint();
-            }
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
-
-    }
-
-    private boolean tryDeleteRBL(MouseEvent e) {
+    protected boolean tryDeleteRBL(MouseEvent e) {
         boolean out = false;
         for (int i = 0; i < rbls.size(); i++) {
             if (rbls.get(i).labelClicked(e)) {
@@ -529,10 +381,6 @@ public class MapPanel extends JPanel {
         }
         repaint();
         return out;
-    }
-
-    public SearchResult getSearchResult() {
-        return searchResult;
     }
 
     public void setSearchResult(SearchResult searchResult) {

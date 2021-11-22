@@ -36,7 +36,7 @@ public class MapWindow extends JFrame {
 
 
 
-        io.github.morbidreich.ui.menu.Menu menu = new Menu(map, airspace, this);
+        Menu menu = new Menu(map, airspace, this);
         setJMenuBar(menu.getMenuBar());
 
         setLayout(new BorderLayout());
@@ -60,6 +60,7 @@ public class MapWindow extends JFrame {
     }
 
     public void startFeedingTracks(MapPanel mapPanel, StatusBar statusBar) {
+
         DataAcquisition dataAcquisition = new DataAcquisition(mapPanel, statusBar);
 
         dataAcquisitionThread = new Thread(dataAcquisition);

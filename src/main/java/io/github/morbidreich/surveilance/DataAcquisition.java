@@ -47,14 +47,18 @@ public class DataAcquisition implements Runnable {
                 //update statusbar with no. of tracked objects
                 statusBar.updateStatusOK(trackManager.getSize());
 
-            } catch (Exception e) {
-                //when connection not working clear tracks list
-                map.setTracks(new ArrayList<>());
-                //map.repaint();
+            }
+            catch (Exception e) {
 
                 statusBar.updateStatusError(" Attempting to reconnect... (Error message: " + e.getMessage() + ")");
                 e.printStackTrace();
                 alterErrorColor(statusBar);
+            }
+            finally {
+                //when connection not working clear tracks list
+                //map.repaint();
+
+                map.setTracks(new ArrayList<>());
             }
             try {
                 Thread.sleep(AppSettings.RADAR_REFRESH_RATE);

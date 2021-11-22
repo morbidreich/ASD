@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Track extends BasePoint {
     private boolean isDropping = false;
     private StateVector sv;
-    private TrackLabel trackLabel;
+    private final TrackLabel trackLabel;
 
     private final List<TrackPosition> trackHistory;
 
@@ -142,6 +142,11 @@ public class Track extends BasePoint {
         if (trackHistory.size() > i)
             return trackHistory.subList(trackHistory.size() - i, trackHistory.size()-1);
         else return trackHistory;
+    }
+    public BasePoint getLastPosition() {
+        if (trackHistory.size()>0)
+            return trackHistory.get(trackHistory.size()-1).getPosition();
+        else return null;
     }
 
     @Override

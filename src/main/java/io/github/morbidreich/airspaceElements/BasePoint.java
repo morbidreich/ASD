@@ -174,6 +174,19 @@ public class BasePoint implements Cloneable {
         this.northing = n0 + k0 * a * (s + nu * tan(phi) * (A2 / 2 + (5 - T + 9 * C + 4 * C * C) * A4 / 24 + (61 - 58 * T + T * T) * A6 / 720));
     }
 
+    public double distanceTo(BasePoint other) {
+        double ratio = Math.PI / 180;
+        double deltaLat = ratio * (other.latitude - this.latitude);
+        double deltaLon = ratio * (other.longitude - this.longitude);
+
+        double angle = 2 * Math.asin( Math.sqrt(
+                Math.pow(Math.sin(deltaLat/2), 2) +
+                        Math.cos(ratio * this.latitude) * Math.cos(ratio * other.latitude) *
+                                Math.pow(Math.sin(deltaLon/2), 2) ) );
+
+        return a * angle;
+    }
+
     @Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
