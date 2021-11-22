@@ -50,6 +50,7 @@ public class DataAcquisition implements Runnable {
             }
             catch (Exception e) {
 
+                map.setTracks(new ArrayList<>());
                 statusBar.updateStatusError(" Attempting to reconnect... (Error message: " + e.getMessage() + ")");
                 e.printStackTrace();
                 alterErrorColor(statusBar);
@@ -58,7 +59,6 @@ public class DataAcquisition implements Runnable {
                 //when connection not working clear tracks list
                 //map.repaint();
 
-                map.setTracks(new ArrayList<>());
             }
             try {
                 Thread.sleep(AppSettings.RADAR_REFRESH_RATE);

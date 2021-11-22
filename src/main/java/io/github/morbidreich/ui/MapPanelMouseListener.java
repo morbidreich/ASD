@@ -10,12 +10,18 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Optional;
 
+/**
+ * This class handles mouse events and uses them to pan MapPanel as well as to
+ * permit drawing RBLs and dragging track labels
+ */
 class MapPanelMouseListener implements MouseListener, MouseMotionListener {
     private final MapPanel mapPanel;
 
     // variables for handling moving map and drawing rbls
     private int dragOriginX, dragOriginY;
     private double dragOriginOEasting, dragOriginONorthing;
+
+    private boolean isDrawingRBL = false;
 
     //variables for handling label dragging
     private Track track;
@@ -36,21 +42,20 @@ class MapPanelMouseListener implements MouseListener, MouseMotionListener {
             handleLeftMousePress(e);
 
         } else if (SwingUtilities.isRightMouseButton(e)) {
-            if (!mapPanel.isDrawingRBL()) {
+            if (!isDrawingRBL) {
                 // detect if clicked inside RBL label. If so then delete clicked RBL
                 // if not draw another RBL
                 if (mapPanel.tryDeleteRBL(e)) {
                     return;
                 }
+                isDrawingRBL = true;
 
-                mapPanel.setDrawingRBL(true);
+                //create new instance of rbl
                 RBL rbl = new RBL();
-                BasePoint endPoint = new BasePoint();
 
                 //i check if right clicked on empty space or on track label.
                 // if clicked on track, then set reference to that track as start point of RBL
                 // dynamic position - beginning of RBL will follow assigned tracks position
-
                 Optional<Track> tr = getClickedTrack(e);
                 if (tr.isPresent()) {
                     Track t = tr.get();
@@ -60,19 +65,20 @@ class MapPanelMouseListener implements MouseListener, MouseMotionListener {
                 // static position, will not update
                 else {
                     BasePoint startPoint = new BasePoint();
-
                     startPoint.setNorthing(mapPanel.convertNorthing(e.getY()));
                     startPoint.setEasting(mapPanel.convertEasting(e.getX()));
-
                     rbl.setStartPoint(startPoint);
                 }
 
+                // create new instance of BasePoint that will be used as endpoint for RBL
+                BasePoint endPoint = new BasePoint();
+                // set endpoint of rbl at current mouse location.
                 endPoint.setNorthing(mapPanel.convertNorthing(e.getY()));
                 endPoint.setEasting(mapPanel.convertEasting(e.getX()));
                 rbl.setEndPoint(endPoint);
 
+                // add newly created rbl to List<RBL> rbls for further processing in MouseMove event
                 mapPanel.rbls.add(rbl);
-
             } else {
                 // occurs with second click, finishes drawing RBL
                 // handle differently depending on clicking tracks label or empty space
@@ -83,7 +89,7 @@ class MapPanelMouseListener implements MouseListener, MouseMotionListener {
                     mapPanel.rbls.get(mapPanel.rbls.size() - 1).setEndTrack(tr.get());
                 }
                 //clicked empty space, set cursor location during click as end point
-                mapPanel.setDrawingRBL(false);
+                isDrawingRBL = false;
             }
             mapPanel.repaint();
         }
@@ -156,7 +162,7 @@ class MapPanelMouseListener implements MouseListener, MouseMotionListener {
     @Override
     public void mouseMoved(MouseEvent e) {
 
-        if (mapPanel.isDrawingRBL()) {
+        if (isDrawingRBL) {
             // handle drawing RBL
             mapPanel.cursorX = e.getX();
             mapPanel.cursorY = e.getY();

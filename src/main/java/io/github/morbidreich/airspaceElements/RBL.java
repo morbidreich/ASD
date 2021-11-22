@@ -7,6 +7,16 @@ import io.github.morbidreich.utils.Calculations;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+/**
+ * This class represents RBL object - Range Bearing line. It is used to measure distance
+ * between two clicked points on MapPanel. Clicked point can be empty space on MapPanel
+ * or Track Label. If user clicks empty space, then corresponding end of RBL will stick to that static
+ * position defined by geographical coordinates. If user clicks Track Label, then that end of
+ * RBL will stick to Track. In that case measurement will be automatically updated with each
+ * refresh of surveilace data (every AppSettings.RADAR_REFRESH_RATE) to take
+ * into account Tracks changing position. RBL may connect two static positions, static position
+ * and Track, or two Tracks.
+ */
 public class RBL {
     private BasePoint startPoint;
     private BasePoint endPoint;
@@ -47,6 +57,7 @@ public class RBL {
     }
 
     public void setStartTrack(Track startTrack) {
+        this.startPoint = null;
         this.startTrack = startTrack;
     }
 

@@ -17,6 +17,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +34,6 @@ public class MapPanel extends JPanel {
     protected final List<RBL> rbls = new ArrayList<RBL>();
     private final Colors colors = new Colors();
     private SearchResult searchResult = new SearchResult();
-
-    private boolean drawingRBL = false;
 
     protected int cursorX, cursorY = 0;
 
@@ -146,10 +145,12 @@ public class MapPanel extends JPanel {
 
     private synchronized void drawRBLs(Graphics2D g, int h) {
         g.setColor(colors.RBL_COLOR);
-        for (RBL rbl : rbls) {
+        for (Iterator<RBL> iterator = rbls.iterator(); iterator.hasNext();) {
+
+            RBL rbl = iterator.next();
 
             if (rbl.getStartPoint() == null || rbl.getEndPoint() == null) {
-                rbls.remove(rbl);
+                iterator.remove();
                 continue;
             }
 
@@ -354,14 +355,6 @@ public class MapPanel extends JPanel {
         this.oNorthing = oNorthing;
     }
 
-    public boolean isDrawingRBL() {
-        return drawingRBL;
-    }
-
-    public void setDrawingRBL(boolean drawingRBL) {
-        this.drawingRBL = drawingRBL;
-    }
-
     public void addAirspace(Airspace airspace) {
         addPolygons(airspace.getPolygonList());
         addFixes(airspace.getFixList());
@@ -372,10 +365,11 @@ public class MapPanel extends JPanel {
 
     protected boolean tryDeleteRBL(MouseEvent e) {
         boolean out = false;
-        for (int i = 0; i < rbls.size(); i++) {
-            if (rbls.get(i).labelClicked(e)) {
-                rbls.remove(i);
-                System.out.println("label nr " + i + " clicked");
+
+        for(Iterator<RBL> iterator = rbls.iterator(); iterator.hasNext();) {
+            RBL rbl = iterator.next();
+            if (rbl.labelClicked(e)) {
+                iterator.remove();
                 out = true;
             }
         }
