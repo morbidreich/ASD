@@ -16,21 +16,18 @@ import javax.swing.*;
  */
 
 public class MapWindow extends JFrame {
-    private final MapPanel map;
-    private StatusBar statusBar;
+    private final StatusBar statusBar;
 
     public Thread dataAcquisitionThread;
-    Thread statusBarThread;
 
     /**
      * Creates a new window..
      */
     public MapWindow(Airspace airspace) {
-        //super("Airspace Display - NOT FOR OPERATIONAL USE!");
         String version = SettingsManager.getInstance().get("version");
         super.setTitle("Airspace Display " + version + " - NOT FOR OPERATIONAL USE!");
 
-        map = new MapPanel();
+        MapPanel map = new MapPanel();
         map.addAirspace(airspace);
         map.setDefaultElementsVisibility();
 

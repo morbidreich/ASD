@@ -14,5 +14,6 @@ public enum FixType {
     SEARCH_RESULT,
     UNDEFINED,
     ACC_FIX,
-    DME
+    DME,
+    APP
 }

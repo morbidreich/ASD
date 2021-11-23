@@ -61,8 +61,6 @@ public class TrackManager {
                 entrySet.getValue().setDropping(true);
             }
         }
-        // log messages:
-        icao24listToDelete.forEach(s -> System.out.println(trackMap.get(s).getCallsing() + ": deleted, no position reports for " + (actualTime - trackMap.get(s).getLastPositionUpdate()) + "s"));
         icao24listToDelete.forEach(trackMap::remove);
     }
 

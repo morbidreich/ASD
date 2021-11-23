@@ -10,6 +10,7 @@ import io.github.morbidreich.ui.drawing.FixSymbolDrawer;
 import io.github.morbidreich.ui.drawing.TrackDrawer;
 import io.github.morbidreich.surveilance.Track;
 import io.github.morbidreich.ui.search.SearchResult;
+import io.github.morbidreich.utils.AppSettings;
 import io.github.morbidreich.utils.Colors;
 import io.github.morbidreich.utils.CoordinateConverter;
 
@@ -118,11 +119,34 @@ public class MapPanel extends JPanel {
         drawRBLs(g, h);
         drawScale(g);
 
+        // example arcs drawn as needed by initial segment of ILS approach, may be usefull in future
+        // DO NOT DELETE
+        // Fix syn = fixes.stream().filter(f -> f.getName().equals("SYN")).findFirst().get();
+        // Fix mra = fixes.stream().filter(f -> f.getName().equals("MRA")).findFirst().get();
+        // drawArc(g, syn, 19.4, 215, 199);
+        // drawArc(g, mra, 30.6, 208, 198);
+
         //next to last in order to display results on top of other layers
         drawSearchResults(g, h);
 
         //and airplane tracks topmost
         drawTracks(g);
+    }
+
+    /**
+     * this method draws arc around Fix at specified distance in NM, restricted by specified radials
+     * @param g graphics
+     * @param fix fix
+     * @param arcDistanceNM radius of arc in NM
+     * @param radial1 radial with greater value
+     * @param radial2 radial with smaller value
+     */
+    private void drawArc(Graphics2D g, Fix fix, double arcDistanceNM, int radial1, int radial2) {
+        int radius = (int) (arcDistanceNM * 1.852 * scale); // distNM * convert to km * scale
+        int X = convertX(fix.getEasting()) - radius;
+        int Y = convertY(fix.getNorthing(), getHeight()) - radius;
+        g.setColor(Color.white);
+        g.drawArc(X, Y, radius * 2, radius * 2, 360 - radial1 + 90 - AppSettings.MAGNETIC_VARIATION,Math.abs(radial1 - radial2));
     }
 
     private synchronized void drawTracks(Graphics2D g) {
@@ -146,7 +170,7 @@ public class MapPanel extends JPanel {
 
     private synchronized void drawRBLs(Graphics2D g, int h) {
         g.setColor(colors.RBL_COLOR);
-        for (Iterator<RBL> iterator = rbls.iterator(); iterator.hasNext();) {
+        for (Iterator<RBL> iterator = rbls.iterator(); iterator.hasNext(); ) {
 
             RBL rbl = iterator.next();
 
@@ -367,7 +391,7 @@ public class MapPanel extends JPanel {
     protected boolean tryDeleteRBL(MouseEvent e) {
         boolean out = false;
 
-        for(Iterator<RBL> iterator = rbls.iterator(); iterator.hasNext();) {
+        for (Iterator<RBL> iterator = rbls.iterator(); iterator.hasNext(); ) {
             RBL rbl = iterator.next();
             if (rbl.labelClicked(e)) {
                 iterator.remove();

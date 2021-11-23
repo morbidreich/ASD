@@ -26,31 +26,33 @@ public class RBL {
     private final int labelWidth = 65;
     private final int labelHeight = 35;
 
-    public RBL() {}
+    public RBL() {
+    }
+
 
     public BasePoint getStartPoint() {
         if (startPoint != null)
             return startPoint;
-        else if (startTrack != null){
+        else if (startTrack != null) {
             Coordinates c = new Coordinates(startTrack.getLatitude(), startTrack.getLongitude());
             return new BasePoint(c);
-        }
-        else
+        } else
             return null;
     }
 
+    // start point of RBL is static
     public void setStartPoint(BasePoint startPoint) {
         this.startPoint = startPoint;
     }
 
+
     public BasePoint getEndPoint() {
         if (this.endPoint != null)
-                return endPoint;
-        else if (endTrack != null){
+            return endPoint;
+        else if (endTrack != null) {
             Coordinates c = new Coordinates(endTrack.getLatitude(), endTrack.getLongitude());
-           return new BasePoint(c);
-        }
-        else
+            return new BasePoint(c);
+        } else
             return null;
     }
 
@@ -58,22 +60,16 @@ public class RBL {
         this.endPoint = endPoint;
     }
 
+    // start point of RBL is Track, value will change over time as track moves on the mapPanel
     public void setStartTrack(Track startTrack) {
         this.startPoint = null;
         this.startTrack = startTrack;
     }
 
-    public Track getStartTrack() {
-        return startTrack;
-    }
-
+    // end point of RBL is Track, value will change over time as track moves on the mapPanel
     public void setEndTrack(Track endTrack) {
         this.endPoint = null;
         this.endTrack = endTrack;
-    }
-
-    public Track getEndTrack() {
-        return endTrack;
     }
 
     public void drawLabel(int x1, int y1, int x2, int y2, double scale, Graphics2D g) {
@@ -86,7 +82,7 @@ public class RBL {
         double angle = Calculations.getAngleGivenTwoPoints(x1, y1, x2, y2);
         //apply magnetic variation, around +5deg
         angle -= AppSettings.MAGNETIC_VARIATION;
-        int iAngle = (int)(angle > 0 ? angle : angle + 360);
+        int iAngle = (int) (angle > 0 ? angle : angle + 360);
 
         // display to the right or left of cursor to avoid overlapping
 
@@ -94,16 +90,15 @@ public class RBL {
             // label displayed left of cursor
             g.drawString("R: " + sDist + "NM", x1 - 65, y1);
             g.drawString("B: " + iAngle + "\u00B0", x1 - 65, y1 + 15);
-            labelX = x1-70;
-            labelY = y1-15;
+            labelX = x1 - 70;
+            labelY = y1 - 15;
             g.drawRect(labelX, labelY, labelWidth, labelHeight);
-        }
-        else {
+        } else {
             //label displayed right of cursor
             g.drawString("R: " + sDist + "NM", x1 + 15, y1);
             g.drawString("B: " + iAngle + "\u00B0", x1 + 15, y1 + 15);
-            labelX = x1+10;
-            labelY = y1-15;
+            labelX = x1 + 10;
+            labelY = y1 - 15;
             g.drawRect(labelX, labelY, labelWidth, labelHeight);
         }
     }
@@ -114,7 +109,7 @@ public class RBL {
 
         if (
                 x >= labelX && x <= labelX + labelWidth &&
-                y >= labelY && y <= labelY + labelHeight)
+                        y >= labelY && y <= labelY + labelHeight)
             return true;
         else
             return false;

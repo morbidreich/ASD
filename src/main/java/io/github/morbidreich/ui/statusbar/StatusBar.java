@@ -20,14 +20,12 @@ public class StatusBar extends JPanel {
     private final JLabel l2;
     public final JLabel l3;
 
-    private final JLabel vectorDescription;
+    private final JToggleButton vect1min;
+    private final JToggleButton vect3min;
+    private final JToggleButton vect5min;
+    private final JToggleButton vect8min;
 
-    private JToggleButton vect1min;
-    private JToggleButton vect3min;
-    private JToggleButton vect5min;
-    private JToggleButton vect8min;
-
-    private ButtonGroup bg;
+    private final ButtonGroup bg;
 
     public StatusBar(JFrame parent, MapPanel mapPanel) {
 
@@ -91,7 +89,7 @@ public class StatusBar extends JPanel {
         bg.add(vect5min);
         bg.add(vect8min);
 
-        vectorDescription = new JLabel("Speed vector length: ");
+        JLabel vectorDescription = new JLabel("Speed vector length: ");
         vectorDescription.setForeground(textColor);
         add(vectorDescription);
 

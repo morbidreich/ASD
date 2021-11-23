@@ -8,45 +8,39 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This class intercepts and handles events raised by ADSB data menu
+ */
 public record AdsbMenuActionListener(MapPanel mapPanel, MapWindow mapWindow) implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() instanceof JCheckBoxMenuItem) {
-            JCheckBoxMenuItem cb = (JCheckBoxMenuItem) e.getSource();
-            boolean isSelected = cb.isSelected();
-            System.out.println("Action listener for CheckBoxShowAdsb, check state:" + isSelected);
-
-
-            if (isSelected) {
+        // start/stop adsb data acquisition thread
+        if (e.getSource() instanceof JCheckBoxMenuItem cb) {
+            if (cb.isSelected()) {
+                //store user selection in settings.properties file
                 SettingsManager.getInstance().set("show.adsb", "1");
-                mapWindow.startFeedingTracks(mapPanel,mapWindow.getStatusBar());
-//                mapWindow.dataAcquisitionThread.start();
-//                System.out.println(mapWindow.dataAcquisitionThread.getState());
-//                System.out.println("will start adsb thread");
-
-            }
-            else {
+                //call method that will start acquisition thread
+                mapWindow.startFeedingTracks(mapPanel, mapWindow.getStatusBar());
+            } else {
+                //store user selection in settings.properties file
                 SettingsManager.getInstance().set("show.adsb", "0");
+                //call method that will stop acquisition thread
                 mapWindow.dataAcquisitionThread.interrupt();
-                mapPanel.repaint();
-                System.out.println("will stop adsb thread");
             }
 
-        }
-        else if (e.getSource() instanceof JRadioButtonMenuItem) {
-            JRadioButtonMenuItem rb = (JRadioButtonMenuItem) e.getSource();
+        } else if (e.getSource() instanceof JRadioButtonMenuItem rb) {
             switch (rb.getName()) {
+                // adjust track's brightness
                 case "Brightness" -> {
                     SettingsManager.getInstance().set("plot.brightness", rb.getText());
                     mapPanel.repaint();
-                    // adjust brightness
                 }
+                // adjust plot history length
                 case "History" -> {
                     SettingsManager.getInstance().set("plot.history", rb.getText());
                     mapPanel.repaint();
-                    // adjust history
                 }
             }
         }

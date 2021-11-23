@@ -83,11 +83,10 @@ class MapPanelMouseListener implements MouseListener, MouseMotionListener {
                 // occurs with second click, finishes drawing RBL
                 // handle differently depending on clicking tracks label or empty space
                 Optional<Track> tr = getClickedTrack(e);
-                if (tr.isPresent()) {
-                    // we are drawing rbl that is already stored in rbls List. Get that instance and
-                    // update its ending position as reference to track, whose label was clicked
-                    mapPanel.rbls.get(mapPanel.rbls.size() - 1).setEndTrack(tr.get());
-                }
+                // we are drawing rbl that is already stored in rbls List. Get that instance and
+                // update its ending position as reference to track, whose label was clicked
+
+                tr.ifPresent(track -> mapPanel.rbls.get(mapPanel.rbls.size() - 1).setEndTrack(track));
                 //clicked empty space, set cursor location during click as end point
                 isDrawingRBL = false;
             }

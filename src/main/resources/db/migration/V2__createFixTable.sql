@@ -51,3 +51,5 @@ insert into fix (coordinates, fix_name, fix_type_id) values ('53°28''26"N 020°
 insert into fix (coordinates, fix_name, fix_type_id) values ('53°30''07"N 020°53''55"E', 'W',6);
 insert into fix (coordinates, fix_name, fix_type_id) values ('53°25''13"N 021°07''05"E', 'Z',   6);
 
+
+

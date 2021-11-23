@@ -51,10 +51,10 @@ public class BasePoint implements Cloneable {
     private static final int N0_NORTH = 0;            // northern hemisphere
 
     private static final int N0_SOUTH = 10000;        // southern hemisphere
-    private static double k0 = .9996;
+    private static final double k0 = .9996;
 
-    private static double a = 6378.137;                // Earth's radius
-    private static double e = .0818192;
+    private static final double a = 6378.137;                // Earth's radius
+    private static final double e = .0818192;
 
     public int getId() {
         return id;
@@ -174,14 +174,19 @@ public class BasePoint implements Cloneable {
         this.northing = n0 + k0 * a * (s + nu * tan(phi) * (A2 / 2 + (5 - T + 9 * C + 4 * C * C) * A4 / 24 + (61 - 58 * T + T * T) * A6 / 720));
     }
 
+    /**
+     * return distance between points in kilometers
+     * @param other other point
+     * @return distance in kilometers
+     */
     public double distanceTo(BasePoint other) {
         double ratio = Math.PI / 180;
-        double deltaLat = ratio * (other.latitude - this.latitude);
-        double deltaLon = ratio * (other.longitude - this.longitude);
+        double deltaLat = ratio * (other.getLatitude() - this.getLatitude());
+        double deltaLon = ratio * (other.getLongitude() - this.getLongitude());
 
         double angle = 2 * Math.asin( Math.sqrt(
                 Math.pow(Math.sin(deltaLat/2), 2) +
-                        Math.cos(ratio * this.latitude) * Math.cos(ratio * other.latitude) *
+                        Math.cos(ratio * this.getLatitude()) * Math.cos(ratio * other.getLatitude()) *
                                 Math.pow(Math.sin(deltaLon/2), 2) ) );
 
         return a * angle;

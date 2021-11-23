@@ -2,7 +2,7 @@ package io.github.morbidreich.utils;// TODO better way for storing application s
 // https://docs.oracle.com/javase/1.5.0/docs/guide/preferences/index.html
 
 public class AppSettings {
-    public static final int MAGNETIC_VARIATION = 4;
+    public static final int MAGNETIC_VARIATION = 5;
 
     // OpenSkyApi related settings
 

@@ -143,11 +143,6 @@ public class Track extends BasePoint {
             return trackHistory.subList(trackHistory.size() - i, trackHistory.size()-1);
         else return trackHistory;
     }
-    public BasePoint getLastPosition() {
-        if (trackHistory.size()>0)
-            return trackHistory.get(trackHistory.size()-1).getPosition();
-        else return null;
-    }
 
     @Override
     public boolean equals(Object o) {
