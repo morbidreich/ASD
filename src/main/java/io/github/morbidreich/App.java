@@ -11,7 +11,7 @@ public class App {
         AirspaceReader mainReader = new HibernateDataReader();
         AirspaceReader fallbackReader = new FallbackDataReader();
 
-        //use io.github.morbidreich.jpa.FallbackDataReader to speed up launch time
+        //use FallbackDataReader to speed up launch time
         MapWindow mapWindow = new MapWindow(mainReader.readAirspace());
         mapWindow.setVisible(true);
     }
