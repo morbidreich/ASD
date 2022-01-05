@@ -17,12 +17,12 @@ Due to whole variety of security and procedural concerns this tool is not intend
 
 ## Data sources:
 
-### Airplane suveillance data - [www.opensky-network.org](www.opensky-network.org)
+### Airplane suveillance data - [www.opensky-network.org](https://www.opensky-network.org)
 
-OpenSky Network is a non-profit organisation based in Switzerland. It provides real world air traffic data collected via vast, global network of [Automatic Dependant Surveillance-Broadcast](https://en.wikipedia.org/wiki/Automatic_Dependent_Surveillance%E2%80%93Broadcast) receivers listening to publicly available 1090MHz radio frequency. This is the same technology that is used by well known [www.flightradar24.com](www.flightradar24.com), but accessible for free (for educational or research purposes) via dedicated API.
+OpenSky Network is a non-profit organisation based in Switzerland. It provides real world air traffic data collected via vast, global network of [Automatic Dependant Surveillance-Broadcast](https://en.wikipedia.org/wiki/Automatic_Dependent_Surveillance%E2%80%93Broadcast) receivers listening to publicly available 1090MHz radio frequency. This is the same technology that is used by well known [www.flightradar24.com](https://www.flightradar24.com), but accessible for free (for educational or research purposes) via dedicated API.
 
 
-### Airspace structures data - [www.ais.pansa.pl/publikacje/aip-ifr/](www.ais.pansa.pl/publikacje/aip-ifr/)
+### Airspace structures data - [www.ais.pansa.pl/publikacje/aip-ifr/](https://www.ais.pansa.pl/publikacje/aip-ifr/)
 
 Most of European states publish freely available AIP - Aeronautical Information Publications. This is a document containing data essential to air navigation, ranging widely from details of regulations, procedures, through airspace structures to layouts of aerodrome aprons and airplane stands. I used data from 2 parts of AIP: ENR (*enroute*) for country-wide airspace structures and areas, and AD (*aerodrome*) for terminal specific procedures.
 
