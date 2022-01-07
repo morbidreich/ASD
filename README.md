@@ -28,9 +28,19 @@ Most of European states publish freely available AIP - Aeronautical Information 
 
 ## Technologies
 
-* Core Java
+* Java 16
 * H2 relational database coupled with Hibernate for storing and reading airspace data
 * Flyway for database migrations
 * Heavily modified and refactored [MiniGeo](https://github.com/ChristopheJacquet/Minigeo) library by Christophe Jacquet as plotting framework
 * JUnit5 for (somewhat lacking) unit tests
+
+### How to run
+
+* Clone repository
+* Run `./mvnw install` to build project with Maven Wrapper
+* Run `./mvnw flyway:migrate` to create airspace database in repo's root directory
+* Move database `airspace.db` to `/target` directory - not sure how to integrate that into build process ...yet:)
+* `/target/ASD.jar` is executable so you can doubleclick it
+* voila
+
 

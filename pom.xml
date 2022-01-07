@@ -50,6 +50,7 @@
     </dependencies>
 
     <build>
+        <finalName>ASD</finalName>
 <!--        <resources>-->
 <!--            <resource>-->
 <!--                <directory>src/main/resources</directory>-->
@@ -103,6 +104,8 @@
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
+                            <finalName>ASD</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                     </execution>
                 </executions>
